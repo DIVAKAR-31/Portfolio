@@ -5,14 +5,12 @@ import {
   Send,
   Github,
   Linkedin,
-  MapPin,
   CheckCircle2,
   AlertCircle,
   Copy,
   ExternalLink,
-  MessageSquare,
-  Sparkles,
-  Terminal
+  Terminal,
+  Sparkles
 } from 'lucide-react';
 import { SectionHeading } from '../common/SectionHeading';
 import { personalInfo } from '../../data/portfolioData';
@@ -59,8 +57,8 @@ export const Contact: React.FC = () => {
     }
     if (!formData.message.trim()) {
       errs.message = 'Please enter your message.';
-    } else if (formData.message.trim().length < 10) {
-      errs.message = 'Message must be at least 10 characters long.';
+    } else if (formData.message.trim().length < 5) {
+      errs.message = 'Message must be at least 5 characters long.';
     }
 
     setErrors(errs);
@@ -80,26 +78,60 @@ export const Contact: React.FC = () => {
     setStatus('loading');
 
     try {
-      // Simulating a real network submission with fallback handling
-      // If a Formspree endpoint is configured, it would fetch(ENDPOINT)
-      await new Promise((resolve) => setTimeout(resolve, 1200));
+      const fd = new FormData();
+      fd.append('name', formData.name);
+      fd.append('email', formData.email);
+      fd.append('subject', formData.subject);
+      fd.append('message', formData.message);
+      fd.append('_subject', `[Portfolio Message from ${formData.name}] ${formData.subject}`);
+      fd.append('_replyto', formData.email);
+      fd.append('_captcha', 'false');
 
-      // Successfully processed form submission
-      setStatus('success');
-      setStatusMessage('Thank you for reaching out! Your message has been prepared. You can also open your default email client directly.');
-      
-      // Reset form after successful submission
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
+      // Real email transmission to sdivakar052@gmail.com
+      const response = await fetch(`https://formsubmit.co/ajax/${personalInfo.email}`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+        },
+        body: fd,
       });
-      setErrors({});
-    } catch {
+
+      const result = await response.json();
+
+      if (response.ok && (result.success === 'true' || result.success === true)) {
+        setStatus('success');
+        setStatusMessage(
+          `Your message was successfully transmitted to ${personalInfo.email}! Note: If this is your first submission, please check ${personalInfo.email} (including Spam/Junk) to click the one-time FormSubmit confirmation link to activate the inbox.`
+        );
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+        setErrors({});
+      } else {
+        throw new Error(result.message || 'Transmission failed');
+      }
+    } catch (err) {
+      console.error('Email dispatch error:', err);
       setStatus('error');
-      setStatusMessage('Transmission error. Please reach out directly to sdivakar052@gmail.com');
+      setStatusMessage(
+        `Unable to reach the automated dispatch server. Please click the "Send via Gmail" or "Mail Client" button below to send your email directly to ${personalInfo.email}.`
+      );
     }
+  };
+
+  const handleOpenGmail = () => {
+    const su = encodeURIComponent(formData.subject || 'Portfolio Inquiry / Collaboration');
+    const body = encodeURIComponent(
+      `Hi Divakar,\n\nName: ${formData.name || 'Visitor'}\nEmail: ${formData.email || 'N/A'}\n\nMessage:\n${formData.message || ''}\n\nBest regards,\n${formData.name || 'Visitor'}`
+    );
+    window.open(
+      `https://mail.google.com/mail/?view=cm&fs=1&to=${personalInfo.email}&su=${su}&body=${body}`,
+      '_blank'
+    );
   };
 
   const handleMailtoDirect = () => {
@@ -131,18 +163,18 @@ export const Contact: React.FC = () => {
           >
             <div className="glass-panel p-8 rounded-3xl border border-electricBlue/20 space-y-6">
               <div>
-                <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                <h3 className="text-xl font-bold dark:text-white text-slate-900 mb-2 flex items-center gap-2">
                   <Terminal className="w-5 h-5 text-cyanAccent" />
                   Contact Information
                 </h3>
-                <p className="text-xs sm:text-sm text-mutedText leading-relaxed">
-                  I typically respond within 24 hours. Feel free to use the form or connect via GitHub and LinkedIn.
+                <p className="text-xs sm:text-sm dark:text-mutedText text-slate-600 leading-relaxed">
+                  I typically respond within 24 hours. Send a message using the form or connect through GitHub and LinkedIn.
                 </p>
               </div>
 
               {/* Email Card with Copy Trigger */}
-              <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
-                <div className="text-[11px] font-mono text-mutedText uppercase flex items-center justify-between">
+              <div className="p-4 rounded-2xl dark:bg-slate-900/80 bg-slate-100 border dark:border-slate-800 border-slate-200 space-y-2">
+                <div className="text-[11px] font-mono dark:text-mutedText text-slate-500 uppercase flex items-center justify-between">
                   <span>Direct Email</span>
                   <button
                     onClick={handleCopyEmail}
@@ -154,28 +186,28 @@ export const Contact: React.FC = () => {
                 </div>
                 <a
                   href={`mailto:${personalInfo.email}`}
-                  className="text-sm sm:text-base font-mono font-bold text-white hover:text-cyanAccent transition-colors block break-all"
+                  className="text-sm sm:text-base font-mono font-bold dark:text-white text-slate-900 hover:text-cyanAccent transition-colors block break-all"
                 >
                   {personalInfo.email}
                 </a>
               </div>
 
               {/* Academic Location */}
-              <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-1">
-                <div className="text-[11px] font-mono text-mutedText uppercase">
+              <div className="p-4 rounded-2xl dark:bg-slate-900/80 bg-slate-100 border dark:border-slate-800 border-slate-200 space-y-1">
+                <div className="text-[11px] font-mono dark:text-mutedText text-slate-500 uppercase">
                   Location & Campus
                 </div>
-                <p className="text-sm font-medium text-slate-200">
+                <p className="text-sm font-medium dark:text-slate-200 text-slate-800">
                   {personalInfo.college}
                 </p>
-                <p className="text-xs text-sky-400">
+                <p className="text-xs text-sky-400 font-medium">
                   {personalInfo.location}
                 </p>
               </div>
 
               {/* Social Channels */}
               <div className="pt-2">
-                <div className="text-xs font-mono uppercase tracking-widest text-mutedText mb-3">
+                <div className="text-xs font-mono uppercase tracking-widest dark:text-mutedText text-slate-500 mb-3">
                   Online Profiles
                 </div>
                 <div className="grid grid-cols-2 gap-3">
@@ -183,12 +215,12 @@ export const Contact: React.FC = () => {
                     href={personalInfo.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-3.5 rounded-xl bg-slate-900 border border-electricBlue/20 hover:border-cyanAccent flex items-center gap-3 text-slate-200 hover:text-white transition-all group"
+                    className="p-3.5 rounded-xl dark:bg-slate-900 bg-slate-100 border dark:border-electricBlue/20 border-slate-200 hover:border-cyanAccent flex items-center gap-3 dark:text-slate-200 text-slate-700 hover:text-cyanAccent transition-all group"
                   >
                     <Github className="w-5 h-5 text-cyanAccent group-hover:scale-110 transition-transform" />
                     <div className="text-left">
                       <div className="text-xs font-bold">GitHub</div>
-                      <div className="text-[10px] text-mutedText">@DIVAKAR-31</div>
+                      <div className="text-[10px] dark:text-mutedText text-slate-500">@DIVAKAR-31</div>
                     </div>
                   </a>
 
@@ -196,12 +228,12 @@ export const Contact: React.FC = () => {
                     href={personalInfo.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-3.5 rounded-xl bg-slate-900 border border-electricBlue/20 hover:border-cyanAccent flex items-center gap-3 text-slate-200 hover:text-white transition-all group"
+                    className="p-3.5 rounded-xl dark:bg-slate-900 bg-slate-100 border dark:border-electricBlue/20 border-slate-200 hover:border-cyanAccent flex items-center gap-3 dark:text-slate-200 text-slate-700 hover:text-cyanAccent transition-all group"
                   >
                     <Linkedin className="w-5 h-5 text-cyanAccent group-hover:scale-110 transition-transform" />
                     <div className="text-left">
                       <div className="text-xs font-bold">LinkedIn</div>
-                      <div className="text-[10px] text-mutedText">divakar-s</div>
+                      <div className="text-[10px] dark:text-mutedText text-slate-500">divakar-s</div>
                     </div>
                   </a>
                 </div>
@@ -209,7 +241,7 @@ export const Contact: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Right Column: Contact Form with Validation */}
+          {/* Right Column: Contact Form with Direct Email Dispatch */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -226,19 +258,36 @@ export const Contact: React.FC = () => {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
-                      className="p-4 rounded-xl bg-emerald-950/50 border border-emerald-500/50 text-emerald-300 text-xs flex items-start gap-3"
+                      className="p-5 rounded-2xl bg-emerald-950/60 border border-emerald-500/50 text-emerald-200 text-xs space-y-3"
                     >
-                      <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                      <div>
-                        <div className="font-bold text-sm">Message Sent Successfully!</div>
-                        <p className="mt-1 leading-relaxed">{statusMessage}</p>
+                      <div className="flex items-start gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                        <div>
+                          <div className="font-bold text-sm text-emerald-300">
+                            Message Transmitted Successfully!
+                          </div>
+                          <p className="mt-1 leading-relaxed text-emerald-200/90">
+                            {statusMessage}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-emerald-500/30">
+                        <button
+                          type="button"
+                          onClick={handleOpenGmail}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-[11px] font-semibold transition-colors"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          <span>Open in Gmail Web</span>
+                        </button>
                         <button
                           type="button"
                           onClick={handleMailtoDirect}
-                          className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-emerald-800/50 hover:bg-emerald-700/60 text-white font-mono text-[11px] transition-colors"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-900/60 hover:bg-emerald-800/80 text-emerald-200 font-mono text-[11px] transition-colors"
                         >
-                          <ExternalLink className="w-3 h-3" />
-                          <span>Open in Mail Client</span>
+                          <Mail className="w-3.5 h-3.5" />
+                          <span>Open Mail Client</span>
                         </button>
                       </div>
                     </motion.div>
@@ -249,12 +298,35 @@ export const Contact: React.FC = () => {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
-                      className="p-4 rounded-xl bg-red-950/50 border border-red-500/50 text-red-300 text-xs flex items-start gap-3"
+                      className="p-5 rounded-2xl bg-rose-950/60 border border-rose-500/50 text-rose-200 text-xs space-y-3"
                     >
-                      <AlertCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
-                      <div>
-                        <div className="font-bold text-sm">Submission Error</div>
-                        <p className="mt-1 leading-relaxed">{statusMessage}</p>
+                      <div className="flex items-start gap-3">
+                        <AlertCircle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
+                        <div>
+                          <div className="font-bold text-sm text-rose-300">
+                            Direct Delivery Backup
+                          </div>
+                          <p className="mt-1 leading-relaxed">{statusMessage}</p>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-rose-500/30">
+                        <button
+                          type="button"
+                          onClick={handleOpenGmail}
+                          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-mono text-[11px] font-semibold transition-colors"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          <span>Send via Gmail Web</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleMailtoDirect}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-900/60 hover:bg-rose-800/80 text-rose-200 font-mono text-[11px] transition-colors"
+                        >
+                          <Mail className="w-3.5 h-3.5" />
+                          <span>Send via Mail App</span>
+                        </button>
                       </div>
                     </motion.div>
                   )}
@@ -346,16 +418,16 @@ export const Contact: React.FC = () => {
                 </div>
 
                 {/* Action Controls */}
-                <div className="pt-2 flex flex-col sm:flex-row items-center gap-4">
+                <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
                   <button
                     type="submit"
                     disabled={status === 'loading'}
-                    className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-primaryBlue to-sky-500 hover:from-blue-600 hover:to-cyan-400 text-white font-medium text-sm tracking-wide transition-all shadow-neon-blue border border-electricBlue/30 hover:scale-102 flex items-center justify-center gap-2 group disabled:opacity-60"
+                    className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-primaryBlue to-sky-500 hover:from-blue-600 hover:to-cyan-400 text-white font-medium text-sm tracking-wide transition-all shadow-neon-blue border border-electricBlue/30 hover:scale-102 flex items-center justify-center gap-2 group disabled:opacity-60"
                   >
                     {status === 'loading' ? (
                       <>
                         <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                        <span>Sending Transmission...</span>
+                        <span>Transmitting Message...</span>
                       </>
                     ) : (
                       <>
@@ -367,11 +439,22 @@ export const Contact: React.FC = () => {
 
                   <button
                     type="button"
-                    onClick={handleMailtoDirect}
-                    className="text-xs font-mono text-mutedText hover:text-cyanAccent transition-colors flex items-center gap-1.5 py-2"
+                    onClick={handleOpenGmail}
+                    className="w-full sm:w-auto px-5 py-3.5 rounded-xl dark:bg-slate-900/90 bg-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 border dark:border-electricBlue/30 border-slate-300 dark:text-cyanAccent text-blue-600 font-mono text-xs font-semibold tracking-wide flex items-center justify-center gap-2 transition-all"
+                    title="Compose directly in Gmail with pre-filled message"
                   >
-                    <span>Prefer direct email? Click here</span>
                     <ExternalLink className="w-3.5 h-3.5" />
+                    <span>Send via Gmail Web</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleMailtoDirect}
+                    className="text-xs font-mono dark:text-mutedText text-slate-500 hover:text-cyanAccent transition-colors flex items-center gap-1.5 py-2 px-1"
+                    title="Open your device default mail app"
+                  >
+                    <Mail className="w-3.5 h-3.5" />
+                    <span>Mail Client</span>
                   </button>
                 </div>
               </form>
@@ -382,4 +465,3 @@ export const Contact: React.FC = () => {
     </section>
   );
 };
-
