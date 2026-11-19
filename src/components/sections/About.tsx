@@ -8,7 +8,9 @@ import {
   BookOpen,
   Award,
   Layers,
-  CheckCircle2
+  CheckCircle2,
+  GraduationCap,
+  MapPin
 } from 'lucide-react';
 import { SectionHeading } from '../common/SectionHeading';
 import { personalInfo } from '../../data/portfolioData';
@@ -55,7 +57,7 @@ export const About: React.FC = () => {
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left Column: Narrative & Detailed Background */}
+          {/* Left Column: Narrative with Profile Card & Detailed Background */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -63,12 +65,39 @@ export const About: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="lg:col-span-6 space-y-6"
           >
-            <div className="glass-panel p-8 rounded-2xl border border-electricBlue/20 space-y-5">
-              <h3 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-cyanAccent" />
-                Student, Developer & Continuous Learner
-              </h3>
+            <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-electricBlue/20 space-y-5 shadow-card-glow">
+              {/* Profile Header Block Featuring Divakar's Original Photo */}
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 pb-5 border-b border-slate-800">
+                <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-2 border-electricBlue/40 group shadow-neon-blue shrink-0">
+                  <img
+                    src={personalInfo.profileImage}
+                    alt="Divakar S. - SKCET"
+                    className="w-full h-full object-cover object-[center_18%] group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-darkBg/60 via-transparent to-transparent pointer-events-none" />
+                </div>
 
+                <div className="space-y-1.5 text-center sm:text-left">
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-900 border border-electricBlue/30 text-[10px] font-mono text-cyanAccent uppercase">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    Verified Student Profile
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-white">
+                    {personalInfo.name}
+                  </h3>
+                  <div className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-cyanAccent/90 font-mono">
+                    <GraduationCap className="w-3.5 h-3.5 text-electricBlue shrink-0" />
+                    <span>B.Tech Information Technology</span>
+                  </div>
+                  <div className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-mutedText">
+                    <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                    <span>{personalInfo.college}, {personalInfo.location}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Narrative Paragraphs */}
               <p className="text-sm sm:text-base text-mutedText leading-relaxed">
                 I am currently pursuing my <span className="text-lightWhite font-medium">B.Tech in Information Technology</span> at{' '}
                 <span className="text-cyanAccent font-medium">Sri Krishna College of Engineering and Technology (SKCET)</span> in Coimbatore, Tamil Nadu.
@@ -177,4 +206,3 @@ export const About: React.FC = () => {
     </section>
   );
 };
-

@@ -19,6 +19,7 @@ export const personalInfo: PersonalInfo = {
   github: "https://github.com/DIVAKAR-31",
   linkedin: "https://linkedin.com/in/divakar-s-123134375",
   bio: "I am a B.Tech Information Technology student passionate about programming, artificial intelligence, software development and innovative technology solutions. I enjoy exploring new technologies, building practical projects and continuously improving my technical skills. My interests include software development, AI-integrated applications, UI/UX design and data analytics.",
+  profileImage: "/images/divakar-profile.jpg",
   rotatingTitles: [
     "Information Technology Student",
     "Software Development Enthusiast",

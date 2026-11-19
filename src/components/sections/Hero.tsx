@@ -10,34 +10,22 @@ import {
   GraduationCap,
   Code2,
   Terminal,
-  Upload,
-  User
+  MapPin,
+  CheckCircle2
 } from 'lucide-react';
 import { personalInfo } from '../../data/portfolioData';
 import { MagneticButton } from '../common/MagneticButton';
 
 export const Hero: React.FC = () => {
   const [titleIndex, setTitleIndex] = useState(0);
-  const [profileImage, setProfileImage] = useState<string | null>(null);
 
-  // Rotating title every 3 seconds
+  // Rotating title every 2.8 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setTitleIndex((prev) => (prev + 1) % personalInfo.rotatingTitles.length);
     }, 2800);
     return () => clearInterval(interval);
   }, []);
-
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center pt-28 pb-16 overflow-hidden">
@@ -196,107 +184,88 @@ export const Hero: React.FC = () => {
             </motion.div>
           </div>
 
-          {/* Right Column: Holographic Futuristic Profile Card (Placeholder & Photo Uploader) */}
+          {/* Right Column: Premium Original Profile Photo Presentation */}
           <div className="lg:col-span-5 flex justify-center">
             <motion.div
-              initial={{ opacity: 0, scale: 0.92 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.25 }}
-              className="relative w-full max-w-sm"
+              initial={{ opacity: 0, scale: 0.94, y: 25 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.25, ease: 'easeOut' }}
+              className="relative w-full max-w-md group"
             >
-              {/* Outer Cyber Glow Frame */}
-              <div className="absolute -inset-1.5 rounded-3xl bg-gradient-to-r from-electricBlue/40 via-cyanAccent/30 to-blue-600/40 blur-xl opacity-75 group-hover:opacity-100 transition duration-1000" />
+              {/* Outer Glowing Cyber Halo */}
+              <div className="absolute -inset-2 rounded-[2rem] bg-gradient-to-r from-electricBlue/40 via-cyanAccent/30 to-primaryBlue/40 blur-xl opacity-75 group-hover:opacity-100 transition-all duration-700 pointer-events-none" />
 
-              <div className="relative rounded-2xl glass-panel p-6 border border-electricBlue/40 shadow-2xl bg-darkCard/80 backdrop-blur-xl">
-                {/* Top Telemetry Bar */}
-                <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-800 text-[11px] font-mono text-mutedText">
+              {/* Main Portrait Frame Card */}
+              <div className="relative rounded-[1.75rem] glass-panel p-3.5 sm:p-4 border-2 border-electricBlue/40 group-hover:border-cyanAccent shadow-[0_12px_45px_-10px_rgba(56,189,248,0.35)] group-hover:shadow-[0_16px_55px_-8px_rgba(34,211,238,0.45)] transition-all duration-500 bg-darkCard/80 backdrop-blur-xl overflow-hidden">
+                
+                {/* Top Telemetry Header */}
+                <div className="flex items-center justify-between px-2 pb-3 mb-2 border-b border-slate-800/80 text-[11px] font-mono text-mutedText">
                   <div className="flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-cyanAccent animate-pulse" />
-                    <span className="text-cyanAccent">IDENTITY PROTOCOL</span>
+                    <span className="text-cyanAccent font-semibold tracking-wider">OFFICIAL PROFILE</span>
                   </div>
-                  <span className="text-slate-500">ID: DIVAKAR-IT</span>
+                  <span className="text-slate-400">SKCET • IT</span>
                 </div>
 
-                {/* Profile Visual Display */}
-                <div className="relative aspect-square w-full rounded-xl overflow-hidden bg-gradient-to-b from-slate-900 to-darkBgSecondary border border-electricBlue/20 flex flex-col items-center justify-center text-center p-4 group">
-                  {profileImage ? (
-                    <img
-                      src={profileImage}
-                      alt="Divakar S. Profile"
-                      className="w-full h-full object-cover rounded-lg"
-                    />
-                  ) : (
-                    <div className="flex flex-col items-center justify-center space-y-3">
-                      {/* Futuristic Holographic Avatar Placeholder */}
-                      <div className="relative w-28 h-28 rounded-2xl bg-gradient-to-tr from-primaryBlue/30 via-slate-800/80 to-cyanAccent/20 border-2 border-dashed border-electricBlue/40 flex items-center justify-center shadow-neon-blue">
-                        <span className="font-mono font-black text-4xl text-transparent bg-clip-text bg-gradient-to-br from-white via-cyan-200 to-sky-400">
-                          DS
+                {/* Portrait Container */}
+                <div className="relative w-full aspect-[4/5] sm:h-[430px] rounded-2xl overflow-hidden bg-slate-900 border border-electricBlue/20 shadow-inner">
+                  {/* The Original Photograph */}
+                  <img
+                    src={personalInfo.profileImage}
+                    alt="Divakar S. - B.Tech Information Technology Student at SKCET"
+                    className="w-full h-full object-cover object-[center_18%] group-hover:scale-105 transition-transform duration-700 ease-out"
+                    loading="eager"
+                  />
+
+                  {/* Subtle Gradient Vignette at Bottom for Contrast */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-darkBg/90 via-darkBg/20 to-transparent pointer-events-none" />
+
+                  {/* Futuristic Corner Bracket Markers */}
+                  <div className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-cyanAccent shadow-sm pointer-events-none" />
+                  <div className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-cyanAccent shadow-sm pointer-events-none" />
+                  <div className="absolute bottom-3 left-3 w-3 h-3 border-b-2 border-l-2 border-cyanAccent shadow-sm pointer-events-none" />
+                  <div className="absolute bottom-3 right-3 w-3 h-3 border-b-2 border-r-2 border-cyanAccent shadow-sm pointer-events-none" />
+
+                  {/* Floating Identity Overlay Badge */}
+                  <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-darkBg/85 backdrop-blur-md border border-electricBlue/30 shadow-lg">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="text-sm font-bold text-white flex items-center gap-1.5 font-sans">
+                          {personalInfo.name}
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        </h3>
+                        <p className="text-[11px] font-mono text-cyanAccent">
+                          B.Tech Information Technology
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">
+                          Campus
                         </span>
-                        {/* Corner markers */}
-                        <div className="absolute top-1 left-1 w-2 h-2 border-t-2 border-l-2 border-cyanAccent" />
-                        <div className="absolute top-1 right-1 w-2 h-2 border-t-2 border-r-2 border-cyanAccent" />
-                        <div className="absolute bottom-1 left-1 w-2 h-2 border-b-2 border-l-2 border-cyanAccent" />
-                        <div className="absolute bottom-1 right-1 w-2 h-2 border-b-2 border-r-2 border-cyanAccent" />
+                        <span className="text-[11px] font-semibold text-slate-200">
+                          SKCET
+                        </span>
                       </div>
-
-                      <div className="space-y-1">
-                        <p className="text-sm font-semibold text-lightWhite">
-                          Divakar S.
-                        </p>
-                        <p className="text-xs font-mono text-cyanAccent/80">
-                          B.Tech IT • SKCET
-                        </p>
-                      </div>
-
-                      <p className="text-[11px] text-mutedText/70 max-w-[220px]">
-                        Holographic Identity Placeholder
-                      </p>
                     </div>
-                  )}
-
-                  {/* Optional Upload / Change Photo trigger */}
-                  <label
-                    htmlFor="profile-upload"
-                    className="absolute bottom-3 right-3 p-2 rounded-lg bg-darkCard/90 border border-electricBlue/40 text-cyanAccent hover:bg-slate-800 hover:border-cyanAccent transition-all cursor-pointer shadow-lg group-hover:scale-105"
-                    title="Upload / Replace Photo"
-                  >
-                    <Upload className="w-3.5 h-3.5" />
-                    <input
-                      id="profile-upload"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="hidden"
-                    />
-                  </label>
-                </div>
-
-                {/* Bottom Spec Details */}
-                <div className="mt-5 space-y-2.5">
-                  <div className="flex items-center justify-between text-xs py-1.5 px-3 rounded-lg bg-slate-900/60 border border-slate-800">
-                    <span className="text-mutedText flex items-center gap-2">
-                      <GraduationCap className="w-3.5 h-3.5 text-electricBlue" />
-                      Program
-                    </span>
-                    <span className="font-medium text-lightWhite">B.Tech IT</span>
-                  </div>
-
-                  <div className="flex items-center justify-between text-xs py-1.5 px-3 rounded-lg bg-slate-900/60 border border-slate-800">
-                    <span className="text-mutedText flex items-center gap-2">
-                      <Code2 className="w-3.5 h-3.5 text-cyanAccent" />
-                      Interests
-                    </span>
-                    <span className="font-mono text-cyanAccent">AI • Dev • UI/UX</span>
-                  </div>
-
-                  <div className="flex items-center justify-between text-xs py-1.5 px-3 rounded-lg bg-slate-900/60 border border-slate-800">
-                    <span className="text-mutedText flex items-center gap-2">
-                      <Terminal className="w-3.5 h-3.5 text-sky-400" />
-                      Location
-                    </span>
-                    <span className="font-medium text-slate-300">Coimbatore, TN</span>
                   </div>
                 </div>
+
+                {/* Bottom Specifications Bar */}
+                <div className="mt-3 grid grid-cols-3 gap-2 px-1">
+                  <div className="py-2 px-2.5 rounded-lg bg-slate-900/70 border border-slate-800 text-center">
+                    <div className="text-[10px] font-mono text-mutedText uppercase">Degree</div>
+                    <div className="text-xs font-semibold text-slate-200 truncate">B.Tech IT</div>
+                  </div>
+                  <div className="py-2 px-2.5 rounded-lg bg-slate-900/70 border border-slate-800 text-center">
+                    <div className="text-[10px] font-mono text-mutedText uppercase">Domain</div>
+                    <div className="text-xs font-semibold text-cyanAccent truncate">AI & Dev</div>
+                  </div>
+                  <div className="py-2 px-2.5 rounded-lg bg-slate-900/70 border border-slate-800 text-center">
+                    <div className="text-[10px] font-mono text-mutedText uppercase">Location</div>
+                    <div className="text-xs font-semibold text-slate-200 truncate">Coimbatore</div>
+                  </div>
+                </div>
+
               </div>
             </motion.div>
           </div>
@@ -306,4 +275,3 @@ export const Hero: React.FC = () => {
     </section>
   );
 };
-

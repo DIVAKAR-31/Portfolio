@@ -10,6 +10,7 @@ export interface PersonalInfo {
   linkedin: string;
   bio: string;
   rotatingTitles: string[];
+  profileImage: string;
 }
 
 export interface EducationEntry {
