@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, X, Play } from 'lucide-react';
+import { X } from 'lucide-react';
 
 interface CinematicIntroProps {
   onComplete: () => void;
@@ -21,7 +21,6 @@ interface Particle {
 export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [stage, setStage] = useState<'initial' | 'starPulsing' | 'cometFlying' | 'expanding' | 'done'>('initial');
-  const [canSkip, setCanSkip] = useState(true);
   const animFrameId = useRef<number | null>(null);
 
   const handleSkip = useCallback(() => {
@@ -32,7 +31,7 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
     sessionStorage.setItem('divakar_portfolio_intro_seen', 'true');
     setTimeout(() => {
       onComplete();
-    }, 400);
+    }, 350);
   }, [onComplete]);
 
   useEffect(() => {
@@ -58,43 +57,36 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
     };
     window.addEventListener('resize', handleResize);
 
-    // Particle pool for comet trail and stardust
     const particles: Particle[] = [];
-    const cometColors = ['#38BDF8', '#22D3EE', '#60A5FA', '#FFFFFF', '#0284C7'];
+    const cometColors = ['#FFFFFF', '#38BDF8', '#22D3EE', '#60A5FA', '#0284C7'];
 
-    // Background faint stars
-    const staticStars = Array.from({ length: 120 }, () => ({
+    // Faint atmospheric stars
+    const staticStars = Array.from({ length: 90 }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      size: Math.random() * 1.5 + 0.3,
+      size: Math.random() * 1.4 + 0.3,
       alpha: Math.random() * 0.7 + 0.2,
       flickerSpeed: Math.random() * 0.02 + 0.01,
-      flickerDirection: 1
+      flickerDirection: 1,
     }));
 
     let startTime = performance.now();
-    let cometPos = { x: width * 0.1, y: height * 0.85 };
-    let cometVelocity = { vx: 0, vy: 0 };
-    let starGlow = 0;
-    let flashRadius = 0;
-    let flashAlpha = 0;
 
-    // Timeline phases:
-    // 0 - 1000ms: Dark navy stillness, center star appears
-    // 1000 - 2200ms: Star brightens, pulses, flare grows
-    // 2200 - 4500ms: Star shoots in an arc across the screen, tail grows into brilliant electric-blue comet
-    // 4500 - 5200ms: Comet light expands across the entire screen
-    // 5200ms+: Reveal homepage
+    // Sequence:
+    // 0 - 900ms: Star shines in center, brightens and pulses
+    // 900ms - 2400ms: Star falls/shoots like a blazing comet across the sky
+    // 2400ms - 2900ms: Cosmic light expands
+    // 2900ms+: Automatically transitions to home page
 
     const loop = (currentTime: number) => {
       const elapsed = currentTime - startTime;
 
-      // Clear with dark navy
+      // Dark navy cosmos background
       ctx.fillStyle = '#050816';
       ctx.fillRect(0, 0, width, height);
 
-      // Draw static background starry atmosphere
-      staticStars.forEach(s => {
+      // Render static background starry atmosphere
+      staticStars.forEach((s) => {
         s.alpha += s.flickerSpeed * s.flickerDirection;
         if (s.alpha > 0.9) s.flickerDirection = -1;
         if (s.alpha < 0.2) s.flickerDirection = 1;
@@ -104,68 +96,35 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
         ctx.fill();
       });
 
-      if (elapsed < 1200) {
-        // Stage 1: Central tiny star emerges in center
+      if (elapsed < 900) {
+        // Stage 1: Central star emerges, shines, flares
         if (stage !== 'starPulsing') setStage('starPulsing');
-        const progress = Math.min(1, elapsed / 1200);
-        starGlow = progress;
+        const progress = Math.min(1, elapsed / 900);
 
         const centerX = width / 2;
         const centerY = height / 2;
 
-        // Radial glow
-        const glowGrad = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 80 * progress);
-        glowGrad.addColorStop(0, 'rgba(56, 189, 248, 0.9)');
-        glowGrad.addColorStop(0.3, 'rgba(34, 211, 238, 0.4)');
-        glowGrad.addColorStop(1, 'rgba(5, 8, 22, 0)');
-        ctx.fillStyle = glowGrad;
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, 80 * progress, 0, Math.PI * 2);
-        ctx.fill();
-
-        // White-blue star center
-        ctx.fillStyle = '#FFFFFF';
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, 2.5 * progress, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Light cross spikes
-        ctx.strokeStyle = `rgba(248, 250, 252, ${0.7 * progress})`;
-        ctx.lineWidth = 1.2;
-        ctx.beginPath();
-        ctx.moveTo(centerX - 15 * progress, centerY);
-        ctx.lineTo(centerX + 15 * progress, centerY);
-        ctx.moveTo(centerX, centerY - 15 * progress);
-        ctx.lineTo(centerX, centerY + 15 * progress);
-        ctx.stroke();
-
-      } else if (elapsed >= 1200 && elapsed < 2200) {
-        // Stage 2: Star pulsing brighter and preparing to shoot
-        const p = (elapsed - 1200) / 1000;
-        const centerX = width / 2;
-        const centerY = height / 2;
-
-        const pulseSize = 90 + Math.sin(p * Math.PI * 3) * 20;
-        const glowGrad = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, pulseSize);
+        const glowSize = 70 * progress + Math.sin(progress * Math.PI * 2) * 15;
+        const glowGrad = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, glowSize);
         glowGrad.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
-        glowGrad.addColorStop(0.2, 'rgba(56, 189, 248, 0.8)');
-        glowGrad.addColorStop(0.6, 'rgba(34, 211, 238, 0.3)');
+        glowGrad.addColorStop(0.25, 'rgba(56, 189, 248, 0.85)');
+        glowGrad.addColorStop(0.6, 'rgba(34, 211, 238, 0.35)');
         glowGrad.addColorStop(1, 'rgba(5, 8, 22, 0)');
         ctx.fillStyle = glowGrad;
         ctx.beginPath();
-        ctx.arc(centerX, centerY, pulseSize, 0, Math.PI * 2);
+        ctx.arc(centerX, centerY, glowSize, 0, Math.PI * 2);
         ctx.fill();
 
         // Star core
         ctx.fillStyle = '#FFFFFF';
         ctx.beginPath();
-        ctx.arc(centerX, centerY, 3.5, 0, Math.PI * 2);
+        ctx.arc(centerX, centerY, 3.2 * progress, 0, Math.PI * 2);
         ctx.fill();
 
-        // Star flare spikes
-        const spikeLen = 30 + p * 20;
-        ctx.strokeStyle = `rgba(56, 189, 248, ${0.9 - p * 0.2})`;
-        ctx.lineWidth = 1.5;
+        // Flare spikes
+        const spikeLen = 25 * progress;
+        ctx.strokeStyle = `rgba(248, 250, 252, ${0.85 * progress})`;
+        ctx.lineWidth = 1.3;
         ctx.beginPath();
         ctx.moveTo(centerX - spikeLen, centerY);
         ctx.lineTo(centerX + spikeLen, centerY);
@@ -173,22 +132,21 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
         ctx.lineTo(centerX, centerY + spikeLen);
         ctx.stroke();
 
-      } else if (elapsed >= 2200 && elapsed < 4600) {
-        // Stage 3: Shooting star moves across the screen and transforms into a glorious electric-blue comet
+      } else if (elapsed >= 900 && elapsed < 2400) {
+        // Stage 2: Star falls and shoots across the sky like a brilliant comet
         if (stage !== 'cometFlying') setStage('cometFlying');
-        const travelProgress = (elapsed - 2200) / 2400; // 0 to 1
+        const travelProgress = (elapsed - 900) / 1500; // 0 to 1
 
-        // Smooth curved bezier-like trajectory from bottom-left swooping through center to top-right
-        const startX = -50;
-        const startY = height * 0.8;
-        const cp1x = width * 0.3;
-        const cp1y = height * 0.65;
-        const cp2x = width * 0.6;
-        const cp2y = height * 0.35;
+        // Smooth falling swooping trajectory from upper left through center to bottom/right
+        const startX = -40;
+        const startY = height * 0.15;
+        const cp1x = width * 0.35;
+        const cp1y = height * 0.45;
+        const cp2x = width * 0.65;
+        const cp2y = height * 0.7;
         const endX = width + 60;
-        const endY = height * 0.15;
+        const endY = height * 0.85;
 
-        // Cubic bezier calculation
         const t = travelProgress;
         const invT = 1 - t;
         const curX =
@@ -202,26 +160,22 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
           3 * invT * t * t * cp2y +
           t * t * t * endY;
 
-        cometPos = { x: curX, y: curY };
-
-        // Spawn trailing comet particles
-        const spawnCount = 6;
-        for (let i = 0; i < spawnCount; i++) {
-          const jitter = (Math.random() - 0.5) * 8;
+        // Spawn trailing comet stardust
+        for (let i = 0; i < 7; i++) {
           particles.push({
-            x: curX + (Math.random() - 0.5) * 6,
-            y: curY + (Math.random() - 0.5) * 6,
-            vx: -3 - Math.random() * 4 + (Math.random() - 0.5) * 2,
-            vy: 1.5 + Math.random() * 3 + jitter * 0.2,
+            x: curX + (Math.random() - 0.5) * 8,
+            y: curY + (Math.random() - 0.5) * 8,
+            vx: -4 - Math.random() * 4,
+            vy: -1.5 - Math.random() * 3,
             size: Math.random() * 3.5 + 1.2,
             alpha: 1,
             life: 0,
-            maxLife: 40 + Math.random() * 35,
-            color: cometColors[Math.floor(Math.random() * cometColors.length)]
+            maxLife: 35 + Math.random() * 25,
+            color: cometColors[Math.floor(Math.random() * cometColors.length)],
           });
         }
 
-        // Draw and update particles (comet tail)
+        // Draw and update trailing particles
         for (let i = particles.length - 1; i >= 0; i--) {
           const p = particles[i];
           p.x += p.vx;
@@ -243,61 +197,49 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
         ctx.globalAlpha = 1.0;
 
         // Comet Head Glow (Electric Blue + Cyan + White Core)
-        const headGlow = ctx.createRadialGradient(curX, curY, 0, curX, curY, 70);
+        const headGlow = ctx.createRadialGradient(curX, curY, 0, curX, curY, 75);
         headGlow.addColorStop(0, '#FFFFFF');
         headGlow.addColorStop(0.2, '#38BDF8');
-        headGlow.addColorStop(0.5, 'rgba(34, 211, 238, 0.4)');
+        headGlow.addColorStop(0.5, 'rgba(34, 211, 238, 0.45)');
         headGlow.addColorStop(1, 'rgba(5, 8, 22, 0)');
 
         ctx.fillStyle = headGlow;
         ctx.beginPath();
-        ctx.arc(curX, curY, 70, 0, Math.PI * 2);
+        ctx.arc(curX, curY, 75, 0, Math.PI * 2);
         ctx.fill();
 
-        // Brilliant comet nucleus
+        // White-hot nucleus
         ctx.fillStyle = '#FFFFFF';
         ctx.beginPath();
-        ctx.arc(curX, curY, 5, 0, Math.PI * 2);
+        ctx.arc(curX, curY, 5.5, 0, Math.PI * 2);
         ctx.fill();
 
-      } else if (elapsed >= 4600 && elapsed < 5400) {
-        // Stage 4: Light expands across the screen
+      } else if (elapsed >= 2400 && elapsed < 2900) {
+        // Stage 3: Light expands across screen
         if (stage !== 'expanding') setStage('expanding');
-        const expandProg = (elapsed - 4600) / 800; // 0 to 1
+        const expandProg = (elapsed - 2400) / 500;
 
-        flashRadius = Math.max(width, height) * 1.4 * expandProg;
-        flashAlpha = Math.sin(expandProg * Math.PI) * 0.95;
+        const flashRadius = Math.max(width, height) * 1.5 * expandProg;
+        const flashAlpha = Math.sin(expandProg * Math.PI) * 0.95;
 
-        // Expansion wave
         const expandGlow = ctx.createRadialGradient(
-          width * 0.6,
-          height * 0.4,
+          width * 0.5,
+          height * 0.5,
           0,
-          width * 0.6,
-          height * 0.4,
+          width * 0.5,
+          height * 0.5,
           flashRadius
         );
-        expandGlow.addColorStop(0, `rgba(56, 189, 248, ${flashAlpha * 0.7})`);
-        expandGlow.addColorStop(0.4, `rgba(34, 211, 238, ${flashAlpha * 0.4})`);
-        expandGlow.addColorStop(0.8, `rgba(37, 99, 235, ${flashAlpha * 0.2})`);
+        expandGlow.addColorStop(0, `rgba(56, 189, 248, ${flashAlpha * 0.6})`);
+        expandGlow.addColorStop(0.4, `rgba(34, 211, 238, ${flashAlpha * 0.35})`);
+        expandGlow.addColorStop(0.8, `rgba(37, 99, 235, ${flashAlpha * 0.15})`);
         expandGlow.addColorStop(1, 'rgba(5, 8, 22, 0)');
 
         ctx.fillStyle = expandGlow;
         ctx.fillRect(0, 0, width, height);
 
-        // Fade remaining particles
-        particles.forEach(p => {
-          p.alpha *= 0.9;
-          ctx.fillStyle = p.color;
-          ctx.globalAlpha = p.alpha;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-          ctx.fill();
-        });
-        ctx.globalAlpha = 1.0;
-
-      } else if (elapsed >= 5400) {
-        // Stage 5: Complete & Reveal Homepage
+      } else if (elapsed >= 2900) {
+        // Automatically smoothly navigate to home page!
         handleSkip();
         return;
       }
@@ -314,26 +256,31 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
   }, [handleSkip, stage]);
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden bg-darkBg select-none">
+    <motion.div
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5, ease: 'easeInOut' }}
+      className="fixed inset-0 z-50 overflow-hidden bg-darkBg select-none"
+    >
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full block"
       />
 
-      {/* Atmospheric Vignette & Futuristic Overlay */}
+      {/* Atmospheric Vignette Overlay */}
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-darkBg/80 via-transparent to-darkBg/60" />
 
-      {/* Cinematic Center Text Reveal during middle phase */}
+      {/* Cinematic Center Text Reveal */}
       <AnimatePresence>
         {stage === 'starPulsing' && (
           <motion.div
             initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 0.85, y: 0 }}
+            animate={{ opacity: 0.9, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.8 }}
-            className="absolute bottom-24 left-1/2 -translate-x-1/2 text-center pointer-events-none"
+            transition={{ duration: 0.4 }}
+            className="absolute bottom-20 left-1/2 -translate-x-1/2 text-center pointer-events-none"
           >
-            <span className="font-mono text-xs uppercase tracking-[0.35em] text-cyanAccent/90 block">
+            <span className="font-mono text-xs uppercase tracking-[0.35em] text-cyanAccent block">
               INITIALIZING EXPERIENCE
             </span>
             <span className="text-sm text-mutedText/80 font-sans tracking-wider mt-1 block">
@@ -347,7 +294,7 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.4 }}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none"
           >
             <h1 className="text-3xl md:text-5xl font-extrabold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-sky-400 drop-shadow-[0_0_25px_rgba(56,189,248,0.5)]">
@@ -361,25 +308,17 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
       </AnimatePresence>
 
       {/* Skip Intro Button */}
-      {canSkip && (
-        <motion.button
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
-          onClick={handleSkip}
-          className="absolute top-6 right-6 z-10 flex items-center gap-2 px-4 py-2 rounded-full glass-panel hover:bg-slate-800/80 text-xs font-mono text-cyanAccent/90 border border-electricBlue/30 hover:border-electricBlue transition-all group shadow-neon-blue"
-          aria-label="Skip cinematic intro"
-        >
-          <span>Skip Intro</span>
-          <X className="w-3.5 h-3.5 text-electricBlue group-hover:rotate-90 transition-transform duration-300" />
-        </motion.button>
-      )}
-
-      {/* Subtext info */}
-      <div className="absolute bottom-6 left-6 text-[10px] font-mono text-mutedText/50 tracking-wider">
-        <span>CINEMATIC INTRO • ELECTRIC-BLUE COMET</span>
-      </div>
-    </div>
+      <motion.button
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.4, duration: 0.3 }}
+        onClick={handleSkip}
+        className="absolute top-6 right-6 z-10 flex items-center gap-2 px-4 py-2 rounded-full glass-panel hover:bg-slate-800/80 text-xs font-mono text-cyanAccent/90 border border-electricBlue/30 hover:border-electricBlue transition-all group shadow-neon-blue"
+        aria-label="Skip cinematic intro"
+      >
+        <span>Skip Intro</span>
+        <X className="w-3.5 h-3.5 text-electricBlue group-hover:rotate-90 transition-transform duration-300" />
+      </motion.button>
+    </motion.div>
   );
 };
-

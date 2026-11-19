@@ -106,7 +106,7 @@ export const Skills: React.FC = () => {
                               <span className="text-[10px] font-mono tracking-widest uppercase text-electricBlue block">
                                 {cat.category}
                               </span>
-                              <h3 className="text-base font-bold text-white group-hover:text-cyanAccent transition-colors">
+                              <h3 className="text-base font-bold dark:text-white text-slate-900 group-hover:text-cyanAccent transition-colors">
                                 {cat.title}
                               </h3>
                             </div>
@@ -114,7 +114,7 @@ export const Skills: React.FC = () => {
                         </div>
 
                         {/* Subtitle / Description */}
-                        <p className="text-xs text-mutedText leading-relaxed mb-5">
+                        <p className="text-xs dark:text-mutedText text-slate-600 leading-relaxed mb-5">
                           {cat.description}
                         </p>
                       </div>
@@ -130,8 +130,8 @@ export const Skills: React.FC = () => {
                             transition={{ duration: 0.25, delay: 0.15 + sIdx * 0.04 }}
                             className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium transition-all ${
                               skill.highlight
-                                ? 'bg-slate-900/90 text-lightWhite border border-electricBlue/40 hover:border-cyanAccent group-hover:shadow-[0_0_12px_rgba(56,189,248,0.15)]'
-                                : 'bg-darkBgSecondary/80 text-slate-300 border border-slate-800'
+                                ? 'dark:bg-slate-900/90 bg-white text-slate-900 dark:text-lightWhite border border-electricBlue/40 hover:border-cyanAccent group-hover:shadow-[0_0_12px_rgba(56,189,248,0.15)] shadow-sm'
+                                : 'dark:bg-darkBgSecondary/80 bg-slate-100 dark:text-slate-300 text-slate-700 border dark:border-slate-800 border-slate-300'
                             }`}
                           >
                             <div className="w-1.5 h-1.5 rounded-full bg-cyanAccent" />

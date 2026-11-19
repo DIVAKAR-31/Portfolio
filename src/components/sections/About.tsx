@@ -81,53 +81,53 @@ export const About: React.FC = () => {
                   </div>
 
                   <div className="space-y-1.5 text-center sm:text-left">
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-900 border border-electricBlue/30 text-[10px] font-mono text-cyanAccent uppercase">
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full dark:bg-slate-900 bg-slate-100 border dark:border-electricBlue/30 border-blue-500/20 text-[10px] font-mono text-cyanAccent uppercase">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                       Verified Student Profile
                     </div>
-                    <h3 className="text-xl sm:text-2xl font-bold text-white">
+                    <h3 className="text-xl sm:text-2xl font-bold dark:text-white text-slate-900">
                       {personalInfo.name}
                     </h3>
-                    <div className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-cyanAccent/90 font-mono">
+                    <div className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-cyanAccent font-mono">
                       <GraduationCap className="w-3.5 h-3.5 text-electricBlue shrink-0" />
                       <span>B.Tech Information Technology</span>
                     </div>
-                    <div className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-mutedText">
-                      <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                    <div className="flex items-center justify-center sm:justify-start gap-1.5 text-xs dark:text-mutedText text-slate-500">
+                      <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                       <span>{personalInfo.college}, {personalInfo.location}</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Narrative Paragraphs */}
-                <p className="text-sm sm:text-base text-mutedText leading-relaxed">
-                  I am currently pursuing my <span className="text-lightWhite font-medium">B.Tech in Information Technology</span> at{' '}
+                <p className="text-sm sm:text-base dark:text-mutedText text-slate-600 leading-relaxed">
+                  I am currently pursuing my <span className="dark:text-lightWhite text-slate-900 font-medium">B.Tech in Information Technology</span> at{' '}
                   <span className="text-cyanAccent font-medium">Sri Krishna College of Engineering and Technology (SKCET)</span> in Coimbatore, Tamil Nadu.
                 </p>
 
-                <p className="text-sm sm:text-base text-mutedText leading-relaxed">
+                <p className="text-sm sm:text-base dark:text-mutedText text-slate-600 leading-relaxed">
                   My technical interests center on software development, AI-integrated applications, UI/UX design, and data analytics. I enjoy deconstructing real-world bottlenecks—whether that means designing a transparent civic grievance portal or conceptualizing an equitable cooperative services architecture.
                 </p>
 
-                <p className="text-sm sm:text-base text-mutedText leading-relaxed">
+                <p className="text-sm sm:text-base dark:text-mutedText text-slate-600 leading-relaxed">
                   Rather than chasing buzzwords, I prioritize solid fundamentals: understanding data structures, writing clear code in Java and C++, structuring relational databases with MySQL, and learning through active project building and workshop participation.
                 </p>
 
                 {/* Core Attributes Checklist */}
-                <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 border-t border-slate-800">
-                  <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
+                <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 border-t dark:border-slate-800 border-slate-200">
+                  <div className="flex items-center gap-2 text-xs font-mono dark:text-slate-300 text-slate-700">
                     <CheckCircle2 className="w-4 h-4 text-cyanAccent shrink-0" />
                     <span>Disciplined Problem Solving</span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
+                  <div className="flex items-center gap-2 text-xs font-mono dark:text-slate-300 text-slate-700">
                     <CheckCircle2 className="w-4 h-4 text-cyanAccent shrink-0" />
                     <span>Active Codebase Building</span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
+                  <div className="flex items-center gap-2 text-xs font-mono dark:text-slate-300 text-slate-700">
                     <CheckCircle2 className="w-4 h-4 text-cyanAccent shrink-0" />
                     <span>Cross-functional Teamwork</span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
+                  <div className="flex items-center gap-2 text-xs font-mono dark:text-slate-300 text-slate-700">
                     <CheckCircle2 className="w-4 h-4 text-cyanAccent shrink-0" />
                     <span>Continuous Self-Learning</span>
                   </div>

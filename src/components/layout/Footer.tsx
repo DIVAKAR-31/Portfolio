@@ -46,7 +46,7 @@ export const Footer: React.FC = () => {
             <h4 className="text-xs font-mono tracking-widest uppercase text-cyanAccent">
               Navigation
             </h4>
-            <ul className="grid grid-cols-2 gap-2 text-xs text-mutedText">
+            <ul className="grid grid-cols-2 gap-2 text-xs dark:text-mutedText text-slate-600">
               <li><a href="#home" className="hover:text-cyanAccent transition-colors">Home</a></li>
               <li><a href="#about" className="hover:text-cyanAccent transition-colors">About Me</a></li>
               <li><a href="#education" className="hover:text-cyanAccent transition-colors">Education</a></li>
@@ -54,7 +54,6 @@ export const Footer: React.FC = () => {
               <li><a href="#projects" className="hover:text-cyanAccent transition-colors">Projects</a></li>
               <li><a href="#workshops" className="hover:text-cyanAccent transition-colors">Workshops</a></li>
               <li><a href="#hackathons" className="hover:text-cyanAccent transition-colors">Hackathons</a></li>
-              <li><a href="#certifications" className="hover:text-cyanAccent transition-colors">Certifications</a></li>
               <li><a href="#contact" className="hover:text-cyanAccent transition-colors">Contact</a></li>
             </ul>
           </div>

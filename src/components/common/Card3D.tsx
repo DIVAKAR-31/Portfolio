@@ -109,3 +109,4 @@ export const Card3D: React.FC<Card3DProps> = ({
     </motion.div>
   );
 };
+

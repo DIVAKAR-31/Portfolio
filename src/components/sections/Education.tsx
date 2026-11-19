@@ -112,7 +112,7 @@ export const Education: React.FC = () => {
                         </div>
 
                         {/* Institution Name */}
-                        <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-cyanAccent transition-colors">
+                        <h3 className="text-lg sm:text-xl font-bold dark:text-white text-slate-900 group-hover:text-cyanAccent transition-colors">
                           {item.institution}
                         </h3>
 
@@ -123,14 +123,14 @@ export const Education: React.FC = () => {
                         </div>
 
                         {/* Degree / Program Title */}
-                        <div className="mt-3 flex items-center gap-2 text-sm font-semibold text-slate-200">
+                        <div className="mt-3 flex items-center gap-2 text-sm font-semibold dark:text-slate-200 text-slate-800">
                           <GraduationCap className="w-4 h-4 text-cyanAccent shrink-0" />
                           <span>{item.degree}</span>
                         </div>
 
                         {/* Score / CGPA Highlight Card */}
-                        <div className="mt-4 p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
-                          <span className="text-xs font-mono text-mutedText">
+                        <div className="mt-4 p-3 rounded-xl dark:bg-slate-900/80 bg-slate-100 border dark:border-slate-800 border-slate-200 flex items-center justify-between">
+                          <span className="text-xs font-mono dark:text-mutedText text-slate-600">
                             {item.scoreLabel}
                           </span>
                           <span className="text-base sm:text-lg font-bold font-mono text-transparent bg-clip-text bg-gradient-to-r from-cyanAccent to-emerald-400">

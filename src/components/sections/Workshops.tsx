@@ -69,13 +69,13 @@ export const Workshops: React.FC = () => {
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-xl font-bold text-white group-hover:text-cyanAccent transition-colors mb-2">
+                      <h3 className="text-xl font-bold dark:text-white text-slate-900 group-hover:text-cyanAccent transition-colors mb-2">
                         {item.title}
                       </h3>
 
                       {/* Organizer & Date */}
-                      <div className="space-y-1 mb-4 text-xs font-mono text-mutedText">
-                        <div className="flex items-center gap-1.5 text-slate-300">
+                      <div className="space-y-1 mb-4 text-xs font-mono dark:text-mutedText text-slate-500">
+                        <div className="flex items-center gap-1.5 dark:text-slate-300 text-slate-700">
                           <span className="text-cyanAccent font-semibold">Organizer:</span> {item.organizer}
                         </div>
                         {item.date && (
@@ -87,7 +87,7 @@ export const Workshops: React.FC = () => {
                       </div>
 
                       {/* Description */}
-                      <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6 font-sans">
+                      <p className="text-xs sm:text-sm dark:text-slate-300 text-slate-600 leading-relaxed mb-6 font-sans">
                         {item.description}
                       </p>
 
@@ -97,7 +97,7 @@ export const Workshops: React.FC = () => {
                           Key Learnings & Focus:
                         </div>
                         {item.highlights.slice(0, 3).map((hl, hIdx) => (
-                          <div key={hIdx} className="flex items-start gap-2 text-xs text-mutedText">
+                          <div key={hIdx} className="flex items-start gap-2 text-xs dark:text-mutedText text-slate-600">
                             <CheckCircle2 className="w-3.5 h-3.5 text-cyanAccent shrink-0 mt-0.5" />
                             <span className="leading-snug">{hl}</span>
                           </div>

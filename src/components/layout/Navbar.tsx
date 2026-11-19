@@ -7,9 +7,11 @@ import {
   Linkedin,
   Sparkles,
   ChevronRight,
-  ExternalLink
+  Sun,
+  Moon
 } from 'lucide-react';
 import { personalInfo } from '../../data/portfolioData';
+import { useTheme } from '../../context/ThemeContext';
 
 interface NavbarProps {
   onReplayIntro?: () => void;
@@ -23,7 +25,6 @@ const navLinks = [
   { name: 'Projects', href: '#projects' },
   { name: 'Workshops', href: '#workshops' },
   { name: 'Hackathons', href: '#hackathons' },
-  { name: 'Certifications', href: '#certifications' },
   { name: 'Contact', href: '#contact' },
 ];
 
@@ -31,6 +32,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,7 +72,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled
-          ? 'py-3 bg-darkBg/85 backdrop-blur-md border-b border-electricBlue/15 shadow-[0_4px_30px_rgba(0,0,0,0.5)]'
+          ? 'py-3 dark:bg-darkBg/85 bg-white/85 backdrop-blur-md border-b dark:border-electricBlue/15 border-slate-200 shadow-sm'
           : 'py-5 bg-transparent'
       }`}
     >
@@ -91,7 +93,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
             </div>
 
             <div className="flex flex-col">
-              <span className="font-extrabold text-base tracking-wider text-lightWhite group-hover:text-cyanAccent transition-colors flex items-center gap-1.5">
+              <span className="font-extrabold text-base tracking-wider dark:text-lightWhite text-slate-900 group-hover:text-cyanAccent transition-colors flex items-center gap-1.5">
                 DIVAKAR S.
                 <span className="w-1.5 h-1.5 rounded-full bg-cyanAccent animate-pulse" />
               </span>
@@ -102,7 +104,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden xl:flex items-center gap-1 bg-darkCard/50 border border-electricBlue/15 rounded-full px-4 py-1.5 backdrop-blur-md">
+          <nav className="hidden xl:flex items-center gap-1 dark:bg-darkCard/50 bg-slate-100/70 border dark:border-electricBlue/15 border-slate-200 rounded-full px-4 py-1.5 backdrop-blur-md">
             {navLinks.map((link) => {
               const isActive = activeSection === link.href.substring(1);
               return (
@@ -116,13 +118,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
                   className={`relative px-3 py-1.5 text-xs font-medium tracking-wide transition-all rounded-full ${
                     isActive
                       ? 'text-cyanAccent font-semibold'
-                      : 'text-mutedText hover:text-lightWhite hover:bg-slate-800/40'
+                      : 'dark:text-mutedText text-slate-600 dark:hover:text-lightWhite hover:text-slate-900 hover:bg-slate-200/50 dark:hover:bg-slate-800/40'
                   }`}
                 >
                   {isActive && (
                     <motion.span
                       layoutId="activeNavPill"
-                      className="absolute inset-0 bg-electricBlue/15 border border-cyanAccent/40 rounded-full shadow-[0_0_12px_rgba(34,211,238,0.25)]"
+                      className="absolute inset-0 dark:bg-electricBlue/15 bg-blue-500/10 border dark:border-cyanAccent/40 border-blue-500/30 rounded-full shadow-[0_0_12px_rgba(34,211,238,0.25)]"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -132,8 +134,24 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
             })}
           </nav>
 
-          {/* Action Buttons & Socials */}
+          {/* Action Buttons, Theme Toggle & Socials */}
           <div className="hidden lg:flex items-center gap-3">
+            {/* Theme Toggle (Light / Dark) */}
+            <motion.button
+              whileHover={{ scale: 1.08, rotate: 15 }}
+              whileTap={{ scale: 0.92 }}
+              onClick={toggleTheme}
+              title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+              aria-label={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+              className="p-2 rounded-full dark:bg-slate-900/80 bg-slate-200/80 border dark:border-electricBlue/30 border-slate-300 text-cyanAccent dark:text-cyanAccent transition-all shadow-sm"
+            >
+              {theme === 'dark' ? (
+                <Sun className="w-4 h-4 text-amber-300" />
+              ) : (
+                <Moon className="w-4 h-4 text-indigo-600" />
+              )}
+            </motion.button>
+
             {/* Replay Intro Button with Animated Sparkle */}
             {onReplayIntro && (
               <motion.button
@@ -142,7 +160,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
                 onClick={onReplayIntro}
                 title="Replay Cinematic Comet Intro"
                 aria-label="Replay Cinematic Comet Intro"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/80 border border-electricBlue/30 text-xs text-mutedText hover:text-cyanAccent hover:border-cyanAccent transition-all shadow-sm group"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full dark:bg-slate-900/80 bg-slate-100 border dark:border-electricBlue/30 border-slate-300 text-xs dark:text-mutedText text-slate-600 hover:text-cyanAccent dark:hover:text-cyanAccent transition-all shadow-sm group"
               >
                 <Sparkles className="w-3.5 h-3.5 text-cyanAccent group-hover:rotate-45 transition-transform duration-300" />
                 <span className="font-mono text-[11px]">Replay Intro</span>
@@ -150,7 +168,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
             )}
 
             {/* Social Links */}
-            <div className="flex items-center gap-2 pl-2 border-l border-slate-800">
+            <div className="flex items-center gap-2 pl-2 border-l dark:border-slate-800 border-slate-300">
               <motion.a
                 whileHover={{ scale: 1.1, y: -1 }}
                 whileTap={{ scale: 0.95 }}
@@ -159,7 +177,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
                 rel="noopener noreferrer"
                 title="GitHub Profile"
                 aria-label="GitHub Profile"
-                className="w-8 h-8 rounded-lg bg-darkCard/70 border border-slate-700/60 flex items-center justify-center text-mutedText hover:text-white hover:border-electricBlue transition-all shadow-sm"
+                className="w-8 h-8 rounded-lg dark:bg-darkCard/70 bg-slate-100 border dark:border-slate-700/60 border-slate-300 flex items-center justify-center dark:text-mutedText text-slate-600 dark:hover:text-white hover:text-slate-900 hover:border-electricBlue transition-all shadow-sm"
               >
                 <Github className="w-4 h-4" />
               </motion.a>
@@ -171,7 +189,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
                 rel="noopener noreferrer"
                 title="LinkedIn Profile"
                 aria-label="LinkedIn Profile"
-                className="w-8 h-8 rounded-lg bg-darkCard/70 border border-slate-700/60 flex items-center justify-center text-mutedText hover:text-white hover:border-electricBlue transition-all shadow-sm"
+                className="w-8 h-8 rounded-lg dark:bg-darkCard/70 bg-slate-100 border dark:border-slate-700/60 border-slate-300 flex items-center justify-center dark:text-mutedText text-slate-600 dark:hover:text-white hover:text-slate-900 hover:border-electricBlue transition-all shadow-sm"
               >
                 <Linkedin className="w-4 h-4" />
               </motion.a>
@@ -192,14 +210,27 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
             </motion.a>
           </div>
 
-          {/* Mobile Hamburger Button */}
+          {/* Mobile Buttons */}
           <div className="flex items-center gap-2 xl:hidden">
+            {/* Theme Toggle Mobile */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg dark:bg-darkCard/70 bg-slate-100 border dark:border-electricBlue/20 border-slate-300"
+              aria-label="Toggle Theme"
+            >
+              {theme === 'dark' ? (
+                <Sun className="w-4 h-4 text-amber-300" />
+              ) : (
+                <Moon className="w-4 h-4 text-indigo-600" />
+              )}
+            </button>
+
             {onReplayIntro && (
               <button
                 onClick={onReplayIntro}
                 title="Replay Intro"
                 aria-label="Replay Intro"
-                className="p-2 rounded-lg bg-darkCard/70 border border-electricBlue/20 text-cyanAccent"
+                className="p-2 rounded-lg dark:bg-darkCard/70 bg-slate-100 border dark:border-electricBlue/20 border-slate-300 text-cyanAccent"
               >
                 <Sparkles className="w-4 h-4" />
               </button>
@@ -207,7 +238,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-xl bg-darkCard border border-electricBlue/30 text-lightWhite hover:text-cyanAccent hover:border-cyanAccent transition-colors focus:outline-none"
+              className="p-2 rounded-xl dark:bg-darkCard bg-slate-100 border dark:border-electricBlue/30 border-slate-300 dark:text-lightWhite text-slate-800 hover:text-cyanAccent transition-colors focus:outline-none"
               aria-label={mobileMenuOpen ? 'Close Menu' : 'Open Menu'}
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -224,7 +255,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="xl:hidden bg-darkBgSecondary/95 backdrop-blur-2xl border-b border-electricBlue/20 overflow-hidden"
+            className="xl:hidden dark:bg-darkBgSecondary/95 bg-white/95 backdrop-blur-2xl border-b dark:border-electricBlue/20 border-slate-200 overflow-hidden"
           >
             <div className="max-w-7xl mx-auto px-6 py-6 space-y-2">
               {navLinks.map((link) => {
@@ -239,8 +270,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
                     }}
                     className={`flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                       isActive
-                        ? 'bg-electricBlue/15 text-cyanAccent border border-cyanAccent/30'
-                        : 'text-mutedText hover:text-lightWhite hover:bg-slate-800/50'
+                        ? 'dark:bg-electricBlue/15 bg-blue-500/10 text-cyanAccent border dark:border-cyanAccent/30 border-blue-500/30'
+                        : 'dark:text-mutedText text-slate-600 dark:hover:text-lightWhite hover:text-slate-900 dark:hover:bg-slate-800/50 hover:bg-slate-100'
                     }`}
                   >
                     <span>{link.name}</span>
@@ -249,13 +280,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
                 );
               })}
 
-              <div className="pt-4 mt-2 border-t border-slate-800/80 flex items-center justify-between">
+              <div className="pt-4 mt-2 border-t dark:border-slate-800/80 border-slate-200 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <a
                     href={personalInfo.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2.5 rounded-xl bg-darkCard border border-slate-700/60 text-mutedText hover:text-white"
+                    className="p-2.5 rounded-xl dark:bg-darkCard bg-slate-100 border dark:border-slate-700/60 border-slate-300 dark:text-mutedText text-slate-600 hover:text-cyanAccent"
                     aria-label="GitHub"
                   >
                     <Github className="w-4 h-4" />
@@ -264,7 +295,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
                     href={personalInfo.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2.5 rounded-xl bg-darkCard border border-slate-700/60 text-mutedText hover:text-white"
+                    className="p-2.5 rounded-xl dark:bg-darkCard bg-slate-100 border dark:border-slate-700/60 border-slate-300 dark:text-mutedText text-slate-600 hover:text-cyanAccent"
                     aria-label="LinkedIn"
                   >
                     <Linkedin className="w-4 h-4" />
@@ -289,4 +320,3 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
     </header>
   );
 };
-

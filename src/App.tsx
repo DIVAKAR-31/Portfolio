@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
+import { ThemeProvider } from './context/ThemeContext';
 import { CinematicIntro } from './components/intro/CinematicIntro';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
@@ -13,10 +14,9 @@ import { Skills } from './components/sections/Skills';
 import { Projects } from './components/sections/Projects';
 import { Workshops } from './components/sections/Workshops';
 import { Hackathons } from './components/sections/Hackathons';
-import { Certifications } from './components/sections/Certifications';
 import { Contact } from './components/sections/Contact';
 
-export const App: React.FC = () => {
+const PortfolioContent: React.FC = () => {
   const [showIntro, setShowIntro] = useState<boolean>(() => {
     // Check if intro was already played in this browsing session
     const introSeen = sessionStorage.getItem('divakar_portfolio_intro_seen');
@@ -34,7 +34,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-darkBg text-lightWhite selection:bg-electricBlue selection:text-darkBg font-sans">
+    <div className="relative min-h-screen dark:bg-darkBg bg-lightBg dark:text-lightWhite text-slate-900 selection:bg-electricBlue selection:text-darkBg font-sans transition-colors duration-300">
       {/* Signature Cinematic Comet Intro */}
       <AnimatePresence mode="wait">
         {showIntro && (
@@ -42,16 +42,16 @@ export const App: React.FC = () => {
         )}
       </AnimatePresence>
 
-      {/* Interactive Custom Glowing Cursor */}
+      {/* Interactive Custom Glowing Cursor (Sleek slight shine, no bubbles) */}
       <CustomCursor />
 
       {/* Cosmic Starfield & Ambient Lighting Background */}
       <BackgroundStarfield />
 
-      {/* Navigation Bar */}
+      {/* Navigation Bar with Theme Toggle */}
       <Navbar onReplayIntro={handleReplayIntro} />
 
-      {/* Main Content Flow */}
+      {/* Main Content Flow (Certifications removed) */}
       <main className="relative z-10">
         <Hero />
         <About />
@@ -60,7 +60,6 @@ export const App: React.FC = () => {
         <Projects />
         <Workshops />
         <Hackathons />
-        <Certifications />
         <Contact />
       </main>
 
@@ -73,5 +72,12 @@ export const App: React.FC = () => {
   );
 };
 
-export default App;
+export const App: React.FC = () => {
+  return (
+    <ThemeProvider>
+      <PortfolioContent />
+    </ThemeProvider>
+  );
+};
 
+export default App;

@@ -119,12 +119,12 @@ export const Projects: React.FC = () => {
                     <div className="p-6 sm:p-7 space-y-4 flex-1 flex flex-col justify-between">
                       <div>
                         {/* Title */}
-                        <h3 className="text-xl font-bold text-white group-hover:text-cyanAccent transition-colors mb-2">
+                        <h3 className="text-xl font-bold dark:text-white text-slate-900 group-hover:text-cyanAccent transition-colors mb-2">
                           {project.title}
                         </h3>
 
                         {/* Short Description */}
-                        <p className="text-xs sm:text-sm text-mutedText leading-relaxed line-clamp-3">
+                        <p className="text-xs sm:text-sm dark:text-mutedText text-slate-600 leading-relaxed line-clamp-3">
                           {project.shortDescription}
                         </p>
                       </div>
@@ -152,22 +152,35 @@ export const Projects: React.FC = () => {
                         </div>
                       </div>
 
-                      {/* Card Actions: View Details & Optional GitHub Button */}
-                      <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between gap-3">
+                      {/* Card Actions: View Details, Live Demo, & GitHub Button */}
+                      <div className="pt-4 border-t border-slate-800/80 dark:border-slate-800/80 border-slate-200/80 flex flex-wrap items-center justify-between gap-2.5">
                         <button
                           onClick={() => setSelectedProject(project)}
-                          className="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-primaryBlue/80 to-sky-500/80 hover:from-primaryBlue hover:to-sky-400 text-white text-xs font-semibold tracking-wider font-mono flex items-center justify-center gap-2 transition-all shadow-neon-blue group-hover:scale-102"
+                          className="flex-1 min-w-[110px] py-2.5 px-3 rounded-xl bg-gradient-to-r from-primaryBlue/80 to-sky-500/80 hover:from-primaryBlue hover:to-sky-400 text-white text-xs font-semibold tracking-wider font-mono flex items-center justify-center gap-1.5 transition-all shadow-neon-blue group-hover:scale-102"
                         >
-                          <span>View Details</span>
-                          <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                          <span>Details</span>
+                          <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                         </button>
+
+                        {project.liveDemoUrl && (
+                          <a
+                            href={project.liveDemoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="py-2.5 px-3.5 rounded-xl bg-gradient-to-r from-cyan-500/90 to-blue-600/90 hover:from-cyan-400 hover:to-blue-500 text-white text-xs font-mono font-semibold tracking-wide flex items-center gap-1.5 transition-all shadow-[0_0_15px_rgba(34,211,238,0.3)] hover:scale-105"
+                            title="Open Live Platform Demo"
+                          >
+                            <span>Live Demo</span>
+                            <ExternalLink className="w-3.5 h-3.5" />
+                          </a>
+                        )}
 
                         {project.githubUrl && (
                           <a
                             href={project.githubUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-2.5 rounded-xl bg-darkCard border border-slate-700/80 hover:border-cyanAccent text-mutedText hover:text-white transition-all shadow-sm group-hover:border-electricBlue/40"
+                            className="p-2.5 rounded-xl bg-darkCard dark:bg-darkCard bg-slate-100 border border-slate-700/80 dark:border-slate-700/80 border-slate-300 hover:border-cyanAccent text-mutedText hover:text-white dark:hover:text-white hover:text-slate-900 transition-all shadow-sm"
                             aria-label={`GitHub Repository for ${project.title}`}
                             title="GitHub Repository"
                           >

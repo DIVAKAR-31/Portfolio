@@ -188,6 +188,7 @@ export const projectsData: Project[] = [
       "Redis",
       "Google Maps API"
     ],
+    liveDemoUrl: "https://uni-serv.vercel.app/",
     type: "case_study",
     implementationNote: "Detailed architecture design and platform concept based on project documentation. Systems architecture, data schema, and operational protocols are mapped out for multi-tier cooperative rollouts.",
     features: [

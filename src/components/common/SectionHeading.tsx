@@ -56,8 +56,8 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
                 }}
                 className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight inline-block ${
                   isHighlight
-                    ? 'text-transparent bg-clip-text bg-gradient-to-r from-electricBlue via-cyanAccent to-sky-300'
-                    : 'text-lightWhite'
+                    ? 'text-transparent bg-clip-text bg-gradient-to-r from-electricBlue via-cyanAccent to-sky-400'
+                    : 'dark:text-lightWhite text-slate-900'
                 }`}
               >
                 {word}
@@ -74,7 +74,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.6, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-4 text-base sm:text-lg text-mutedText leading-relaxed"
+          className="mt-4 text-base sm:text-lg dark:text-mutedText text-slate-600 leading-relaxed"
         >
           {subtitle}
         </motion.p>

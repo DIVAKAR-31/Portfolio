@@ -72,9 +72,9 @@ export const Hero: React.FC = () => {
                   initial={{ y: '100%', opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.7, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-4xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight text-white leading-[1.1]"
+                  className="text-4xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight dark:text-white text-slate-900 leading-[1.1]"
                 >
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-sky-200">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r dark:from-white dark:via-slate-100 dark:to-sky-200 from-slate-900 via-blue-900 to-sky-700">
                     {personalInfo.name}
                   </span>
                 </motion.h1>
@@ -93,7 +93,7 @@ export const Hero: React.FC = () => {
                       delay: 0.28 + wIdx * 0.08,
                       ease: [0.16, 1, 0.3, 1]
                     }}
-                    className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight inline-block text-transparent bg-clip-text bg-gradient-to-r from-electricBlue via-cyanAccent to-blue-400"
+                    className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight inline-block text-transparent bg-clip-text bg-gradient-to-r from-electricBlue via-cyanAccent to-blue-500"
                   >
                     {word}
                   </motion.span>
@@ -108,7 +108,7 @@ export const Hero: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.45 }}
               className="h-10 flex items-center"
             >
-              <span className="text-xs sm:text-sm font-mono text-mutedText mr-2 tracking-wider uppercase">
+              <span className="text-xs sm:text-sm font-mono dark:text-mutedText text-slate-500 mr-2 tracking-wider uppercase">
                 Focus Area &gt;
               </span>
               <div className="relative overflow-hidden h-9 flex items-center">
@@ -132,7 +132,7 @@ export const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="text-sm sm:text-base text-mutedText leading-relaxed max-w-2xl font-sans"
+              className="text-sm sm:text-base dark:text-mutedText text-slate-600 leading-relaxed max-w-2xl font-sans"
             >
               {personalInfo.bio}
             </motion.p>

@@ -57,7 +57,7 @@ export const Hackathons: React.FC = () => {
                       </div>
 
                       {/* Event Title */}
-                      <h3 className="text-xl font-bold text-white group-hover:text-cyanAccent transition-colors mb-1">
+                      <h3 className="text-xl font-bold dark:text-white text-slate-900 group-hover:text-cyanAccent transition-colors mb-1">
                         {item.title}
                       </h3>
 
@@ -69,18 +69,18 @@ export const Hackathons: React.FC = () => {
                       </div>
 
                       {/* Participation Description */}
-                      <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-5 font-sans">
+                      <p className="text-xs sm:text-sm dark:text-slate-300 text-slate-600 leading-relaxed mb-5 font-sans">
                         {item.participationDescription}
                       </p>
 
                       {/* Problem Statement Box */}
                       {item.problemStatement && (
-                        <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1 mb-4">
+                        <div className="p-3.5 rounded-xl dark:bg-slate-900/80 bg-slate-100 border dark:border-slate-800 border-slate-200 space-y-1 mb-4">
                           <div className="text-[10px] font-mono text-cyanAccent uppercase tracking-wider flex items-center gap-1.5">
                             <Lightbulb className="w-3 h-3 text-cyanAccent" />
                             Problem Focus
                           </div>
-                          <p className="text-xs text-slate-300 leading-snug">
+                          <p className="text-xs dark:text-slate-300 text-slate-700 leading-snug">
                             {item.problemStatement}
                           </p>
                         </div>

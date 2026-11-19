@@ -89,8 +89,8 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
           </div>
 
           {/* Modal Hero Banner */}
-          <div className="px-6 sm:px-8 pt-6 pb-4 shrink-0 bg-gradient-to-b from-darkCard to-transparent">
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
+          <div className="px-6 sm:px-8 pt-6 pb-4 shrink-0 bg-gradient-to-b dark:from-darkCard from-slate-100 to-transparent">
+            <h3 className="text-2xl sm:text-3xl font-extrabold dark:text-white text-slate-900">
               {project.title}
             </h3>
             <p className="text-xs sm:text-sm font-mono text-cyanAccent mt-1">
@@ -565,7 +565,19 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
 
           {/* Footer Bar */}
           <div className="px-6 py-4 border-t border-slate-800 bg-darkBgSecondary/80 flex flex-wrap items-center justify-between gap-3 shrink-0">
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
+              {project.liveDemoUrl && (
+                <a
+                  href={project.liveDemoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xs font-mono font-semibold hover:from-cyan-400 hover:to-blue-500 transition-all shadow-[0_0_15px_rgba(34,211,238,0.35)]"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  <span>Launch Live Demo</span>
+                </a>
+              )}
+
               {project.githubUrl ? (
                 <a
                   href={project.githubUrl}
@@ -577,12 +589,12 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                   <span>GitHub Repository</span>
                   <ExternalLink className="w-3 h-3 text-mutedText" />
                 </a>
-              ) : (
+              ) : !project.liveDemoUrl ? (
                 <span className="text-xs font-mono text-mutedText/70 flex items-center gap-1.5">
                   <ShieldCheck className="w-3.5 h-3.5 text-slate-500" />
                   Case Study & Architecture Specification
                 </span>
-              )}
+              ) : null}
             </div>
 
             <button

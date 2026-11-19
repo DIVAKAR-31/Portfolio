@@ -263,7 +263,7 @@ export const Contact: React.FC = () => {
                 {/* Name & Email */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="text-xs font-mono uppercase tracking-wider text-mutedText block mb-2">
+                    <label className="text-xs font-mono uppercase tracking-wider dark:text-mutedText text-slate-600 block mb-2">
                       Your Name <span className="text-cyanAccent">*</span>
                     </label>
                     <input
@@ -271,10 +271,10 @@ export const Contact: React.FC = () => {
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="e.g. Alex Johnson"
-                      className={`w-full px-4 py-3 rounded-xl bg-slate-900/90 border text-sm text-lightWhite placeholder:text-slate-600 focus:outline-none transition-colors ${
+                      className={`w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border text-sm dark:text-lightWhite text-slate-900 dark:placeholder:text-slate-600 placeholder:text-slate-400 focus:outline-none transition-colors shadow-sm ${
                         errors.name
                           ? 'border-red-500 focus:border-red-400'
-                          : 'border-slate-800 focus:border-cyanAccent'
+                          : 'dark:border-slate-800 border-slate-300 focus:border-cyanAccent'
                       }`}
                     />
                     {errors.name && (
@@ -283,7 +283,7 @@ export const Contact: React.FC = () => {
                   </div>
 
                   <div>
-                    <label className="text-xs font-mono uppercase tracking-wider text-mutedText block mb-2">
+                    <label className="text-xs font-mono uppercase tracking-wider dark:text-mutedText text-slate-600 block mb-2">
                       Your Email <span className="text-cyanAccent">*</span>
                     </label>
                     <input
@@ -291,10 +291,10 @@ export const Contact: React.FC = () => {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="alex@example.com"
-                      className={`w-full px-4 py-3 rounded-xl bg-slate-900/90 border text-sm text-lightWhite placeholder:text-slate-600 focus:outline-none transition-colors ${
+                      className={`w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border text-sm dark:text-lightWhite text-slate-900 dark:placeholder:text-slate-600 placeholder:text-slate-400 focus:outline-none transition-colors shadow-sm ${
                         errors.email
                           ? 'border-red-500 focus:border-red-400'
-                          : 'border-slate-800 focus:border-cyanAccent'
+                          : 'dark:border-slate-800 border-slate-300 focus:border-cyanAccent'
                       }`}
                     />
                     {errors.email && (
@@ -305,7 +305,7 @@ export const Contact: React.FC = () => {
 
                 {/* Subject */}
                 <div>
-                  <label className="text-xs font-mono uppercase tracking-wider text-mutedText block mb-2">
+                  <label className="text-xs font-mono uppercase tracking-wider dark:text-mutedText text-slate-600 block mb-2">
                     Subject <span className="text-cyanAccent">*</span>
                   </label>
                   <input
@@ -313,10 +313,10 @@ export const Contact: React.FC = () => {
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                     placeholder="Project Inquiry / Technical Collaboration"
-                    className={`w-full px-4 py-3 rounded-xl bg-slate-900/90 border text-sm text-lightWhite placeholder:text-slate-600 focus:outline-none transition-colors ${
+                    className={`w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border text-sm dark:text-lightWhite text-slate-900 dark:placeholder:text-slate-600 placeholder:text-slate-400 focus:outline-none transition-colors shadow-sm ${
                       errors.subject
                         ? 'border-red-500 focus:border-red-400'
-                        : 'border-slate-800 focus:border-cyanAccent'
+                        : 'dark:border-slate-800 border-slate-300 focus:border-cyanAccent'
                     }`}
                   />
                   {errors.subject && (
@@ -326,7 +326,7 @@ export const Contact: React.FC = () => {
 
                 {/* Message */}
                 <div>
-                  <label className="text-xs font-mono uppercase tracking-wider text-mutedText block mb-2">
+                  <label className="text-xs font-mono uppercase tracking-wider dark:text-mutedText text-slate-600 block mb-2">
                     Message <span className="text-cyanAccent">*</span>
                   </label>
                   <textarea
@@ -334,10 +334,10 @@ export const Contact: React.FC = () => {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Write your message here..."
-                    className={`w-full px-4 py-3 rounded-xl bg-slate-900/90 border text-sm text-lightWhite placeholder:text-slate-600 focus:outline-none transition-colors ${
+                    className={`w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border text-sm dark:text-lightWhite text-slate-900 dark:placeholder:text-slate-600 placeholder:text-slate-400 focus:outline-none transition-colors shadow-sm ${
                       errors.message
                         ? 'border-red-500 focus:border-red-400'
-                        : 'border-slate-800 focus:border-cyanAccent'
+                        : 'dark:border-slate-800 border-slate-300 focus:border-cyanAccent'
                     }`}
                   />
                   {errors.message && (

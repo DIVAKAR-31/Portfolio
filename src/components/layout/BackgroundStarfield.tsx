@@ -162,13 +162,13 @@ export const BackgroundStarfield: React.FC = () => {
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-      {/* Deep space base canvas */}
-      <div className="absolute inset-0 bg-darkBg" />
+      {/* Deep space / light base canvas */}
+      <div className="absolute inset-0 dark:bg-darkBg bg-[#f8fafc] transition-colors duration-300" />
       <div className="absolute inset-0 bg-futuristic-grid opacity-35" />
 
       {/* Dynamic Cursor Spotlight Following Mouse Position */}
       <motion.div
-        className="absolute w-[600px] h-[600px] rounded-full blur-[120px] pointer-events-none -translate-x-1/2 -translate-y-1/2 opacity-40"
+        className="absolute w-[600px] h-[600px] rounded-full blur-[120px] pointer-events-none -translate-x-1/2 -translate-y-1/2 dark:opacity-40 opacity-25"
         style={{
           x: spotlightX,
           y: spotlightY,
@@ -177,12 +177,12 @@ export const BackgroundStarfield: React.FC = () => {
       />
 
       {/* Ambient Pulsing Atmospheric Nebula Glows */}
-      <div className="absolute -top-40 -left-40 w-[32rem] h-[32rem] rounded-full bg-blue-600/12 blur-[140px] animate-pulse-slow" />
+      <div className="absolute -top-40 -left-40 w-[32rem] h-[32rem] rounded-full bg-blue-600/10 blur-[140px] animate-pulse-slow" />
       <div className="absolute top-1/3 -right-40 w-[36rem] h-[36rem] rounded-full bg-sky-500/10 blur-[160px] animate-pulse-slow" />
-      <div className="absolute bottom-20 left-1/4 w-[30rem] h-[30rem] rounded-full bg-cyan-500/08 blur-[160px]" />
+      <div className="absolute bottom-20 left-1/4 w-[30rem] h-[30rem] rounded-full bg-cyan-500/05 blur-[160px]" />
 
       {/* Dynamic Starfield Canvas */}
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full dark:opacity-100 opacity-60" />
     </div>
   );
 };
