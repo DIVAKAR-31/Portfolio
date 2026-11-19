@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from './context/ThemeContext';
 import { CinematicIntro } from './components/intro/CinematicIntro';
@@ -17,41 +17,31 @@ import { Hackathons } from './components/sections/Hackathons';
 import { Contact } from './components/sections/Contact';
 
 const PortfolioContent: React.FC = () => {
-  const [showIntro, setShowIntro] = useState<boolean>(() => {
-    // Check if intro was already played in this browsing session
-    const introSeen = sessionStorage.getItem('divakar_portfolio_intro_seen');
-    return !introSeen;
-  });
+  const [showIntro, setShowIntro] = useState<boolean>(true);
 
-  const handleIntroComplete = () => {
+  const handleIntroComplete = useCallback(() => {
     setShowIntro(false);
-    sessionStorage.setItem('divakar_portfolio_intro_seen', 'true');
-  };
-
-  const handleReplayIntro = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    setShowIntro(true);
-  };
+  }, []);
 
   return (
     <div className="relative min-h-screen dark:bg-darkBg bg-lightBg dark:text-lightWhite text-slate-900 selection:bg-electricBlue selection:text-darkBg font-sans transition-colors duration-300">
-      {/* Signature Cinematic Comet Intro */}
+      {/* Signature Cinematic Star to Comet Intro (Runs automatically, no buttons) */}
       <AnimatePresence mode="wait">
         {showIntro && (
           <CinematicIntro onComplete={handleIntroComplete} />
         )}
       </AnimatePresence>
 
-      {/* Interactive Custom Glowing Cursor (Sleek slight shine, no bubbles) */}
+      {/* Interactive Custom Glowing Cursor (Moving cursor soft shine ONLY, zero bubble) */}
       <CustomCursor />
 
       {/* Cosmic Starfield & Ambient Lighting Background */}
       <BackgroundStarfield />
 
       {/* Navigation Bar with Theme Toggle */}
-      <Navbar onReplayIntro={handleReplayIntro} />
+      <Navbar />
 
-      {/* Main Content Flow (Certifications removed) */}
+      {/* Main Content Flow */}
       <main className="relative z-10">
         <Hero />
         <About />

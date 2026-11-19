@@ -5,17 +5,12 @@ import {
   X,
   Github,
   Linkedin,
-  Sparkles,
   ChevronRight,
   Sun,
   Moon
 } from 'lucide-react';
 import { personalInfo } from '../../data/portfolioData';
 import { useTheme } from '../../context/ThemeContext';
-
-interface NavbarProps {
-  onReplayIntro?: () => void;
-}
 
 const navLinks = [
   { name: 'Home', href: '#home' },
@@ -28,7 +23,7 @@ const navLinks = [
   { name: 'Contact', href: '#contact' },
 ];
 
-export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
+export const Navbar: React.FC = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -152,21 +147,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
               )}
             </motion.button>
 
-            {/* Replay Intro Button with Animated Sparkle */}
-            {onReplayIntro && (
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={onReplayIntro}
-                title="Replay Cinematic Comet Intro"
-                aria-label="Replay Cinematic Comet Intro"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full dark:bg-slate-900/80 bg-slate-100 border dark:border-electricBlue/30 border-slate-300 text-xs dark:text-mutedText text-slate-600 hover:text-cyanAccent dark:hover:text-cyanAccent transition-all shadow-sm group"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-cyanAccent group-hover:rotate-45 transition-transform duration-300" />
-                <span className="font-mono text-[11px]">Replay Intro</span>
-              </motion.button>
-            )}
-
             {/* Social Links */}
             <div className="flex items-center gap-2 pl-2 border-l dark:border-slate-800 border-slate-300">
               <motion.a
@@ -224,17 +204,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
                 <Moon className="w-4 h-4 text-indigo-600" />
               )}
             </button>
-
-            {onReplayIntro && (
-              <button
-                onClick={onReplayIntro}
-                title="Replay Intro"
-                aria-label="Replay Intro"
-                className="p-2 rounded-lg dark:bg-darkCard/70 bg-slate-100 border dark:border-electricBlue/20 border-slate-300 text-cyanAccent"
-              >
-                <Sparkles className="w-4 h-4" />
-              </button>
-            )}
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
