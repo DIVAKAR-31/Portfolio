@@ -189,6 +189,7 @@ export const projectsData: Project[] = [
       "Google Maps API"
     ],
     liveDemoUrl: "https://uni-serv.vercel.app/",
+    githubUrl: "https://github.com/DIVAKAR-31/Uni-Serve",
     type: "case_study",
     implementationNote: "Detailed architecture design and platform concept based on project documentation. Systems architecture, data schema, and operational protocols are mapped out for multi-tier cooperative rollouts.",
     features: [
@@ -215,6 +216,7 @@ export const projectsData: Project[] = [
     problem: "Voluntary employee turnover imposes substantial institutional costs and organizational disruption. Organizations need proactive data-driven insights into key attrition predictors rather than reactive exit interviews.",
     solution: "A structured data analysis pipeline exploring employee attributes (compensation, work-life balance, years at company, promotion velocity) to uncover correlation patterns and prepare predictive machine learning models.",
     technologies: ["Python (Planned)", "Data Analytics", "EDA", "Statistical Analysis"],
+    githubUrl: "https://github.com/DIVAKAR-31/Employee-attrition-prediction",
     type: "ml_pipeline",
     implementationNote: "This project follows a rigorous 8-stage data science lifecycle. Foundational stages (problem understanding, exploration, preprocessing, and exploratory data analysis) are completed, while model training and tuning are actively being developed. Numerical accuracy metrics are intentionally kept editable pending final model validation.",
     stages: [
