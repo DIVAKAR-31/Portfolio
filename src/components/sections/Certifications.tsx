@@ -18,6 +18,7 @@ import confetti from 'canvas-confetti';
 import { SectionHeading } from '../common/SectionHeading';
 import { certificationsData } from '../../data/portfolioData';
 import { CertificationEntry } from '../../types/portfolio';
+import { Card3D } from '../common/Card3D';
 
 const certIconMap: Record<string, React.ElementType> = {
   code: Code,
@@ -34,13 +35,13 @@ export const Certifications: React.FC = () => {
     // Fire subtle celebratory confetti bursts
     try {
       confetti({
-        particleCount: 35,
-        spread: 60,
+        particleCount: 40,
+        spread: 65,
         origin: { y: 0.7 },
         colors: ['#38BDF8', '#22D3EE', '#2563EB', '#F8FAFC']
       });
     } catch {
-      // Fallback if canvas confetti fails
+      // Fallback
     }
   };
 
@@ -53,7 +54,7 @@ export const Certifications: React.FC = () => {
           subtitle="Skill assessments, design credentials, and enterprise workshop completions verified through standard testing platforms."
         />
 
-        {/* Certifications Grid */}
+        {/* Certifications Grid with 3D Depth */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {certificationsData.map((cert, idx) => {
             const Icon = certIconMap[cert.iconType] || FileBadge;
@@ -61,76 +62,90 @@ export const Certifications: React.FC = () => {
             return (
               <motion.div
                 key={cert.id}
-                initial={{ opacity: 0, y: 25 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="glass-panel p-6 rounded-3xl border border-electricBlue/20 hover:border-cyanAccent transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1.5 shadow-card-glow relative overflow-hidden"
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{
+                  duration: 0.55,
+                  delay: idx * 0.1,
+                  ease: [0.16, 1, 0.3, 1]
+                }}
+                className="h-full"
               >
-                {/* Glow ambient background on card */}
-                <div className="absolute top-0 right-0 w-24 h-24 bg-cyanAccent/5 rounded-full blur-2xl group-hover:bg-cyanAccent/15 transition-all" />
+                <Card3D maxTilt={6} scaleHover={1.02} className="h-full">
+                  <div className="glass-panel p-6 rounded-3xl border border-electricBlue/20 hover:border-cyanAccent transition-all duration-300 flex flex-col justify-between group shadow-card-glow relative overflow-hidden h-full">
+                    {/* Glow ambient background on card */}
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-cyanAccent/5 rounded-full blur-2xl group-hover:bg-cyanAccent/15 transition-all" />
 
-                <div>
-                  {/* Top Badge & Issuer */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-11 h-11 rounded-xl bg-slate-900 border border-electricBlue/30 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Icon className="w-5 h-5 text-cyanAccent" />
+                    <div>
+                      {/* Top Badge & Issuer */}
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="w-11 h-11 rounded-xl bg-slate-900 border border-electricBlue/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                          <Icon className="w-5 h-5 text-cyanAccent" />
+                        </div>
+
+                        <span className="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-slate-900 border border-slate-700 text-slate-300">
+                          {cert.category}
+                        </span>
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="text-base font-bold text-white group-hover:text-cyanAccent transition-colors mb-1">
+                        {cert.title}
+                      </h3>
+
+                      {/* Issuer */}
+                      <p className="text-xs font-mono text-cyanAccent/90 mb-3">
+                        {cert.issuer}
+                      </p>
+
+                      {/* Skills tags */}
+                      <div className="flex flex-wrap gap-1 mb-4">
+                        {cert.skills.map((skill) => (
+                          <span
+                            key={skill}
+                            className="px-2 py-0.5 rounded-md bg-darkBgSecondary border border-slate-800 text-[10px] font-sans text-slate-300"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
                     </div>
 
-                    <span className="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-slate-900 border border-slate-700 text-slate-300">
-                      {cert.category}
-                    </span>
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="text-base font-bold text-white group-hover:text-cyanAccent transition-colors mb-1">
-                    {cert.title}
-                  </h3>
-
-                  {/* Issuer */}
-                  <p className="text-xs font-mono text-cyanAccent/90 mb-3">
-                    {cert.issuer}
-                  </p>
-
-                  {/* Skills tags */}
-                  <div className="flex flex-wrap gap-1 mb-4">
-                    {cert.skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className="px-2 py-0.5 rounded-md bg-darkBgSecondary border border-slate-800 text-[10px] font-sans text-slate-300"
-                      >
-                        {skill}
+                    {/* View Certificate Interaction */}
+                    <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                      <span className="text-[10px] font-mono text-mutedText">
+                        {cert.issueDate}
                       </span>
-                    ))}
+
+                      <button
+                        onClick={() => handleOpenCertificate(cert)}
+                        className="text-xs font-mono text-cyanAccent hover:text-white flex items-center gap-1 font-semibold group-hover:underline"
+                      >
+                        <span>View Credential</span>
+                        <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      </button>
+                    </div>
                   </div>
-                </div>
-
-                {/* View Certificate Interaction */}
-                <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between">
-                  <span className="text-[10px] font-mono text-mutedText">
-                    {cert.issueDate}
-                  </span>
-
-                  <button
-                    onClick={() => handleOpenCertificate(cert)}
-                    className="text-xs font-mono text-cyanAccent hover:text-white flex items-center gap-1 font-semibold group-hover:underline"
-                  >
-                    <span>View Credential</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </button>
-                </div>
+                </Card3D>
               </motion.div>
             );
           })}
         </div>
 
         {/* Future Certification Placeholder Info */}
-        <div className="mt-8 p-4 rounded-2xl glass-panel border border-slate-800 text-center max-w-lg mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mt-8 p-4 rounded-2xl glass-panel border border-slate-800 text-center max-w-lg mx-auto"
+        >
           <p className="text-xs font-mono text-mutedText flex items-center justify-center gap-2">
             <Sparkles className="w-4 h-4 text-cyanAccent" />
             <span>Additional technical certifications and cloud assessments in progress</span>
           </p>
-        </div>
+        </motion.div>
       </div>
 
       {/* Full-Screen Digital Certificate Modal */}
@@ -227,4 +242,3 @@ export const Certifications: React.FC = () => {
     </section>
   );
 };
-

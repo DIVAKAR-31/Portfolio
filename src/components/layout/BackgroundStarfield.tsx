@@ -1,7 +1,26 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 export const BackgroundStarfield: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  // Mouse coordinates for dynamic spotlight
+  const mouseX = useMotionValue(typeof window !== 'undefined' ? window.innerWidth / 2 : 500);
+  const mouseY = useMotionValue(typeof window !== 'undefined' ? window.innerHeight / 2 : 300);
+
+  const springConfig = { damping: 30, stiffness: 180 };
+  const spotlightX = useSpring(mouseX, springConfig);
+  const spotlightY = useSpring(mouseY, springConfig);
+
+  useEffect(() => {
+    const handlePointerMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+    };
+
+    window.addEventListener('mousemove', handlePointerMove, { passive: true });
+    return () => window.removeEventListener('mousemove', handlePointerMove);
+  }, [mouseX, mouseY]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -22,19 +41,19 @@ export const BackgroundStarfield: React.FC = () => {
     window.addEventListener('resize', handleResize);
 
     // Subtle starfield
-    const STAR_COUNT = Math.min(100, Math.floor((width * height) / 14000));
+    const STAR_COUNT = Math.min(110, Math.floor((width * height) / 13000));
     const stars = Array.from({ length: STAR_COUNT }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      size: Math.random() * 1.4 + 0.3,
+      size: Math.random() * 1.5 + 0.3,
       alpha: Math.random() * 0.6 + 0.2,
       baseAlpha: Math.random() * 0.5 + 0.2,
-      speed: Math.random() * 0.15 + 0.05,
+      speed: Math.random() * 0.2 + 0.05,
       flickerSpeed: Math.random() * 0.015 + 0.005,
-      flickerDir: Math.random() > 0.5 ? 1 : -1
+      flickerDir: Math.random() > 0.5 ? 1 : -1,
     }));
 
-    // Ambient micro-shooting star
+    // Micro-comet data
     interface MicroComet {
       x: number;
       y: number;
@@ -52,18 +71,18 @@ export const BackgroundStarfield: React.FC = () => {
       speed: 12,
       angle: Math.PI / 4,
       alpha: 0,
-      active: false
+      active: false,
     };
 
     let lastCometSpawn = performance.now();
 
     const spawnMicroComet = () => {
-      microComet.x = Math.random() * width * 0.7;
-      microComet.y = Math.random() * (height * 0.4);
-      microComet.length = Math.random() * 60 + 50;
-      microComet.speed = Math.random() * 8 + 10;
-      microComet.angle = Math.PI / 4 + (Math.random() - 0.5) * 0.2;
-      microComet.alpha = 0.8;
+      microComet.x = Math.random() * width * 0.75;
+      microComet.y = Math.random() * (height * 0.35);
+      microComet.length = Math.random() * 65 + 45;
+      microComet.speed = Math.random() * 7 + 10;
+      microComet.angle = Math.PI / 4 + (Math.random() - 0.5) * 0.25;
+      microComet.alpha = 0.75;
       microComet.active = true;
     };
 
@@ -71,7 +90,7 @@ export const BackgroundStarfield: React.FC = () => {
       ctx.clearRect(0, 0, width, height);
 
       // Render drifting stars
-      stars.forEach(star => {
+      stars.forEach((star) => {
         star.y -= star.speed;
         if (star.y < 0) {
           star.y = height;
@@ -88,8 +107,8 @@ export const BackgroundStarfield: React.FC = () => {
         ctx.fill();
       });
 
-      // Spawn periodic subtle micro-comet every 10-18 seconds
-      if (!microComet.active && time - lastCometSpawn > 12000) {
+      // Spawn periodic subtle micro-comet every 11 seconds
+      if (!microComet.active && time - lastCometSpawn > 11000) {
         spawnMicroComet();
         lastCometSpawn = time;
       }
@@ -101,7 +120,7 @@ export const BackgroundStarfield: React.FC = () => {
 
         microComet.x += dx;
         microComet.y += dy;
-        microComet.alpha -= 0.012;
+        microComet.alpha -= 0.013;
 
         if (microComet.alpha <= 0 || microComet.x > width || microComet.y > height) {
           microComet.active = false;
@@ -111,7 +130,7 @@ export const BackgroundStarfield: React.FC = () => {
 
           const grad = ctx.createLinearGradient(microComet.x, microComet.y, tailX, tailY);
           grad.addColorStop(0, `rgba(255, 255, 255, ${microComet.alpha})`);
-          grad.addColorStop(0.3, `rgba(56, 189, 248, ${microComet.alpha * 0.8})`);
+          grad.addColorStop(0.3, `rgba(56, 189, 248, ${microComet.alpha * 0.85})`);
           grad.addColorStop(0.7, `rgba(34, 211, 238, ${microComet.alpha * 0.4})`);
           grad.addColorStop(1, 'rgba(5, 8, 22, 0)');
 
@@ -122,7 +141,7 @@ export const BackgroundStarfield: React.FC = () => {
           ctx.lineTo(tailX, tailY);
           ctx.stroke();
 
-          // Head glow
+          // Comet head sparkle
           ctx.fillStyle = `rgba(255, 255, 255, ${microComet.alpha})`;
           ctx.beginPath();
           ctx.arc(microComet.x, microComet.y, 2, 0, Math.PI * 2);
@@ -143,18 +162,27 @@ export const BackgroundStarfield: React.FC = () => {
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-      {/* Deep space background with subtle cyber grid */}
+      {/* Deep space base canvas */}
       <div className="absolute inset-0 bg-darkBg" />
       <div className="absolute inset-0 bg-futuristic-grid opacity-35" />
 
-      {/* Atmospheric Nebula Glows */}
-      <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-blue-600/10 blur-[130px]" />
-      <div className="absolute top-1/3 -right-40 w-[30rem] h-[30rem] rounded-full bg-sky-500/10 blur-[150px]" />
-      <div className="absolute bottom-20 left-1/4 w-[28rem] h-[28rem] rounded-full bg-cyan-500/08 blur-[160px]" />
+      {/* Dynamic Cursor Spotlight Following Mouse Position */}
+      <motion.div
+        className="absolute w-[600px] h-[600px] rounded-full blur-[120px] pointer-events-none -translate-x-1/2 -translate-y-1/2 opacity-40"
+        style={{
+          x: spotlightX,
+          y: spotlightY,
+          background: 'radial-gradient(circle, rgba(56, 189, 248, 0.18) 0%, rgba(37, 99, 235, 0.08) 45%, transparent 70%)',
+        }}
+      />
+
+      {/* Ambient Pulsing Atmospheric Nebula Glows */}
+      <div className="absolute -top-40 -left-40 w-[32rem] h-[32rem] rounded-full bg-blue-600/12 blur-[140px] animate-pulse-slow" />
+      <div className="absolute top-1/3 -right-40 w-[36rem] h-[36rem] rounded-full bg-sky-500/10 blur-[160px] animate-pulse-slow" />
+      <div className="absolute bottom-20 left-1/4 w-[30rem] h-[30rem] rounded-full bg-cyan-500/08 blur-[160px]" />
 
       {/* Dynamic Starfield Canvas */}
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
     </div>
   );
 };
-

@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { SectionHeading } from '../common/SectionHeading';
 import { personalInfo } from '../../data/portfolioData';
+import { Card3D } from '../common/Card3D';
 
 const corePillars = [
   {
@@ -59,82 +60,87 @@ export const About: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left Column: Narrative with Profile Card & Detailed Background */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: -35 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.6 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-6 space-y-6"
           >
-            <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-electricBlue/20 space-y-5 shadow-card-glow">
-              {/* Profile Header Block Featuring Divakar's Original Photo */}
-              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 pb-5 border-b border-slate-800">
-                <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-2 border-electricBlue/40 group shadow-neon-blue shrink-0">
-                  <img
-                    src={personalInfo.profileImage}
-                    alt="Divakar S. - SKCET"
-                    className="w-full h-full object-cover object-[center_18%] group-hover:scale-105 transition-transform duration-500"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-darkBg/60 via-transparent to-transparent pointer-events-none" />
+            <Card3D maxTilt={4} scaleHover={1.01}>
+              <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-electricBlue/20 space-y-5 shadow-card-glow">
+                {/* Profile Header Block Featuring Divakar's Original Photo */}
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 pb-5 border-b border-slate-800">
+                  <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-2 border-electricBlue/40 group shadow-neon-blue shrink-0">
+                    <img
+                      src={personalInfo.profileImage}
+                      alt="Divakar S. - SKCET"
+                      className="w-full h-full object-cover object-[center_18%] group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-darkBg/60 via-transparent to-transparent pointer-events-none" />
+                  </div>
+
+                  <div className="space-y-1.5 text-center sm:text-left">
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-900 border border-electricBlue/30 text-[10px] font-mono text-cyanAccent uppercase">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      Verified Student Profile
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-bold text-white">
+                      {personalInfo.name}
+                    </h3>
+                    <div className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-cyanAccent/90 font-mono">
+                      <GraduationCap className="w-3.5 h-3.5 text-electricBlue shrink-0" />
+                      <span>B.Tech Information Technology</span>
+                    </div>
+                    <div className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-mutedText">
+                      <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                      <span>{personalInfo.college}, {personalInfo.location}</span>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="space-y-1.5 text-center sm:text-left">
-                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-900 border border-electricBlue/30 text-[10px] font-mono text-cyanAccent uppercase">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    Verified Student Profile
+                {/* Narrative Paragraphs */}
+                <p className="text-sm sm:text-base text-mutedText leading-relaxed">
+                  I am currently pursuing my <span className="text-lightWhite font-medium">B.Tech in Information Technology</span> at{' '}
+                  <span className="text-cyanAccent font-medium">Sri Krishna College of Engineering and Technology (SKCET)</span> in Coimbatore, Tamil Nadu.
+                </p>
+
+                <p className="text-sm sm:text-base text-mutedText leading-relaxed">
+                  My technical interests center on software development, AI-integrated applications, UI/UX design, and data analytics. I enjoy deconstructing real-world bottlenecks—whether that means designing a transparent civic grievance portal or conceptualizing an equitable cooperative services architecture.
+                </p>
+
+                <p className="text-sm sm:text-base text-mutedText leading-relaxed">
+                  Rather than chasing buzzwords, I prioritize solid fundamentals: understanding data structures, writing clear code in Java and C++, structuring relational databases with MySQL, and learning through active project building and workshop participation.
+                </p>
+
+                {/* Core Attributes Checklist */}
+                <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 border-t border-slate-800">
+                  <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
+                    <CheckCircle2 className="w-4 h-4 text-cyanAccent shrink-0" />
+                    <span>Disciplined Problem Solving</span>
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white">
-                    {personalInfo.name}
-                  </h3>
-                  <div className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-cyanAccent/90 font-mono">
-                    <GraduationCap className="w-3.5 h-3.5 text-electricBlue shrink-0" />
-                    <span>B.Tech Information Technology</span>
+                  <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
+                    <CheckCircle2 className="w-4 h-4 text-cyanAccent shrink-0" />
+                    <span>Active Codebase Building</span>
                   </div>
-                  <div className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-mutedText">
-                    <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-                    <span>{personalInfo.college}, {personalInfo.location}</span>
+                  <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
+                    <CheckCircle2 className="w-4 h-4 text-cyanAccent shrink-0" />
+                    <span>Cross-functional Teamwork</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
+                    <CheckCircle2 className="w-4 h-4 text-cyanAccent shrink-0" />
+                    <span>Continuous Self-Learning</span>
                   </div>
                 </div>
               </div>
+            </Card3D>
 
-              {/* Narrative Paragraphs */}
-              <p className="text-sm sm:text-base text-mutedText leading-relaxed">
-                I am currently pursuing my <span className="text-lightWhite font-medium">B.Tech in Information Technology</span> at{' '}
-                <span className="text-cyanAccent font-medium">Sri Krishna College of Engineering and Technology (SKCET)</span> in Coimbatore, Tamil Nadu.
-              </p>
-
-              <p className="text-sm sm:text-base text-mutedText leading-relaxed">
-                My technical interests center on software development, AI-integrated applications, UI/UX design, and data analytics. I enjoy deconstructing real-world bottlenecks—whether that means designing a transparent civic grievance portal or conceptualizing an equitable cooperative services architecture.
-              </p>
-
-              <p className="text-sm sm:text-base text-mutedText leading-relaxed">
-                Rather than chasing buzzwords, I prioritize solid fundamentals: understanding data structures, writing clear code in Java and C++, structuring relational databases with MySQL, and learning through active project building and workshop participation.
-              </p>
-
-              {/* Core Attributes Checklist */}
-              <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 border-t border-slate-800">
-                <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
-                  <CheckCircle2 className="w-4 h-4 text-cyanAccent shrink-0" />
-                  <span>Disciplined Problem Solving</span>
-                </div>
-                <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
-                  <CheckCircle2 className="w-4 h-4 text-cyanAccent shrink-0" />
-                  <span>Active Codebase Building</span>
-                </div>
-                <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
-                  <CheckCircle2 className="w-4 h-4 text-cyanAccent shrink-0" />
-                  <span>Cross-functional Teamwork</span>
-                </div>
-                <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
-                  <CheckCircle2 className="w-4 h-4 text-cyanAccent shrink-0" />
-                  <span>Continuous Self-Learning</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Verified Academic & Milestone Counters */}
+            {/* Verified Academic & Milestone Counters with 3D Depth */}
             <div className="grid grid-cols-3 gap-4">
-              <div className="glass-panel p-4 rounded-xl border border-electricBlue/20 text-center">
+              <motion.div
+                whileHover={{ scale: 1.03, y: -2 }}
+                className="glass-panel p-4 rounded-xl border border-electricBlue/20 text-center shadow-card-glow transition-all"
+              >
                 <div className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-sky-300 font-mono">
                   9.2
                 </div>
@@ -144,9 +150,12 @@ export const About: React.FC = () => {
                 <div className="text-[10px] text-mutedText/70 mt-0.5">
                   Up to 2nd Sem
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="glass-panel p-4 rounded-xl border border-electricBlue/20 text-center">
+              <motion.div
+                whileHover={{ scale: 1.03, y: -2 }}
+                className="glass-panel p-4 rounded-xl border border-electricBlue/20 text-center shadow-card-glow transition-all"
+              >
                 <div className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-sky-300 font-mono">
                   3
                 </div>
@@ -156,9 +165,12 @@ export const About: React.FC = () => {
                 <div className="text-[10px] text-mutedText/70 mt-0.5">
                   Civic, Service & ML
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="glass-panel p-4 rounded-xl border border-electricBlue/20 text-center">
+              <motion.div
+                whileHover={{ scale: 1.03, y: -2 }}
+                className="glass-panel p-4 rounded-xl border border-electricBlue/20 text-center shadow-card-glow transition-all"
+              >
                 <div className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-sky-300 font-mono">
                   3+
                 </div>
@@ -168,11 +180,11 @@ export const About: React.FC = () => {
                 <div className="text-[10px] text-mutedText/70 mt-0.5">
                   Samsung, Adobe, SIH
                 </div>
-              </div>
+              </motion.div>
             </div>
           </motion.div>
 
-          {/* Right Column: 4 Core Pillars Grid */}
+          {/* Right Column: 4 Core Pillars Grid with 3D Tilt */}
           <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
             {corePillars.map((pillar, idx) => {
               const Icon = pillar.icon;
@@ -182,20 +194,32 @@ export const About: React.FC = () => {
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-50px' }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className={`glass-panel p-6 rounded-2xl border ${pillar.border} hover:border-cyanAccent transition-all duration-300 hover:-translate-y-1 group`}
+                  transition={{
+                    duration: 0.55,
+                    delay: idx * 0.1,
+                    ease: [0.16, 1, 0.3, 1]
+                  }}
+                  className="h-full"
                 >
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${pillar.gradient} flex items-center justify-center mb-4 border border-electricBlue/30 group-hover:scale-110 transition-transform`}>
-                    <Icon className="w-6 h-6 text-cyanAccent" />
-                  </div>
+                  <Card3D maxTilt={6} scaleHover={1.02} className="h-full">
+                    <div
+                      className={`glass-panel p-6 rounded-2xl border ${pillar.border} hover:border-cyanAccent transition-all duration-300 group h-full flex flex-col justify-between`}
+                    >
+                      <div>
+                        <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${pillar.gradient} flex items-center justify-center mb-4 border border-electricBlue/30 group-hover:scale-110 transition-transform duration-300`}>
+                          <Icon className="w-6 h-6 text-cyanAccent" />
+                        </div>
 
-                  <h4 className="text-base font-bold text-white mb-2 group-hover:text-cyanAccent transition-colors">
-                    {pillar.title}
-                  </h4>
+                        <h4 className="text-base font-bold text-white mb-2 group-hover:text-cyanAccent transition-colors">
+                          {pillar.title}
+                        </h4>
 
-                  <p className="text-xs sm:text-sm text-mutedText leading-relaxed">
-                    {pillar.description}
-                  </p>
+                        <p className="text-xs sm:text-sm text-mutedText leading-relaxed">
+                          {pillar.description}
+                        </p>
+                      </div>
+                    </div>
+                  </Card3D>
                 </motion.div>
               );
             })}

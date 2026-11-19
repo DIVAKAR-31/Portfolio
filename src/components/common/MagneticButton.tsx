@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 interface MagneticButtonProps {
   children: React.ReactNode;
@@ -23,25 +23,36 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
   ariaLabel
 }) => {
   const buttonRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  // High-fidelity magnetic spring physics
+  const springConfig = { stiffness: 350, damping: 18, mass: 0.2 };
+  const smoothX = useSpring(x, springConfig);
+  const smoothY = useSpring(y, springConfig);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!buttonRef.current) return;
     const { clientX, clientY } = e;
     const { left, top, width, height } = buttonRef.current.getBoundingClientRect();
-    const x = (clientX - (left + width / 2)) * 0.25;
-    const y = (clientY - (top + height / 2)) * 0.25;
-    setPosition({ x, y });
+    const distanceX = clientX - (left + width / 2);
+    const distanceY = clientY - (top + height / 2);
+
+    // Magnetic pull strength
+    x.set(distanceX * 0.35);
+    y.set(distanceY * 0.35);
   };
 
   const handleMouseLeave = () => {
-    setPosition({ x: 0, y: 0 });
+    x.set(0);
+    y.set(0);
   };
 
   const getVariantStyles = () => {
     switch (variant) {
       case 'primary':
-        return 'bg-gradient-to-r from-primaryBlue to-sky-500 hover:from-blue-600 hover:to-cyan-400 text-white font-medium shadow-neon-blue border border-electricBlue/40';
+        return 'bg-gradient-to-r from-primaryBlue via-sky-500 to-cyan-400 hover:from-blue-600 hover:via-sky-400 hover:to-cyan-300 text-white font-medium shadow-neon-blue border border-electricBlue/40';
       case 'secondary':
         return 'glass-panel text-white hover:bg-slate-800/80 border border-electricBlue/30 hover:border-cyanAccent';
       case 'outline':
@@ -53,20 +64,21 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
     }
   };
 
-  const baseStyles = "relative inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl transition-colors duration-300 font-sans text-sm tracking-wide overflow-hidden group select-none";
+  const baseStyles = "relative inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl transition-all duration-300 font-sans text-sm tracking-wide overflow-hidden group select-none";
 
   const content = (
     <motion.div
       ref={buttonRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      animate={{ x: position.x, y: position.y }}
-      transition={{ type: 'spring', stiffness: 250, damping: 20, mass: 0.5 }}
+      style={{ x: smoothX, y: smoothY }}
+      whileTap={{ scale: 0.96 }}
+      whileHover={{ scale: 1.03 }}
       className="inline-block"
     >
       <div className={`${baseStyles} ${getVariantStyles()} ${className}`}>
-        {/* Subtle hover gleam effect */}
-        <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none" />
+        {/* Cinematic light sweep across the button */}
+        <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none" />
         {children}
       </div>
     </motion.div>
@@ -86,4 +98,3 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
     </div>
   );
 };
-

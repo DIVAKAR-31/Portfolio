@@ -134,22 +134,26 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
 
           {/* Action Buttons & Socials */}
           <div className="hidden lg:flex items-center gap-3">
-            {/* Replay Intro Button */}
+            {/* Replay Intro Button with Animated Sparkle */}
             {onReplayIntro && (
-              <button
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={onReplayIntro}
                 title="Replay Cinematic Comet Intro"
                 aria-label="Replay Cinematic Comet Intro"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/60 border border-electricBlue/20 text-xs text-mutedText hover:text-cyanAccent hover:border-cyanAccent/50 transition-all group"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/80 border border-electricBlue/30 text-xs text-mutedText hover:text-cyanAccent hover:border-cyanAccent transition-all shadow-sm group"
               >
-                <Sparkles className="w-3.5 h-3.5 text-electricBlue group-hover:rotate-12 transition-transform" />
+                <Sparkles className="w-3.5 h-3.5 text-cyanAccent group-hover:rotate-45 transition-transform duration-300" />
                 <span className="font-mono text-[11px]">Replay Intro</span>
-              </button>
+              </motion.button>
             )}
 
             {/* Social Links */}
             <div className="flex items-center gap-2 pl-2 border-l border-slate-800">
-              <a
+              <motion.a
+                whileHover={{ scale: 1.1, y: -1 }}
+                whileTap={{ scale: 0.95 }}
                 href={personalInfo.github}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -158,8 +162,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
                 className="w-8 h-8 rounded-lg bg-darkCard/70 border border-slate-700/60 flex items-center justify-center text-mutedText hover:text-white hover:border-electricBlue transition-all shadow-sm"
               >
                 <Github className="w-4 h-4" />
-              </a>
-              <a
+              </motion.a>
+              <motion.a
+                whileHover={{ scale: 1.1, y: -1 }}
+                whileTap={{ scale: 0.95 }}
                 href={personalInfo.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -168,20 +174,22 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro }) => {
                 className="w-8 h-8 rounded-lg bg-darkCard/70 border border-slate-700/60 flex items-center justify-center text-mutedText hover:text-white hover:border-electricBlue transition-all shadow-sm"
               >
                 <Linkedin className="w-4 h-4" />
-              </a>
+              </motion.a>
             </div>
 
             {/* Contact CTA */}
-            <a
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.96 }}
               href="#contact"
               onClick={(e) => {
                 e.preventDefault();
                 handleLinkClick('#contact');
               }}
-              className="px-4 py-2 rounded-xl bg-gradient-to-r from-primaryBlue to-sky-500 hover:from-blue-600 hover:to-cyan-400 text-white text-xs font-semibold tracking-wider uppercase transition-all shadow-neon-blue border border-electricBlue/30 hover:scale-105"
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-primaryBlue via-sky-500 to-cyan-400 text-white text-xs font-semibold tracking-wider uppercase transition-all shadow-neon-blue border border-electricBlue/30"
             >
               Contact Me
-            </a>
+            </motion.a>
           </div>
 
           {/* Mobile Hamburger Button */}

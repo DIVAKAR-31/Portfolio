@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { SectionHeading } from '../common/SectionHeading';
 import { hackathonsData } from '../../data/portfolioData';
+import { Card3D } from '../common/Card3D';
 
 export const Hackathons: React.FC = () => {
   return (
@@ -25,88 +26,92 @@ export const Hackathons: React.FC = () => {
           subtitle="Real-world problem-solving, rapid time-boxed development sprints, and collegiate innovation challenges."
         />
 
-        {/* Hackathon Cards Grid */}
+        {/* Hackathon Cards Grid with 3D Depth */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {hackathonsData.map((item, idx) => {
-            const isSamsung = item.id === 'samsung-hackathon';
-            const isAdobe = item.id === 'adobe-hackathon';
-            const isSIH = item.id === 'smart-india-hackathon';
-
             return (
               <motion.div
                 key={item.id}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 35 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.5, delay: idx * 0.15 }}
-                className="group relative rounded-3xl glass-panel border border-electricBlue/20 hover:border-cyanAccent transition-all duration-300 flex flex-col justify-between overflow-hidden p-6 sm:p-7 hover:-translate-y-1.5 shadow-card-glow"
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{
+                  duration: 0.6,
+                  delay: idx * 0.15,
+                  ease: [0.16, 1, 0.3, 1]
+                }}
+                className="h-full"
               >
-                <div>
-                  {/* Top Header Badge & Tag */}
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="font-mono text-xs font-bold px-3 py-1 rounded-full bg-slate-900 border border-electricBlue/30 text-cyanAccent">
-                      {item.badge}
-                    </span>
+                <Card3D maxTilt={5} scaleHover={1.015} className="h-full">
+                  <div className="group relative rounded-3xl glass-panel border border-electricBlue/20 hover:border-cyanAccent transition-all duration-300 flex flex-col justify-between overflow-hidden p-6 sm:p-7 shadow-card-glow h-full">
+                    <div>
+                      {/* Top Header Badge & Tag */}
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="font-mono text-xs font-bold px-3 py-1 rounded-full bg-slate-900 border border-electricBlue/30 text-cyanAccent">
+                          {item.badge}
+                        </span>
 
-                    <span className="text-[10px] font-mono text-mutedText/80 uppercase">
-                      {item.role}
-                    </span>
-                  </div>
-
-                  {/* Event Title */}
-                  <h3 className="text-xl font-bold text-white group-hover:text-cyanAccent transition-colors mb-1">
-                    {item.title}
-                  </h3>
-
-                  {/* Organizer & Edition */}
-                  <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-400 mb-4">
-                    <span className="text-electricBlue font-semibold">{item.organizer}</span>
-                    <span>•</span>
-                    <span>{item.edition}</span>
-                  </div>
-
-                  {/* Participation Description */}
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-5 font-sans">
-                    {item.participationDescription}
-                  </p>
-
-                  {/* Problem Statement Box */}
-                  {item.problemStatement && (
-                    <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1 mb-4">
-                      <div className="text-[10px] font-mono text-cyanAccent uppercase tracking-wider flex items-center gap-1.5">
-                        <Lightbulb className="w-3 h-3 text-cyanAccent" />
-                        Problem Focus
+                        <span className="text-[10px] font-mono text-mutedText/80 uppercase">
+                          {item.role}
+                        </span>
                       </div>
-                      <p className="text-xs text-slate-300 leading-snug">
-                        {item.problemStatement}
-                      </p>
-                    </div>
-                  )}
 
-                  {/* Project / Submission Details */}
-                  {item.projectOrSubmission && (
-                    <div className="space-y-1 mb-4">
-                      <div className="text-[10px] font-mono text-mutedText uppercase tracking-wider">
-                        Submission / Outcome:
+                      {/* Event Title */}
+                      <h3 className="text-xl font-bold text-white group-hover:text-cyanAccent transition-colors mb-1">
+                        {item.title}
+                      </h3>
+
+                      {/* Organizer & Edition */}
+                      <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-400 mb-4">
+                        <span className="text-electricBlue font-semibold">{item.organizer}</span>
+                        <span>•</span>
+                        <span>{item.edition}</span>
                       </div>
-                      <p className="text-xs text-slate-300">
-                        {item.projectOrSubmission}
+
+                      {/* Participation Description */}
+                      <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-5 font-sans">
+                        {item.participationDescription}
                       </p>
+
+                      {/* Problem Statement Box */}
+                      {item.problemStatement && (
+                        <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1 mb-4">
+                          <div className="text-[10px] font-mono text-cyanAccent uppercase tracking-wider flex items-center gap-1.5">
+                            <Lightbulb className="w-3 h-3 text-cyanAccent" />
+                            Problem Focus
+                          </div>
+                          <p className="text-xs text-slate-300 leading-snug">
+                            {item.problemStatement}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Project / Submission Details */}
+                      {item.projectOrSubmission && (
+                        <div className="space-y-1 mb-4">
+                          <div className="text-[10px] font-mono text-mutedText uppercase tracking-wider">
+                            Submission / Outcome:
+                          </div>
+                          <p className="text-xs text-slate-300">
+                            {item.projectOrSubmission}
+                          </p>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
 
-                {/* Team Info / Footer */}
-                <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-mutedText">
-                  <div className="flex items-center gap-1.5">
-                    <Users className="w-3.5 h-3.5 text-electricBlue" />
-                    <span className="truncate max-w-[200px]">{item.teamDetails}</span>
+                    {/* Team Info / Footer */}
+                    <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-mutedText">
+                      <div className="flex items-center gap-1.5">
+                        <Users className="w-3.5 h-3.5 text-electricBlue" />
+                        <span className="truncate max-w-[200px]">{item.teamDetails}</span>
+                      </div>
+
+                      <span className="text-emerald-400 text-[10px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                        Verified Entry
+                      </span>
+                    </div>
                   </div>
-
-                  <span className="text-emerald-400 text-[10px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-                    Verified Entry
-                  </span>
-                </div>
+                </Card3D>
               </motion.div>
             );
           })}
@@ -115,4 +120,3 @@ export const Hackathons: React.FC = () => {
     </section>
   );
 };
-

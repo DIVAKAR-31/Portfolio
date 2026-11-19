@@ -16,6 +16,7 @@ import {
 import { SectionHeading } from '../common/SectionHeading';
 import { workshopsData } from '../../data/portfolioData';
 import { WorkshopEntry } from '../../types/portfolio';
+import { Card3D } from '../common/Card3D';
 
 const workshopIcons: Record<string, React.ElementType> = {
   'fabric-workshop': Database,
@@ -35,7 +36,7 @@ export const Workshops: React.FC = () => {
           subtitle="Immersive hands-on workshops, enterprise analytics deep dives, and cutting-edge developer paradigms."
         />
 
-        {/* Workshop Cards Grid */}
+        {/* Workshop Cards Grid with 3D depth and scroll animations */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {workshopsData.map((item, idx) => {
             const Icon = workshopIcons[item.id] || Laptop;
@@ -43,82 +44,90 @@ export const Workshops: React.FC = () => {
             return (
               <motion.div
                 key={item.id}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 35 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.5, delay: idx * 0.15 }}
-                className="group relative rounded-3xl glass-panel border border-electricBlue/20 hover:border-cyanAccent transition-all duration-300 flex flex-col justify-between overflow-hidden p-6 sm:p-7 hover:-translate-y-1.5 shadow-card-glow"
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{
+                  duration: 0.6,
+                  delay: idx * 0.15,
+                  ease: [0.16, 1, 0.3, 1]
+                }}
+                className="h-full"
               >
-                <div>
-                  {/* Top Badge & Icon */}
-                  <div className="flex items-center justify-between mb-5">
-                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-electricBlue/20 to-primaryBlue/20 border border-electricBlue/30 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Icon className="w-6 h-6 text-cyanAccent" />
-                    </div>
+                <Card3D maxTilt={5} scaleHover={1.015} className="h-full">
+                  <div className="group relative rounded-3xl glass-panel border border-electricBlue/20 hover:border-cyanAccent transition-all duration-300 flex flex-col justify-between overflow-hidden p-6 sm:p-7 shadow-card-glow h-full">
+                    <div>
+                      {/* Top Badge & Icon */}
+                      <div className="flex items-center justify-between mb-5">
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-electricBlue/20 to-primaryBlue/20 border border-electricBlue/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                          <Icon className="w-6 h-6 text-cyanAccent" />
+                        </div>
 
-                    <span className={`text-[10px] font-mono uppercase px-3 py-1 rounded-full border ${item.badgeColor}`}>
-                      Interactive Workshop
-                    </span>
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="text-xl font-bold text-white group-hover:text-cyanAccent transition-colors mb-2">
-                    {item.title}
-                  </h3>
-
-                  {/* Organizer & Date */}
-                  <div className="space-y-1 mb-4 text-xs font-mono text-mutedText">
-                    <div className="flex items-center gap-1.5 text-slate-300">
-                      <span className="text-cyanAccent font-semibold">Organizer:</span> {item.organizer}
-                    </div>
-                    {item.date && (
-                      <div className="flex items-center gap-1.5 text-slate-400">
-                        <Calendar className="w-3.5 h-3.5 text-electricBlue" />
-                        <span>{item.date}</span>
+                        <span className={`text-[10px] font-mono uppercase px-3 py-1 rounded-full border ${item.badgeColor}`}>
+                          Interactive Workshop
+                        </span>
                       </div>
-                    )}
-                  </div>
 
-                  {/* Description */}
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6 font-sans">
-                    {item.description}
-                  </p>
+                      {/* Title */}
+                      <h3 className="text-xl font-bold text-white group-hover:text-cyanAccent transition-colors mb-2">
+                        {item.title}
+                      </h3>
 
-                  {/* Highlights Bullet List */}
-                  <div className="space-y-2 mb-6">
-                    <div className="text-[11px] font-mono text-cyanAccent uppercase tracking-wider mb-2">
-                      Key Learnings & Focus:
-                    </div>
-                    {item.highlights.slice(0, 3).map((hl, hIdx) => (
-                      <div key={hIdx} className="flex items-start gap-2 text-xs text-mutedText">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-cyanAccent shrink-0 mt-0.5" />
-                        <span className="leading-snug">{hl}</span>
+                      {/* Organizer & Date */}
+                      <div className="space-y-1 mb-4 text-xs font-mono text-mutedText">
+                        <div className="flex items-center gap-1.5 text-slate-300">
+                          <span className="text-cyanAccent font-semibold">Organizer:</span> {item.organizer}
+                        </div>
+                        {item.date && (
+                          <div className="flex items-center gap-1.5 text-slate-400">
+                            <Calendar className="w-3.5 h-3.5 text-electricBlue" />
+                            <span>{item.date}</span>
+                          </div>
+                        )}
                       </div>
-                    ))}
-                  </div>
-                </div>
 
-                {/* Skills Gained Tags & Details Trigger */}
-                <div className="pt-4 border-t border-slate-800/80">
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {item.skillsGained.map((skill) => (
-                      <span
-                        key={skill}
-                        className="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-800 text-[10px] font-mono text-cyanAccent/90"
+                      {/* Description */}
+                      <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6 font-sans">
+                        {item.description}
+                      </p>
+
+                      {/* Highlights Bullet List */}
+                      <div className="space-y-2 mb-6">
+                        <div className="text-[11px] font-mono text-cyanAccent uppercase tracking-wider mb-2">
+                          Key Learnings & Focus:
+                        </div>
+                        {item.highlights.slice(0, 3).map((hl, hIdx) => (
+                          <div key={hIdx} className="flex items-start gap-2 text-xs text-mutedText">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-cyanAccent shrink-0 mt-0.5" />
+                            <span className="leading-snug">{hl}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Skills Gained Tags & Details Trigger */}
+                    <div className="pt-4 border-t border-slate-800/80">
+                      <div className="flex flex-wrap gap-1.5 mb-4">
+                        {item.skillsGained.map((skill) => (
+                          <span
+                            key={skill}
+                            className="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-800 text-[10px] font-mono text-cyanAccent/90"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+
+                      <button
+                        onClick={() => setSelectedWorkshop(item)}
+                        className="w-full py-2 px-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-electricBlue/20 hover:border-cyanAccent text-xs font-mono text-slate-300 hover:text-cyanAccent transition-all flex items-center justify-center gap-2 group-hover:border-electricBlue/40"
                       >
-                        {skill}
-                      </span>
-                    ))}
+                        <span>View Workshop Insights</span>
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                      </button>
+                    </div>
                   </div>
-
-                  <button
-                    onClick={() => setSelectedWorkshop(item)}
-                    className="w-full py-2 px-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-electricBlue/20 hover:border-cyanAccent text-xs font-mono text-slate-300 hover:text-cyanAccent transition-all flex items-center justify-center gap-2"
-                  >
-                    <span>View Workshop Insights</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
+                </Card3D>
               </motion.div>
             );
           })}
@@ -134,8 +143,10 @@ export const Workshops: React.FC = () => {
           />
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, scale: 0.94, y: 15 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.94, y: 15 }}
+            transition={{ duration: 0.3 }}
             className="relative glass-modal rounded-3xl p-6 sm:p-8 max-w-xl w-full z-10 border border-electricBlue/30 shadow-2xl"
           >
             <div className="flex items-start justify-between mb-4">
@@ -189,4 +200,3 @@ export const Workshops: React.FC = () => {
     </section>
   );
 };
-

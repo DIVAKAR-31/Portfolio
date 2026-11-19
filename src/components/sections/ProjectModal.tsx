@@ -155,6 +155,14 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
 
           {/* Modal Scrollable Body */}
           <div className="px-6 sm:px-8 py-6 overflow-y-auto space-y-6 flex-1 text-sm text-slate-300">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.25, ease: 'easeOut' }}
+              >
             {activeTab === 'overview' && (
               <div className="space-y-6">
                 <div>
@@ -551,6 +559,8 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                 )}
               </div>
             )}
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           {/* Footer Bar */}
