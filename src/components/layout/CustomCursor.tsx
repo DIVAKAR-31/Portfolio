@@ -5,12 +5,11 @@ export const CustomCursor: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [cursorType, setCursorType] = useState<'default' | 'pointer' | 'text'>('default');
 
-  // Raw mouse coordinates
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
 
-  // Smooth springs for outer subtle shine ring
-  const springConfig = { damping: 28, stiffness: 300, mass: 0.35 };
+  // Smooth spring for subtle luminous shine follow
+  const springConfig = { damping: 28, stiffness: 320, mass: 0.3 };
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
@@ -24,7 +23,6 @@ export const CustomCursor: React.FC = () => {
 
       if (!isVisible) setIsVisible(true);
 
-      // Detect hover target
       const target = e.target as HTMLElement | null;
       if (target) {
         if (
@@ -64,40 +62,36 @@ export const CustomCursor: React.FC = () => {
   if (!isVisible) return null;
 
   const isPointer = cursorType === 'pointer';
-  const isText = cursorType === 'text';
 
   return (
     <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden hidden md:block">
-      {/* Sleek Center Dot */}
+      {/* Soft Luminous Cursor Shine (Pure borderless radial light shine, zero bubble round) */}
       <motion.div
-        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-white shadow-[0_0_10px_#38bdf8] -translate-x-1/2 -translate-y-1/2"
-        style={{
-          x: mouseX,
-          y: mouseY,
-        }}
-        animate={{
-          scale: isPointer ? 1.4 : isText ? 0.6 : 1,
-          backgroundColor: isPointer ? '#22D3EE' : '#FFFFFF',
-        }}
-        transition={{ duration: 0.15 }}
-      />
-
-      {/* Outer Subtle Shine / Glow (No bubbles, clean minimal aura) */}
-      <motion.div
-        className="fixed top-0 left-0 rounded-full border border-electricBlue/35 bg-sky-500/5 -translate-x-1/2 -translate-y-1/2 transition-colors duration-200"
+        className="fixed top-0 left-0 w-24 h-24 pointer-events-none -translate-x-1/2 -translate-y-1/2 blur-[8px]"
         style={{
           x: smoothX,
           y: smoothY,
-          width: isPointer ? 44 : isText ? 16 : 30,
-          height: isPointer ? 44 : isText ? 34 : 30,
-          borderRadius: isText ? '4px' : '9999px',
-          borderColor: isPointer
-            ? 'rgba(34, 211, 238, 0.7)'
-            : 'rgba(56, 189, 248, 0.3)',
-          boxShadow: isPointer
-            ? '0 0 20px rgba(34, 211, 238, 0.3)'
-            : '0 0 10px rgba(56, 189, 248, 0.15)',
+          background: isPointer
+            ? 'radial-gradient(circle, rgba(34, 211, 238, 0.45) 0%, rgba(56, 189, 248, 0.2) 35%, transparent 70%)'
+            : 'radial-gradient(circle, rgba(56, 189, 248, 0.3) 0%, rgba(37, 99, 235, 0.1) 40%, transparent 70%)',
         }}
+      />
+
+      {/* Crisp White/Cyan Center Pointer Dot with soft light glow */}
+      <motion.div
+        className="fixed top-0 left-0 w-2 h-2 rounded-full -translate-x-1/2 -translate-y-1/2"
+        style={{
+          x: mouseX,
+          y: mouseY,
+          backgroundColor: isPointer ? '#22D3EE' : '#FFFFFF',
+          boxShadow: isPointer
+            ? '0 0 14px #22D3EE, 0 0 4px #FFFFFF'
+            : '0 0 10px #38BDF8, 0 0 3px #FFFFFF',
+        }}
+        animate={{
+          scale: isPointer ? 1.4 : 1,
+        }}
+        transition={{ duration: 0.15 }}
       />
     </div>
   );
