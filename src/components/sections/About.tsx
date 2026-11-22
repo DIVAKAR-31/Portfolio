@@ -178,7 +178,7 @@ export const About: React.FC = () => {
                   Hackathons
                 </div>
                 <div className="text-[10px] text-mutedText/70 mt-0.5">
-                  Samsung, Adobe, SIH
+                  Adobe, SIH
                 </div>
               </motion.div>
             </div>

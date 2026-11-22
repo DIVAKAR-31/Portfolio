@@ -11,7 +11,9 @@ import {
   Code2,
   Cloud,
   ExternalLink,
-  Laptop
+  Laptop,
+  Terminal,
+  Linkedin
 } from 'lucide-react';
 import { SectionHeading } from '../common/SectionHeading';
 import { workshopsData } from '../../data/portfolioData';
@@ -19,9 +21,8 @@ import { WorkshopEntry } from '../../types/portfolio';
 import { Card3D } from '../common/Card3D';
 
 const workshopIcons: Record<string, React.ElementType> = {
-  'fabric-workshop': Database,
+  'operation-code-heist': Terminal,
   'vibe-coding': Code2,
-  'aws-event': Cloud,
 };
 
 export const Workshops: React.FC = () => {
@@ -31,13 +32,13 @@ export const Workshops: React.FC = () => {
     <section id="workshops" className="relative py-24 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeading
-          badge="Continuous Technical Upskilling"
-          title="Workshops & Technical Experiences"
-          subtitle="Immersive hands-on workshops, enterprise analytics deep dives, and cutting-edge developer paradigms."
+          badge="Technical Contests & Practical Learning"
+          title="Workshops & Contests"
+          subtitle="Competitive coding challenges, collegiate innovation events, and practical developer paradigms."
         />
 
         {/* Workshop Cards Grid with 3D depth and scroll animations */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {workshopsData.map((item, idx) => {
             const Icon = workshopIcons[item.id] || Laptop;
 
@@ -64,7 +65,7 @@ export const Workshops: React.FC = () => {
                         </div>
 
                         <span className={`text-[10px] font-mono uppercase px-3 py-1 rounded-full border ${item.badgeColor}`}>
-                          Interactive Workshop
+                          {item.category || "Interactive Workshop"}
                         </span>
                       </div>
 
@@ -73,11 +74,20 @@ export const Workshops: React.FC = () => {
                         {item.title}
                       </h3>
 
-                      {/* Organizer & Date */}
+                      {/* Organizer, Institution & Date */}
                       <div className="space-y-1 mb-4 text-xs font-mono dark:text-mutedText text-slate-500">
-                        <div className="flex items-center gap-1.5 dark:text-slate-300 text-slate-700">
-                          <span className="text-cyanAccent font-semibold">Organizer:</span> {item.organizer}
+                        <div className="flex items-start gap-1.5 dark:text-slate-300 text-slate-700">
+                          <span className="text-cyanAccent font-semibold shrink-0">Organizer:</span>
+                          <span>{item.organizer}</span>
                         </div>
+                        {item.institution && (
+                          <div className="flex items-start gap-1.5 text-slate-400">
+                            <span className="text-electricBlue font-semibold shrink-0">
+                              {item.id === 'vibe-coding' ? 'Venue:' : 'Institution:'}
+                            </span>
+                            <span>{item.institution}</span>
+                          </div>
+                        )}
                         {item.date && (
                           <div className="flex items-center gap-1.5 text-slate-400">
                             <Calendar className="w-3.5 h-3.5 text-electricBlue" />
@@ -118,13 +128,27 @@ export const Workshops: React.FC = () => {
                         ))}
                       </div>
 
-                      <button
-                        onClick={() => setSelectedWorkshop(item)}
-                        className="w-full py-2 px-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-electricBlue/20 hover:border-cyanAccent text-xs font-mono text-slate-300 hover:text-cyanAccent transition-all flex items-center justify-center gap-2 group-hover:border-electricBlue/40"
-                      >
-                        <span>View Workshop Insights</span>
-                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                      </button>
+                      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                        <button
+                          onClick={() => setSelectedWorkshop(item)}
+                          className="flex-1 py-2 px-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-electricBlue/20 hover:border-cyanAccent text-xs font-mono text-slate-300 hover:text-cyanAccent transition-all flex items-center justify-center gap-2 group-hover:border-electricBlue/40"
+                        >
+                          <span>View Insights</span>
+                          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                        </button>
+                        {item.linkUrl && (
+                          <a
+                            href={item.linkUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="py-2 px-3 rounded-xl bg-slate-900 border border-electricBlue/30 hover:border-cyanAccent text-xs font-mono text-cyanAccent hover:text-white transition-all flex items-center justify-center gap-1.5 shadow-sm whitespace-nowrap shrink-0"
+                            title="View on LinkedIn"
+                          >
+                            <Linkedin className="w-3.5 h-3.5 text-cyanAccent" />
+                            <span>View on LinkedIn</span>
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </Card3D>
@@ -152,14 +176,22 @@ export const Workshops: React.FC = () => {
             <div className="flex items-start justify-between mb-4">
               <div>
                 <span className="text-[11px] font-mono text-cyanAccent uppercase tracking-widest block mb-1">
-                  WORKSHOP DEEP DIVE
+                  {selectedWorkshop.category ? selectedWorkshop.category.toUpperCase() : 'EVENT DEEP DIVE'}
                 </span>
                 <h3 className="text-xl sm:text-2xl font-bold text-white">
                   {selectedWorkshop.title}
                 </h3>
                 <p className="text-xs font-mono text-slate-400 mt-1">
-                  {selectedWorkshop.organizer} • {selectedWorkshop.date}
+                  {selectedWorkshop.organizer} {selectedWorkshop.date ? `• ${selectedWorkshop.date}` : ''}
                 </p>
+                {selectedWorkshop.institution && (
+                  <p className="text-xs font-mono text-slate-400 mt-0.5">
+                    <span className="text-electricBlue font-semibold">
+                      {selectedWorkshop.id === 'vibe-coding' ? 'Venue: ' : 'Institution: '}
+                    </span>
+                    {selectedWorkshop.institution}
+                  </p>
+                )}
               </div>
 
               <button
@@ -186,7 +218,20 @@ export const Workshops: React.FC = () => {
               ))}
             </div>
 
-            <div className="pt-4 border-t border-slate-800 flex justify-end">
+            <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
+              {selectedWorkshop.linkUrl ? (
+                <a
+                  href={selectedWorkshop.linkUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-cyanAccent/10 border border-cyanAccent/30 hover:border-cyanAccent text-xs font-mono text-cyanAccent hover:text-white transition-all"
+                >
+                  <Linkedin className="w-3.5 h-3.5" />
+                  <span>View LinkedIn Post</span>
+                  <ExternalLink className="w-3 h-3 text-cyanAccent" />
+                </a>
+              ) : <div />}
+
               <button
                 onClick={() => setSelectedWorkshop(null)}
                 className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-mono text-white transition-colors"

@@ -10,7 +10,9 @@ import {
   BarChart2,
   Users2,
   Workflow,
-  CheckCircle2
+  CheckCircle2,
+  Factory,
+  Play
 } from 'lucide-react';
 import { SectionHeading } from '../common/SectionHeading';
 import { projectsData } from '../../data/portfolioData';
@@ -27,15 +29,16 @@ export const Projects: React.FC = () => {
         <SectionHeading
           badge="Featured Engineering Initiatives"
           title="Curated Projects & Case Studies"
-          subtitle="Real-world civic applications, cooperative labor platforms, and predictive analytics pipelines with clear scope boundaries."
+          subtitle="Real-world civic applications, cooperative labor platforms, predictive analytics pipelines, and enterprise manufacturing audit systems."
         />
 
-        {/* 3 Distinct Project Showcase Cards with Staggered Scroll Entrance and 3D Tilt */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* 4 Distinct Project Showcase Cards with Staggered Scroll Entrance and 3D Tilt */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projectsData.map((project, idx) => {
             const isCivic = project.id === 'civicconnect';
             const isUniServe = project.id === 'uniserve';
             const isAttrition = project.id === 'attrition-prediction';
+            const isOrderToAudit = project.id === 'order-to-audit';
 
             return (
               <motion.div
@@ -106,6 +109,18 @@ export const Projects: React.FC = () => {
                             </div>
                           </div>
                         )}
+
+                        {isOrderToAudit && (
+                          <div className="relative p-4 rounded-2xl bg-blue-950/40 border border-cyanAccent/30 backdrop-blur-md group-hover:scale-110 transition-transform duration-500">
+                            <div className="flex items-center gap-3">
+                              <Factory className="w-8 h-8 text-cyanAccent" />
+                              <div className="text-left">
+                                <div className="text-xs font-mono font-bold text-white">Order-to-Audit</div>
+                                <div className="text-[10px] font-mono text-cyan-300">FastAPI & GST Engine</div>
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
 
                       {/* Thumbnail Footnote */}
@@ -152,11 +167,11 @@ export const Projects: React.FC = () => {
                         </div>
                       </div>
 
-                      {/* Card Actions: View Details, Live Demo, & GitHub Button */}
+                      {/* Card Actions: View Details, Live Demo, Watch Demo, & GitHub Button */}
                       <div className="pt-4 border-t border-slate-800/80 dark:border-slate-800/80 border-slate-200/80 flex flex-wrap items-center justify-between gap-2.5">
                         <button
                           onClick={() => setSelectedProject(project)}
-                          className="flex-1 min-w-[110px] py-2.5 px-3 rounded-xl bg-gradient-to-r from-primaryBlue/80 to-sky-500/80 hover:from-primaryBlue hover:to-sky-400 text-white text-xs font-semibold tracking-wider font-mono flex items-center justify-center gap-1.5 transition-all shadow-neon-blue group-hover:scale-102"
+                          className="flex-1 min-w-[95px] py-2.5 px-3 rounded-xl bg-gradient-to-r from-primaryBlue/80 to-sky-500/80 hover:from-primaryBlue hover:to-sky-400 text-white text-xs font-semibold tracking-wider font-mono flex items-center justify-center gap-1.5 transition-all shadow-neon-blue group-hover:scale-102"
                         >
                           <span>Details</span>
                           <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -172,6 +187,19 @@ export const Projects: React.FC = () => {
                           >
                             <span>Live Demo</span>
                             <ExternalLink className="w-3.5 h-3.5" />
+                          </a>
+                        )}
+
+                        {project.demoVideoUrl && (
+                          <a
+                            href={project.demoVideoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="py-2.5 px-3.5 rounded-xl bg-gradient-to-r from-red-600/90 to-rose-600/90 hover:from-red-500 hover:to-rose-500 text-white text-xs font-mono font-semibold tracking-wide flex items-center gap-1.5 transition-all shadow-[0_0_15px_rgba(239,68,68,0.35)] hover:scale-105"
+                            title="Watch Demo Video on YouTube"
+                          >
+                            <Play className="w-3.5 h-3.5 fill-current" />
+                            <span>Watch Demo</span>
                           </a>
                         )}
 

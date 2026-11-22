@@ -54,7 +54,8 @@ export interface Project {
   technologies: string[];
   githubUrl?: string;
   liveDemoUrl?: string;
-  type: 'prototype' | 'case_study' | 'ml_pipeline';
+  demoVideoUrl?: string;
+  type: 'prototype' | 'case_study' | 'ml_pipeline' | 'full_stack';
   implementationNote?: string;
   stages?: ProjectStage[];
   features?: string[];
@@ -74,6 +75,9 @@ export interface WorkshopEntry {
   highlights: string[];
   skillsGained: string[];
   badgeColor: string;
+  category?: string;
+  institution?: string;
+  linkUrl?: string;
 }
 
 export interface HackathonEntry {

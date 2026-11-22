@@ -16,7 +16,10 @@ import {
   BarChart3,
   Server,
   Workflow,
-  Users2
+  Users2,
+  Factory,
+  Video,
+  Play
 } from 'lucide-react';
 import { Project } from '../../types/portfolio';
 
@@ -36,6 +39,10 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
 
   // Interactive demo for UniServe
   const [uniServeRole, setUniServeRole] = useState<'household' | 'worker' | 'admin'>('household');
+
+  // Interactive demo for Order-to-Audit System
+  const [auditCustomerState, setAuditCustomerState] = useState<'tamil_nadu' | 'interstate'>('tamil_nadu');
+  const [auditPackets, setAuditPackets] = useState(150);
 
   if (!project) return null;
 
@@ -375,6 +382,27 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                       </div>
                     </div>
                   )}
+
+                  {project.id === 'order-to-audit' && (
+                    <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-center text-xs font-mono">
+                      <div className="p-3 rounded-xl bg-slate-900 border border-blue-500/30">
+                        <div className="text-blue-400 font-bold">01. React Client</div>
+                        <div className="text-[10px] text-slate-300">React 19 & Tailwind</div>
+                      </div>
+                      <div className="p-3 rounded-xl bg-slate-900 border border-cyan-500/30">
+                        <div className="text-cyan-300 font-bold">02. REST API</div>
+                        <div className="text-[10px] text-slate-300">Python FastAPI</div>
+                      </div>
+                      <div className="p-3 rounded-xl bg-slate-900 border border-indigo-500/30">
+                        <div className="text-indigo-300 font-bold">03. Persistence</div>
+                        <div className="text-[10px] text-slate-300">SQLAlchemy ORM</div>
+                      </div>
+                      <div className="p-3 rounded-xl bg-slate-900 border border-emerald-500/30">
+                        <div className="text-emerald-300 font-bold">04. Audit Export</div>
+                        <div className="text-[10px] text-slate-300">ReportLab & OpenPyXL</div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -557,6 +585,101 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                     </div>
                   </div>
                 )}
+
+                {project.id === 'order-to-audit' && (
+                  <div className="p-6 rounded-2xl glass-panel border border-electricBlue/30 bg-slate-900/60 space-y-4">
+                    <h5 className="text-sm font-bold text-white flex items-center gap-2">
+                      <Factory className="w-4 h-4 text-cyanAccent" />
+                      Interactive 5% GST & Yield Loss Simulator
+                    </h5>
+                    <p className="text-xs text-mutedText">
+                      Simulate the statutory 5% GST tax calculation and batch yield audit for South Indian snacks:
+                    </p>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-xs font-mono text-mutedText block mb-1">Customer Delivery Location</label>
+                        <div className="flex gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setAuditCustomerState('tamil_nadu')}
+                            className={`flex-1 py-1.5 px-2.5 rounded-lg text-xs font-mono transition-all ${
+                              auditCustomerState === 'tamil_nadu'
+                                ? 'bg-cyanAccent text-darkBg font-bold'
+                                : 'bg-slate-900 text-slate-400 hover:text-white'
+                            }`}
+                          >
+                            Tamil Nadu (Intra-state)
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setAuditCustomerState('interstate')}
+                            className={`flex-1 py-1.5 px-2.5 rounded-lg text-xs font-mono transition-all ${
+                              auditCustomerState === 'interstate'
+                                ? 'bg-cyanAccent text-darkBg font-bold'
+                                : 'bg-slate-900 text-slate-400 hover:text-white'
+                            }`}
+                          >
+                            Karnataka (Interstate)
+                          </button>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="text-xs font-mono text-mutedText block mb-1">
+                          Murukku 200g Order Quantity (Packets @ ₹50/pkt)
+                        </label>
+                        <input
+                          type="range"
+                          min="50"
+                          max="250"
+                          step="10"
+                          value={auditPackets}
+                          onChange={(e) => setAuditPackets(Number(e.target.value))}
+                          className="w-full accent-cyanAccent cursor-pointer"
+                        />
+                        <div className="flex justify-between text-[11px] font-mono text-slate-400 mt-1">
+                          <span>Qty: {auditPackets} pkts</span>
+                          <span>Base: ₹{(auditPackets * 50).toLocaleString('en-IN')}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-xs font-mono space-y-2">
+                      <div className="flex justify-between text-slate-300">
+                        <span>Taxable Value (HSN 21069099):</span>
+                        <span className="font-bold text-white">₹{(auditPackets * 50).toFixed(2)}</span>
+                      </div>
+                      {auditCustomerState === 'tamil_nadu' ? (
+                        <>
+                          <div className="flex justify-between text-emerald-300">
+                            <span>CGST @ 2.5%:</span>
+                            <span>₹{((auditPackets * 50) * 0.025).toFixed(2)}</span>
+                          </div>
+                          <div className="flex justify-between text-emerald-300">
+                            <span>SGST @ 2.5%:</span>
+                            <span>₹{((auditPackets * 50) * 0.025).toFixed(2)}</span>
+                          </div>
+                        </>
+                      ) : (
+                        <div className="flex justify-between text-sky-300">
+                          <span>IGST @ 5.0%:</span>
+                          <span>₹{((auditPackets * 50) * 0.05).toFixed(2)}</span>
+                        </div>
+                      )}
+                      <div className="pt-2 border-t border-slate-800 flex justify-between font-bold text-sm">
+                        <span className="text-cyanAccent">Total Invoiced Amount:</span>
+                        <span className="text-cyanAccent font-mono">
+                          ₹{((auditPackets * 50) * 1.05).toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="p-3 rounded-xl bg-blue-950/30 border border-blue-500/20 text-[11px] font-mono text-blue-200">
+                      <strong>Factory Batch Audit Notice:</strong> 40 kg dough standard yields 200 packets. Actual benchmark output of 188 packets records a <strong>-6.0% yield variance</strong> (12 pkts shortage) and <strong>2.4 kg dough wastage</strong>.
+                    </div>
+                  </div>
+                )}
               </div>
             )}
               </motion.div>
@@ -575,6 +698,19 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                 >
                   <ExternalLink className="w-4 h-4" />
                   <span>Launch Live Demo</span>
+                </a>
+              )}
+
+              {project.demoVideoUrl && (
+                <a
+                  href={project.demoVideoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 text-white text-xs font-mono font-semibold hover:from-red-500 hover:to-rose-500 transition-all shadow-[0_0_15px_rgba(239,68,68,0.35)]"
+                >
+                  <Play className="w-4 h-4 fill-current" />
+                  <span>Watch Demo</span>
+                  <ExternalLink className="w-3 h-3 text-white/80" />
                 </a>
               )}
 

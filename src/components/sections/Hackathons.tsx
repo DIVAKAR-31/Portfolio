@@ -27,7 +27,7 @@ export const Hackathons: React.FC = () => {
         />
 
         {/* Hackathon Cards Grid with 3D Depth */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {hackathonsData.map((item, idx) => {
             return (
               <motion.div
@@ -66,6 +66,15 @@ export const Hackathons: React.FC = () => {
                         <span className="text-electricBlue font-semibold">{item.organizer}</span>
                         <span>•</span>
                         <span>{item.edition}</span>
+                        {item.date && (
+                          <>
+                            <span>•</span>
+                            <span className="flex items-center gap-1 text-slate-300">
+                              <Calendar className="w-3 h-3 text-cyanAccent" />
+                              {item.date}
+                            </span>
+                          </>
+                        )}
                       </div>
 
                       {/* Participation Description */}

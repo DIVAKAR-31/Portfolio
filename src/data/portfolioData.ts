@@ -240,91 +240,94 @@ export const projectsData: Project[] = [
     accentColor: "#38BDF8",
     tag: "Data Science / In Progress",
     thumbnailGradient: "from-slate-950 via-cyan-950 to-blue-950"
+  },
+  {
+    id: "order-to-audit",
+    number: "04",
+    title: "Order-to-Audit System for a Small Food Manufacturer",
+    subtitle: "Integrated Business Management, Inventory & 5% GST Tax Invoicing Platform",
+    shortDescription: "An integrated business management system engineered for a South Indian snacks manufacturer (Murukku, Mixture, Chips, Sweets) to seamlessly unify sales orders, inventory tracking, production batch auditing, 5% GST tax invoicing, payment tracking, and statutory audit reports.",
+    problem: "Small food manufacturing enterprises frequently struggle with fragmented offline records: discrepancies between raw material dough mixing and finished packet output, undetected frying yield and packaging losses, unbilled dispatches, and manual tax calculations across intra-state (CGST+SGST) and interstate (IGST) sales.",
+    solution: "A full-stack enterprise web application unifying manufacturing and sales operations into a single verifiable audit trail. The system tracks raw material BOM issuance, audits production batch yields and wastage, manages salesman order bookings with multi-tier approval workflows, automates 5% GST billing with PDF invoice generation, and reconciles customer accounts receivable.",
+    technologies: [
+      "FastAPI",
+      "React 19",
+      "TypeScript",
+      "Tailwind CSS",
+      "SQLAlchemy",
+      "SQLite / PostgreSQL",
+      "ReportLab PDF",
+      "OpenPyXL"
+    ],
+    githubUrl: "https://github.com/DIVAKAR-31/order-to-audit-system",
+    demoVideoUrl: "https://youtu.be/6hrgj-NFUSY",
+    type: "full_stack",
+    implementationNote: "Engineered as a full-stack system adhering to the NIT Tiruchirappalli (Centre for Digital Infrastructure) manufacturing benchmark specification. Incorporates real-time BOM dough yield calculations (-6% yield variance and +5% oil consumption detection), intra-state (CGST 2.5% + SGST 2.5%) vs inter-state (IGST 5.0%) tax logic with HSN 21069099, and automated multi-tab Excel (.xlsx) / PDF audit exports.",
+    features: [
+      "Sales order management with responsive mobile order-booking and workflow approvals (Pending → Approved → Dispatched)",
+      "Real-time inventory tracking for raw materials (flours, oils, spices) and packaging with FIFO stock ledger audit",
+      "Production batch auditing tracking planned vs actual output, yield variances (-6.0%), and process scrap loss (2.4 kg)",
+      "Automated 5% GST tax invoicing with CGST/SGST bifurcation for Tamil Nadu and IGST for interstate customers",
+      "Customer payment and collections ledger with instant accounts receivable balance reconciliation",
+      "Comprehensive monthly audit reports with one-click multi-tab Excel (.xlsx) and print-ready PDF export"
+    ],
+    architectureOverview: "Decoupled full-stack architecture featuring a React 19 Single Page Application with Tailwind CSS, communicating with a high-concurrency Python FastAPI REST API. Data persistence is managed via SQLAlchemy ORM with SQLite for zero-config local execution and PostgreSQL support for cloud deployments, backed by ReportLab and openpyxl engines for document generation.",
+    accentColor: "#38BDF8",
+    tag: "Full-Stack / Food Mfg Audit",
+    thumbnailGradient: "from-blue-950 via-slate-900 to-indigo-950"
   }
 ];
 
 export const workshopsData: WorkshopEntry[] = [
   {
-    id: "fabric-workshop",
-    title: "Microsoft Fabric in Action",
-    organizer: "Technical Community / Workshop Partner",
-    date: "Academic Year 2025 – 2026",
-    location: "Hands-on Technical Session",
-    description: "Building End-to-End Data Analytics Solutions using the unified Microsoft Fabric enterprise ecosystem.",
+    id: "operation-code-heist",
+    title: "OPERATION CODE HEIST",
+    category: "Coding Contest",
+    organizer: "Technical Club, Department of Information Technology",
+    institution: "Sri Krishna College of Engineering and Technology (SKCET), Coimbatore",
+    date: "8 August 2026",
+    location: "SKCET, Coimbatore",
+    description: "Participated in Operation Code Heist, a coding contest that provided an opportunity to engage with coding challenges, explore problem-solving, and strengthen programming skills.",
     highlights: [
-      "Deep exploration of the unified Microsoft Fabric architecture and OneLake data lakehouse concept",
-      "Hands-on exposure to modern data engineering pipelines and Lakehouse transformation workflows",
-      "Enterprise data warehousing practices and SQL analytics endpoint querying",
-      "Real-Time Analytics engine capabilities for high-throughput streaming telemetry",
-      "Direct Lake mode Power BI visualization and interactive dashboard construction"
+      "Engaged with competitive coding challenges and problem-solving scenarios",
+      "Applied structured algorithmic logic and efficient computational thinking",
+      "Strengthened time-boxed programming, debugging, and problem-solving skills"
     ],
     skillsGained: [
-      "Microsoft Fabric",
-      "Data Engineering",
-      "Data Warehousing",
-      "Real-time Analytics",
-      "Power BI Visualization"
+      "Competitive Programming",
+      "Problem Solving",
+      "Algorithm Design",
+      "Code Optimization"
     ],
-    badgeColor: "border-sky-500/40 text-sky-400 bg-sky-500/10"
+    badgeColor: "border-cyan-500/40 text-cyan-400 bg-cyan-500/10",
+    linkUrl: "https://lnkd.in/p/gMiqxnPe"
   },
   {
     id: "vibe-coding",
-    title: "Vibe Coding Workshop",
-    organizer: "Developer Community",
-    date: "Recent Session",
-    location: "Technical Workshop",
-    description: "Interactive session exploring AI-first modern software development methodologies, prompt engineering for code generation, and rapid prototyping workflows.",
+    title: "Vibe Coding Workshop 2026",
+    category: "Workshop",
+    organizer: "StartupTN in collaboration with Google for Developers",
+    institution: "Noorul Islam Centre for Higher Education, Kumaracoil, Kanniyakumari District",
+    date: "30 October 2026",
+    location: "Kumaracoil, Kanniyakumari District",
+    description: "Participated in Vibe Coding Workshop 2026 and explored AI-powered development, emerging approaches to application development, and the growing role of Artificial Intelligence in software development.",
     highlights: [
-      "AI-assisted coding paradigms using next-gen developer tools and LLM code interpreters",
-      "Iterative prompt refinement strategies for architectural scaffolding and unit test synthesis",
-      "Accelerated ideation-to-prototype workflows reducing development cycle times",
-      "Hands-on exploration of developer productivity amplifiers"
+      "Explored AI-powered development paradigms and next-generation software workflows",
+      "Investigated emerging developer approaches to application development and LLM coding tools",
+      "Gained comprehensive insights into the growing role of Artificial Intelligence in software development"
     ],
     skillsGained: [
-      "AI-Assisted Coding",
-      "Rapid Prototyping",
-      "Developer Productivity",
-      "Workflow Automation"
+      "AI-Powered Development",
+      "Vibe Coding",
+      "LLM Workflows",
+      "Application Development"
     ],
-    badgeColor: "border-cyan-500/40 text-cyan-400 bg-cyan-500/10"
-  },
-  {
-    id: "aws-event",
-    title: "AWS Event Participation",
-    organizer: "Amazon Web Services (AWS) Community",
-    date: "Technical Session",
-    location: "Cloud Computing Forum",
-    description: "Immersive exposure to cloud computing foundations, serverless architectures, and AWS ecosystem fundamentals.",
-    highlights: [
-      "Foundational cloud compute, storage, and networking primitives (EC2, S3, VPC)",
-      "Serverless computing concepts and scalable event-driven cloud functions",
-      "Modern cloud security standards, IAM role policies, and architectural best practices",
-      "Industry case studies on deploying resilient cloud infrastructures"
-    ],
-    skillsGained: [
-      "Cloud Fundamentals",
-      "AWS Core Services",
-      "Serverless Architecture",
-      "Cloud Security Foundations"
-    ],
-    badgeColor: "border-blue-500/40 text-blue-400 bg-blue-500/10"
+    badgeColor: "border-electricBlue/40 text-cyanAccent bg-electricBlue/10",
+    linkUrl: "https://lnkd.in/p/g_Mbgfke"
   }
 ];
 
 export const hackathonsData: HackathonEntry[] = [
-  {
-    id: "samsung-hackathon",
-    title: "Samsung Hackathon / Innovation Participation",
-    organizer: "Samsung",
-    edition: "Innovation Challenge",
-    date: "Academic Edition",
-    role: "Participant / Innovator",
-    participationDescription: "Participated in the Samsung Innovation Challenge, collaborating on technology-driven problem statements addressing real-world user scenarios and device connectivity.",
-    problemStatement: "Ideating innovative smart solutions and exploring user-centric mobile and IoT software interventions.",
-    projectOrSubmission: "Explored intelligent feature concepts leveraging modern device capabilities and responsive software flows.",
-    teamDetails: "Team collaboration emphasizing technical synergy and innovative problem solving.",
-    badge: "Samsung Innovation"
-  },
   {
     id: "adobe-hackathon",
     title: "Adobe University Hackathon",
@@ -350,6 +353,32 @@ export const hackathonsData: HackathonEntry[] = [
     projectOrSubmission: "Collaborative ideation and prototype architecture aligned with citizen-centric governance workflows.",
     teamDetails: "Interdisciplinary collegiate problem-solving team",
     badge: "National Hackathon"
+  },
+  {
+    id: "thamizhan-skills-ideathon",
+    title: "Thamizhan Skills Ideathon",
+    organizer: "Thamizhan Skills",
+    edition: "Ideation Challenge",
+    date: "Ideathon Participation",
+    role: "Participant / Ideator",
+    participationDescription: "Participated in the Thamizhan Skills Ideathon, engaging in rapid ideation, collaborative problem-solving, and technology innovation sessions.",
+    problemStatement: "Ideating innovative technological solutions and software interventions to address real-world community challenges.",
+    projectOrSubmission: "Ideathon concept proposal and presentation (details editable / to be updated).",
+    teamDetails: "Collaborative Team Participation",
+    badge: "Ideathon"
+  },
+  {
+    id: "civicconnect-cit-paper-presentation",
+    title: "CivicConnect — Paper Presentation",
+    organizer: "Coimbatore Institute of Technology (CIT)",
+    edition: "Paper Presentation Symposium",
+    date: "31 January 2026",
+    role: "Paper Presenter & Team Contributor",
+    participationDescription: "Presented a technical paper on CivicConnect (an AI-powered e-governance platform for public grievance tracking) at Coimbatore Institute of Technology (CIT), demonstrating citizen reporting workflows, automated complaint categorization, and administrative resolution pipelines.",
+    problemStatement: "Streamlining urban grievance reporting, real-time status telemetry, and automated routing for municipal departments.",
+    projectOrSubmission: "Technical Paper Presentation & System Architecture for CivicConnect.",
+    teamDetails: "Team Project (Collaborative Presentation)",
+    badge: "Paper Presentation"
   }
 ];
 
