@@ -166,7 +166,7 @@ export const projectsData: Project[] = [
       "Leaflet Maps"
     ],
     githubUrl: "https://github.com/DIVAKAR-31/Civic-Connect",
-    liveDemoUrl: "https://civic-connect-lh27kykcp-black-pearl15.vercel.app/",
+    liveDemoUrl: "https://civic-connect-six-tau.vercel.app/",
     type: "full_stack",
     implementationNote: "Full-stack public grievance management platform built with React 19, an Express 5 REST API, and SQLite persistence. Features citizen complaint reporting with geotagged Leaflet mapping and real-time tracking, an admin dashboard for complaint management and department dispatch, a 3-tier government authority escalation workflow (Village President → Taluk Officer → District Collector), and Google Gemini AI integration for automated category classification and priority assessment.",
     features: [
