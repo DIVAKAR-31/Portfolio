@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Mail,
   Send,
   Github,
   Linkedin,
   CheckCircle2,
   AlertCircle,
   Copy,
-  ExternalLink,
   Terminal,
+  RefreshCw,
   Sparkles
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import emailjs from '@emailjs/browser';
 import { SectionHeading } from '../common/SectionHeading';
 import { personalInfo } from '../../data/portfolioData';
 
@@ -42,7 +42,11 @@ export const Contact: React.FC = () => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
-  const [lastSubmitted, setLastSubmitted] = useState<FormState | null>(null);
+
+  // Environment variables for EmailJS (configured securely via .env / Vercel environment variables)
+  const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || '';
+  const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '';
+  const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '';
 
   const validate = (): boolean => {
     const errs: FormErrors = {};
@@ -51,7 +55,7 @@ export const Contact: React.FC = () => {
     }
     if (!formData.email.trim()) {
       errs.email = 'Please provide your email address.';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
       errs.email = 'Please enter a valid email address.';
     }
     if (!formData.subject.trim()) {
@@ -73,124 +77,89 @@ export const Contact: React.FC = () => {
     setTimeout(() => setCopiedEmail(false), 2500);
   };
 
-  const handleOpenGmail = (data?: FormState) => {
-    const payload = data || lastSubmitted || formData;
-    const su = encodeURIComponent(
-      payload.subject ? `[Portfolio Inquiry] ${payload.subject}` : 'Portfolio Inquiry / Collaboration'
-    );
-    const body = encodeURIComponent(
-      `Hi Divakar,\n\nName: ${payload.name || 'Visitor'}\nEmail: ${payload.email || 'N/A'}\nSubject: ${payload.subject || 'Portfolio Inquiry'}\n\nMessage:\n${payload.message || ''}\n\nBest regards,\n${payload.name || 'Visitor'}\n\n---\nSent via Divakar S. Portfolio Website`
-    );
-    window.open(
-      `https://mail.google.com/mail/?view=cm&fs=1&to=${personalInfo.email}&su=${su}&body=${body}`,
-      '_blank'
-    );
-  };
-
-  const handleMailtoDirect = (data?: FormState) => {
-    const payload = data || lastSubmitted || formData;
-    const su = encodeURIComponent(
-      payload.subject ? `[Portfolio Inquiry] ${payload.subject}` : 'Portfolio Inquiry'
-    );
-    const mailtoUrl = `mailto:${personalInfo.email}?subject=${su}&body=${encodeURIComponent(
-      `Hi Divakar,\n\nName: ${payload.name || 'Visitor'}\nEmail: ${payload.email || 'N/A'}\nSubject: ${payload.subject || 'Portfolio Inquiry'}\n\nMessage:\n${payload.message || ''}\n\n---\nSent via Divakar S. Portfolio Website`
-    )}`;
-    window.location.href = mailtoUrl;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Prevent duplicate submissions while sending
+    if (status === 'loading') return;
+
     if (!validate()) return;
 
     setStatus('loading');
-    const submissionData = { ...formData };
-    setLastSubmitted(submissionData);
+    setStatusMessage('');
 
-    const subjectText = `[Portfolio Inquiry from ${submissionData.name}] ${submissionData.subject}`;
-    const bodyText = `Hi Divakar,\n\nName: ${submissionData.name}\nEmail: ${submissionData.email}\nSubject: ${submissionData.subject}\n\nMessage:\n${submissionData.message}\n\n---\nSent from Divakar S. Portfolio Website`;
+    // Ensure EmailJS configuration is present
+    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+      setStatus('error');
+      setStatusMessage(
+        'Email service configuration is pending. Please set VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, and VITE_EMAILJS_PUBLIC_KEY in your environment.'
+      );
+      return;
+    }
 
-    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
-      personalInfo.email
-    )}&su=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`;
-
-    const mailtoUrl = `mailto:${encodeURIComponent(personalInfo.email)}?subject=${encodeURIComponent(
-      subjectText
-    )}&body=${encodeURIComponent(bodyText)}`;
-
-    // Try automated background dispatch with a strict 3.5-second timeout so it NEVER hangs
-    let automatedSuccess = false;
     try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 3500);
+      // Prepare template parameters matching standard EmailJS template formats
+      const templateParams = {
+        name: formData.name.trim(),
+        from_name: formData.name.trim(),
+        email: formData.email.trim(),
+        from_email: formData.email.trim(),
+        reply_to: formData.email.trim(),
+        subject: formData.subject.trim(),
+        message: formData.message.trim(),
+        to_email: personalInfo.email,
+      };
 
-      const response = await fetch(`https://formsubmit.co/ajax/${personalInfo.email}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        signal: controller.signal,
-        body: JSON.stringify({
-          name: submissionData.name,
-          email: submissionData.email,
-          subject: submissionData.subject,
-          message: submissionData.message,
-          _subject: subjectText,
-          _replyto: submissionData.email,
-          _captcha: 'false',
-        }),
-      });
+      const response = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      );
 
-      clearTimeout(timeoutId);
+      if (response.status === 200 || response.text === 'OK') {
+        setStatus('success');
+        setStatusMessage('Your message has been sent successfully!');
 
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success === 'true' || result.success === true) {
-          automatedSuccess = true;
+        // Reset form fields on successful delivery
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+        setErrors({});
+
+        // Celebratory confetti
+        try {
+          confetti({
+            particleCount: 45,
+            spread: 70,
+            origin: { y: 0.7 },
+            colors: ['#38BDF8', '#22D3EE', '#2563EB', '#10B981'],
+          });
+        } catch {
+          // Ignore if blocked
         }
+      } else {
+        throw new Error(response.text || 'Failed to send message.');
       }
-    } catch {
-      // Abort / timeout / network failure
-      automatedSuccess = false;
+    } catch (err: unknown) {
+      console.error('EmailJS direct send error:', err);
+      setStatus('error');
+      const errorMessage =
+        err && typeof err === 'object' && 'text' in err
+          ? String((err as { text: unknown }).text)
+          : err instanceof Error
+          ? err.message
+          : 'Failed to send your message. Please verify your connection and try again.';
+      setStatusMessage(errorMessage);
     }
+  };
 
-    if (automatedSuccess) {
-      setStatus('success');
-      setStatusMessage(
-        `Your message has been directly dispatched to ${personalInfo.email}! You can also send a direct copy via Gmail Web below.`
-      );
-    } else {
-      // Directly launch Gmail in a new tab or mail client so the message is 100% delivered to sdivakar052@gmail.com
-      const opened = window.open(gmailUrl, '_blank');
-      if (!opened) {
-        window.location.href = mailtoUrl;
-      }
-
-      setStatus('success');
-      setStatusMessage(
-        `Your message has been prepared for ${personalInfo.email}! We opened Gmail / your email client with your message ready to send. If the tab did not open, click "Open in Gmail Web" below.`
-      );
-    }
-
-    try {
-      confetti({
-        particleCount: 40,
-        spread: 60,
-        origin: { y: 0.7 },
-        colors: ['#38BDF8', '#22D3EE', '#2563EB', '#10B981'],
-      });
-    } catch {
-      // Ignore if blocked
-    }
-
-    // Reset form fields
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
-    });
-    setErrors({});
+  const handleResetStatus = () => {
+    setStatus('idle');
+    setStatusMessage('');
   };
 
   return (
@@ -228,18 +197,15 @@ export const Contact: React.FC = () => {
                   <span>Direct Email</span>
                   <button
                     onClick={handleCopyEmail}
-                    className="text-cyanAccent hover:text-white flex items-center gap-1 text-[11px] transition-colors"
+                    className="text-cyanAccent hover:text-white flex items-center gap-1 text-[11px] transition-colors cursor-pointer"
                   >
                     <Copy className="w-3 h-3" />
                     <span>{copiedEmail ? 'Copied!' : 'Copy'}</span>
                   </button>
                 </div>
-                <a
-                  href={`mailto:${personalInfo.email}`}
-                  className="text-sm sm:text-base font-mono font-bold dark:text-white text-slate-900 hover:text-cyanAccent transition-colors block break-all"
-                >
+                <div className="text-sm sm:text-base font-mono font-bold dark:text-white text-slate-900 break-all select-all">
                   {personalInfo.email}
-                </a>
+                </div>
               </div>
 
               {/* Academic Location */}
@@ -291,7 +257,7 @@ export const Contact: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Right Column: Contact Form with Direct Email Dispatch */}
+          {/* Right Column: Direct In-Page Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -314,30 +280,22 @@ export const Contact: React.FC = () => {
                         <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
                         <div>
                           <div className="font-bold text-sm text-emerald-300">
-                            Message Transmitted Successfully!
+                            {statusMessage || 'Your message has been sent successfully!'}
                           </div>
                           <p className="mt-1 leading-relaxed text-emerald-200/90">
-                            {statusMessage}
+                            Thank you for reaching out. I have received your message and will get back to you shortly.
                           </p>
                         </div>
                       </div>
 
-                      <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-emerald-500/30">
+                      <div className="pt-2 border-t border-emerald-500/30 flex items-center justify-between">
                         <button
                           type="button"
-                          onClick={() => handleOpenGmail()}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-[11px] font-semibold transition-colors"
+                          onClick={handleResetStatus}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-[11px] font-semibold transition-colors cursor-pointer"
                         >
-                          <ExternalLink className="w-3.5 h-3.5" />
-                          <span>Open in Gmail Web</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleMailtoDirect()}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-900/60 hover:bg-emerald-800/80 text-emerald-200 font-mono text-[11px] transition-colors"
-                        >
-                          <Mail className="w-3.5 h-3.5" />
-                          <span>Open Mail Client</span>
+                          <Sparkles className="w-3.5 h-3.5" />
+                          <span>Send Another Message</span>
                         </button>
                       </div>
                     </motion.div>
@@ -354,28 +312,20 @@ export const Contact: React.FC = () => {
                         <AlertCircle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
                         <div>
                           <div className="font-bold text-sm text-rose-300">
-                            Direct Delivery Backup
+                            Message Delivery Failed
                           </div>
                           <p className="mt-1 leading-relaxed">{statusMessage}</p>
                         </div>
                       </div>
 
-                      <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-rose-500/30">
+                      <div className="pt-2 border-t border-rose-500/30 flex items-center justify-between">
                         <button
                           type="button"
-                          onClick={() => handleOpenGmail()}
-                          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-mono text-[11px] font-semibold transition-colors"
+                          onClick={handleResetStatus}
+                          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-mono text-[11px] font-semibold transition-colors cursor-pointer"
                         >
-                          <ExternalLink className="w-3.5 h-3.5" />
-                          <span>Send via Gmail Web</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleMailtoDirect()}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-900/60 hover:bg-rose-800/80 text-rose-200 font-mono text-[11px] transition-colors"
-                        >
-                          <Mail className="w-3.5 h-3.5" />
-                          <span>Send via Mail App</span>
+                          <RefreshCw className="w-3.5 h-3.5" />
+                          <span>Retry Submission</span>
                         </button>
                       </div>
                     </motion.div>
@@ -390,10 +340,11 @@ export const Contact: React.FC = () => {
                     </label>
                     <input
                       type="text"
+                      disabled={status === 'loading'}
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="e.g. Alex Johnson"
-                      className={`w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border text-sm dark:text-lightWhite text-slate-900 dark:placeholder:text-slate-600 placeholder:text-slate-400 focus:outline-none transition-colors shadow-sm ${
+                      className={`w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border text-sm dark:text-lightWhite text-slate-900 dark:placeholder:text-slate-600 placeholder:text-slate-400 focus:outline-none transition-colors shadow-sm disabled:opacity-60 ${
                         errors.name
                           ? 'border-red-500 focus:border-red-400'
                           : 'dark:border-slate-800 border-slate-300 focus:border-cyanAccent'
@@ -410,10 +361,11 @@ export const Contact: React.FC = () => {
                     </label>
                     <input
                       type="email"
+                      disabled={status === 'loading'}
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="alex@example.com"
-                      className={`w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border text-sm dark:text-lightWhite text-slate-900 dark:placeholder:text-slate-600 placeholder:text-slate-400 focus:outline-none transition-colors shadow-sm ${
+                      className={`w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border text-sm dark:text-lightWhite text-slate-900 dark:placeholder:text-slate-600 placeholder:text-slate-400 focus:outline-none transition-colors shadow-sm disabled:opacity-60 ${
                         errors.email
                           ? 'border-red-500 focus:border-red-400'
                           : 'dark:border-slate-800 border-slate-300 focus:border-cyanAccent'
@@ -432,10 +384,11 @@ export const Contact: React.FC = () => {
                   </label>
                   <input
                     type="text"
+                    disabled={status === 'loading'}
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                     placeholder="Project Inquiry / Technical Collaboration"
-                    className={`w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border text-sm dark:text-lightWhite text-slate-900 dark:placeholder:text-slate-600 placeholder:text-slate-400 focus:outline-none transition-colors shadow-sm ${
+                    className={`w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border text-sm dark:text-lightWhite text-slate-900 dark:placeholder:text-slate-600 placeholder:text-slate-400 focus:outline-none transition-colors shadow-sm disabled:opacity-60 ${
                       errors.subject
                         ? 'border-red-500 focus:border-red-400'
                         : 'dark:border-slate-800 border-slate-300 focus:border-cyanAccent'
@@ -453,10 +406,11 @@ export const Contact: React.FC = () => {
                   </label>
                   <textarea
                     rows={5}
+                    disabled={status === 'loading'}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Write your message here..."
-                    className={`w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border text-sm dark:text-lightWhite text-slate-900 dark:placeholder:text-slate-600 placeholder:text-slate-400 focus:outline-none transition-colors shadow-sm ${
+                    className={`w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border text-sm dark:text-lightWhite text-slate-900 dark:placeholder:text-slate-600 placeholder:text-slate-400 focus:outline-none transition-colors shadow-sm disabled:opacity-60 ${
                       errors.message
                         ? 'border-red-500 focus:border-red-400'
                         : 'dark:border-slate-800 border-slate-300 focus:border-cyanAccent'
@@ -472,12 +426,12 @@ export const Contact: React.FC = () => {
                   <button
                     type="submit"
                     disabled={status === 'loading'}
-                    className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-primaryBlue to-sky-500 hover:from-blue-600 hover:to-cyan-400 text-white font-medium text-sm tracking-wide transition-all shadow-neon-blue border border-electricBlue/30 hover:scale-102 flex items-center justify-center gap-2 group disabled:opacity-60"
+                    className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-primaryBlue to-sky-500 hover:from-blue-600 hover:to-cyan-400 text-white font-medium text-sm tracking-wide transition-all shadow-neon-blue border border-electricBlue/30 hover:scale-102 flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
                   >
                     {status === 'loading' ? (
                       <>
                         <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                        <span>Transmitting Message...</span>
+                        <span>Sending Message...</span>
                       </>
                     ) : (
                       <>
@@ -485,26 +439,6 @@ export const Contact: React.FC = () => {
                         <Send className="w-4 h-4 text-cyanAccent group-hover:translate-x-1 transition-transform" />
                       </>
                     )}
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => handleOpenGmail()}
-                    className="w-full sm:w-auto px-5 py-3.5 rounded-xl dark:bg-slate-900/90 bg-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 border dark:border-electricBlue/30 border-slate-300 dark:text-cyanAccent text-blue-600 font-mono text-xs font-semibold tracking-wide flex items-center justify-center gap-2 transition-all cursor-pointer"
-                    title="Compose directly in Gmail with pre-filled message"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5" />
-                    <span>Send via Gmail Web</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => handleMailtoDirect()}
-                    className="text-xs font-mono dark:text-mutedText text-slate-500 hover:text-cyanAccent transition-colors flex items-center gap-1.5 py-2 px-1 cursor-pointer"
-                    title="Open your device default mail app"
-                  >
-                    <Mail className="w-3.5 h-3.5" />
-                    <span>Mail Client</span>
                   </button>
                 </div>
               </form>
