@@ -80,7 +80,7 @@ export const Projects: React.FC = () => {
                               <Cpu className="w-8 h-8 text-cyanAccent animate-pulse" />
                               <div className="text-left">
                                 <div className="text-xs font-mono font-bold text-white">Civic AI Router</div>
-                                <div className="text-[10px] font-mono text-cyan-300">Gemini Prompt Pipeline</div>
+                                <div className="text-[10px] font-mono text-cyan-300">AI Triage & 3-Tier Escalation</div>
                               </div>
                             </div>
                           </div>

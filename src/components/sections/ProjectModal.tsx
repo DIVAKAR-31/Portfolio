@@ -322,21 +322,26 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                   </div>
 
                   {project.id === 'civicconnect' && (
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center text-xs font-mono">
-                      <div className="p-4 rounded-xl bg-slate-900 border border-electricBlue/30">
-                        <div className="text-cyanAccent font-bold mb-1">Citizen UI Client</div>
-                        <div className="text-slate-400 text-[11px]">React / Tailwind CSS</div>
-                        <div className="text-slate-500 text-[10px] mt-2">Complaint Capture, Location Geotag</div>
+                    <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-center text-xs font-mono">
+                      <div className="p-3 rounded-xl bg-slate-900 border border-electricBlue/30">
+                        <div className="text-cyanAccent font-bold mb-1">01. Citizen Portal</div>
+                        <div className="text-slate-400 text-[11px]">React 19 & Leaflet</div>
+                        <div className="text-slate-500 text-[10px] mt-1">Geotagged Filing & Live Tracking</div>
                       </div>
-                      <div className="p-4 rounded-xl bg-slate-900 border border-sky-500/40">
-                        <div className="text-sky-300 font-bold mb-1">AI Intelligence Layer</div>
+                      <div className="p-3 rounded-xl bg-slate-900 border border-sky-500/40">
+                        <div className="text-sky-300 font-bold mb-1">02. AI Triage Engine</div>
                         <div className="text-slate-400 text-[11px]">Google Gemini API</div>
-                        <div className="text-slate-500 text-[10px] mt-2">Deduplication, Urgency Categorization</div>
+                        <div className="text-slate-500 text-[10px] mt-1">Auto-Category & Priority Rating</div>
                       </div>
-                      <div className="p-4 rounded-xl bg-slate-900 border border-blue-500/30">
-                        <div className="text-blue-300 font-bold mb-1">Admin Resolution Portal</div>
-                        <div className="text-slate-400 text-[11px]">Simulated Telemetry</div>
-                        <div className="text-slate-500 text-[10px] mt-2">Department Dispatch & Status Updates</div>
+                      <div className="p-3 rounded-xl bg-slate-900 border border-blue-500/30">
+                        <div className="text-blue-300 font-bold mb-1">03. Admin Console</div>
+                        <div className="text-slate-400 text-[11px]">Express 5 & SQLite</div>
+                        <div className="text-slate-500 text-[10px] mt-1">Complaint Triage & Status Telemetry</div>
+                      </div>
+                      <div className="p-3 rounded-xl bg-slate-900 border border-emerald-500/30">
+                        <div className="text-emerald-300 font-bold mb-1">04. 3-Tier Escalation</div>
+                        <div className="text-slate-400 text-[11px]">Authority Oversight</div>
+                        <div className="text-slate-500 text-[10px] mt-1">President → Taluk → Collector</div>
                       </div>
                     </div>
                   )}
