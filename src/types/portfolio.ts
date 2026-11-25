@@ -106,3 +106,23 @@ export interface CertificationEntry {
   iconType: string;
 }
 
+export type AchievementCategory = 'All' | 'Certification' | 'Workshop' | 'Hackathon' | 'Ideathon' | 'Paper Presentation' | 'Achievement';
+
+export interface AchievementItem {
+  id: string;
+  title: string;
+  organization: string;
+  date?: string;
+  category: 'Certification' | 'Workshop' | 'Hackathon' | 'Ideathon' | 'Paper Presentation' | 'Achievement';
+  categoryLabel?: string;
+  description: string;
+  credentialId?: string;
+  skillsOrHighlights: string[];
+  certificateUrl?: string;
+  certificateImage?: string;
+  verificationUrl?: string;
+  badgeColor?: string;
+  roleOrEdition?: string;
+  iconType?: string;
+}
+

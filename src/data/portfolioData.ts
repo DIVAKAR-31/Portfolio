@@ -5,7 +5,8 @@ import {
   Project,
   WorkshopEntry,
   HackathonEntry,
-  CertificationEntry
+  CertificationEntry,
+  AchievementItem
 } from '../types/portfolio';
 
 export const personalInfo: PersonalInfo = {
@@ -254,148 +255,135 @@ export const projectsData: Project[] = [
   }
 ];
 
-export const workshopsData: WorkshopEntry[] = [
-  {
-    id: "operation-code-heist",
-    title: "OPERATION CODE HEIST",
-    category: "Coding Contest",
-    organizer: "Technical Club, Department of Information Technology",
-    institution: "Sri Krishna College of Engineering and Technology (SKCET), Coimbatore",
-    date: "8 August 2026",
-    location: "SKCET, Coimbatore",
-    description: "Participated in Operation Code Heist, a coding contest that provided an opportunity to engage with coding challenges, explore problem-solving, and strengthen programming skills.",
-    highlights: [
-      "Engaged with competitive coding challenges and problem-solving scenarios",
-      "Applied structured algorithmic logic and efficient computational thinking",
-      "Strengthened time-boxed programming, debugging, and problem-solving skills"
-    ],
-    skillsGained: [
-      "Competitive Programming",
-      "Problem Solving",
-      "Algorithm Design",
-      "Code Optimization"
-    ],
-    badgeColor: "border-cyan-500/40 text-cyan-400 bg-cyan-500/10",
-    linkUrl: "https://lnkd.in/p/gMiqxnPe"
-  },
-  {
-    id: "vibe-coding",
-    title: "Vibe Coding Workshop 2026",
-    category: "Workshop",
-    organizer: "StartupTN in collaboration with Google for Developers",
-    institution: "Noorul Islam Centre for Higher Education, Kumaracoil, Kanniyakumari District",
-    date: "30 October 2026",
-    location: "Kumaracoil, Kanniyakumari District",
-    description: "Participated in Vibe Coding Workshop 2026 and explored AI-powered development, emerging approaches to application development, and the growing role of Artificial Intelligence in software development.",
-    highlights: [
-      "Explored AI-powered development paradigms and next-generation software workflows",
-      "Investigated emerging developer approaches to application development and LLM coding tools",
-      "Gained comprehensive insights into the growing role of Artificial Intelligence in software development"
-    ],
-    skillsGained: [
-      "AI-Powered Development",
-      "Vibe Coding",
-      "LLM Workflows",
-      "Application Development"
-    ],
-    badgeColor: "border-electricBlue/40 text-cyanAccent bg-electricBlue/10",
-    linkUrl: "https://lnkd.in/p/g_Mbgfke"
-  }
-];
-
-export const hackathonsData: HackathonEntry[] = [
-  {
-    id: "adobe-hackathon",
-    title: "Adobe University Hackathon",
-    organizer: "Adobe",
-    edition: "University Challenge — Online Assessment",
-    date: "Online Assessment Round",
-    role: "Participant",
-    participationDescription: "Successfully completed the rigorous Online Assessment round of the Adobe University Hackathon, solving complex algorithmic challenges and coding problems under strict time constraints.",
-    problemStatement: "Advanced problem solving encompassing data structures, algorithmic efficiency, and logical reasoning.",
-    projectOrSubmission: "Demonstrated strong computational thinking and competitive programming problem resolution.",
-    teamDetails: "Individual Online Assessment",
-    badge: "Adobe University"
-  },
-  {
-    id: "smart-india-hackathon",
-    title: "Smart India Hackathon (SIH)",
-    organizer: "Ministry of Education / AICTE",
-    edition: "National Initiative",
-    date: "Internal / Ideation Phase",
-    role: "Participant & Team Contributor",
-    participationDescription: "Engaged in the nationwide Smart India Hackathon initiative, brainstorming national-scale technological interventions to solve governance and societal challenges.",
-    problemStatement: "Addressing critical digital infrastructure and public service bottlenecks through open innovation.",
-    projectOrSubmission: "Collaborative ideation and prototype architecture aligned with citizen-centric governance workflows.",
-    teamDetails: "Interdisciplinary collegiate problem-solving team",
-    badge: "National Hackathon"
-  },
-  {
-    id: "thamizhan-skills-ideathon",
-    title: "Thamizhan Skills Ideathon",
-    organizer: "Thamizhan Skills",
-    edition: "Ideation Challenge",
-    date: "Ideathon Participation",
-    role: "Participant / Ideator",
-    participationDescription: "Participated in the Thamizhan Skills Ideathon, engaging in rapid ideation, collaborative problem-solving, and technology innovation sessions.",
-    problemStatement: "Ideating innovative technological solutions and software interventions to address real-world community challenges.",
-    projectOrSubmission: "Ideathon concept proposal and presentation (details editable / to be updated).",
-    teamDetails: "Collaborative Team Participation",
-    badge: "Ideathon"
-  },
-  {
-    id: "civicconnect-cit-paper-presentation",
-    title: "CivicConnect — Paper Presentation",
-    organizer: "Coimbatore Institute of Technology (CIT)",
-    edition: "Paper Presentation Symposium",
-    date: "31 January 2026",
-    role: "Paper Presenter & Team Contributor",
-    participationDescription: "Presented a technical paper on CivicConnect (an AI-powered e-governance platform for public grievance tracking) at Coimbatore Institute of Technology (CIT), demonstrating citizen reporting workflows, automated complaint categorization, and administrative resolution pipelines.",
-    problemStatement: "Streamlining urban grievance reporting, real-time status telemetry, and automated routing for municipal departments.",
-    projectOrSubmission: "Technical Paper Presentation & System Architecture for CivicConnect.",
-    teamDetails: "Team Project (Collaborative Presentation)",
-    badge: "Paper Presentation"
-  }
-];
-
-export const certificationsData: CertificationEntry[] = [
+export const certificationsAchievementsData: AchievementItem[] = [
+  // 1. Existing Certifications
   {
     id: "hackerrank-csharp",
     title: "C# (Basic) Certification",
-    issuer: "HackerRank",
-    issueDate: "Verified Credential",
+    organization: "HackerRank",
+    date: "Verified Credential",
+    category: "Certification",
+    categoryLabel: "Certification",
     credentialId: "HACKERRANK-CSHARP-BASIC",
-    skills: ["C#", "Object-Oriented Programming", "Control Structures"],
-    category: "Programming",
+    skillsOrHighlights: ["C#", "Object-Oriented Programming", "Control Structures"],
+    description: "Demonstrated proficiency in C# programming fundamentals, object-oriented concepts, and control logic on HackerRank.",
+    badgeColor: "border-emerald-500/30 text-emerald-400 bg-emerald-950/20",
     iconType: "code"
   },
   {
     id: "hackerrank-css",
     title: "CSS (Basic) Certification",
-    issuer: "HackerRank",
-    issueDate: "Verified Credential",
+    organization: "HackerRank",
+    date: "Verified Credential",
+    category: "Certification",
+    categoryLabel: "Certification",
     credentialId: "HACKERRANK-CSS-BASIC",
-    skills: ["CSS3", "Responsive Layouts", "Flexbox", "Selectors"],
-    category: "Web Development",
+    skillsOrHighlights: ["CSS3", "Responsive Layouts", "Flexbox", "Selectors"],
+    description: "Validated core understanding of modern cascading style sheets, layout structuring, flexbox, and responsive UI design.",
+    badgeColor: "border-sky-500/30 text-sky-400 bg-sky-950/20",
     iconType: "layout"
   },
   {
     id: "ui-ux-design",
     title: "UI/UX Design Certification",
-    issuer: "Design & UX Training Program",
-    issueDate: "Completed",
-    skills: ["User Centered Design", "Wireframing", "Visual Hierarchy", "Prototyping"],
-    category: "Design",
+    organization: "Design & UX Training Program",
+    date: "Completed",
+    category: "Certification",
+    categoryLabel: "Certification",
+    skillsOrHighlights: ["User Centered Design", "Wireframing", "Visual Hierarchy", "Prototyping"],
+    description: "Certified in user research, wireframing, heuristic evaluation, and visual hierarchy principles for digital product design.",
+    badgeColor: "border-purple-500/30 text-purple-400 bg-purple-950/20",
     iconType: "figma"
   },
   {
-    id: "microsoft-fabric-cert",
-    title: "Microsoft Fabric in Action Workshop Certificate",
-    issuer: "Workshop Learning Partner",
-    issueDate: "Workshop Completion",
-    skills: ["Microsoft Fabric", "Lakehouse", "Data Pipelines", "Power BI"],
-    category: "Data & Analytics",
+    id: "infosys-python-ds",
+    title: "Python for Data Science",
+    organization: "Infosys Springboard",
+    date: "Course Completion",
+    category: "Certification",
+    categoryLabel: "Certification",
+    skillsOrHighlights: ["Python", "Data Science", "NumPy", "Data Analysis"],
+    description: "Completed comprehensive coursework in Python programming for data science, covering NumPy arrays, data manipulation, and analytical workflows.",
+    badgeColor: "border-cyanAccent/30 text-cyanAccent bg-cyan-950/20",
     iconType: "database"
+  },
+
+  // 2. Workshops and Technical Events
+  {
+    id: "vibe-coding-2026",
+    title: "Vibe Coding Workshop 2026",
+    organization: "StartupTN in collaboration with Google for Developers",
+    date: "30 October 2026",
+    category: "Workshop",
+    categoryLabel: "Workshop",
+    roleOrEdition: "Hands-on Workshop",
+    verificationUrl: "https://lnkd.in/p/g_Mbgfke",
+    skillsOrHighlights: ["AI-Powered Development", "Vibe Coding", "LLM Workflows", "Application Development"],
+    description: "Explored AI-powered development paradigms, emerging approaches to application development with LLM coding tools, and next-generation software workflows.",
+    badgeColor: "border-electricBlue/40 text-cyanAccent bg-electricBlue/10",
+    iconType: "laptop"
+  },
+  {
+    id: "operation-code-heist",
+    title: "OPERATION CODE HEIST",
+    organization: "SKCET Technical Club, Department of IT",
+    date: "8 August 2026",
+    category: "Workshop",
+    categoryLabel: "Technical Event",
+    roleOrEdition: "Coding Contest",
+    verificationUrl: "https://lnkd.in/p/gMiqxnPe",
+    skillsOrHighlights: ["Competitive Programming", "Algorithms", "Data Structures", "Problem Solving"],
+    description: "Competed in Operation Code Heist coding contest, engaging with algorithmic challenges, rapid problem-solving, and efficient programming logic.",
+    badgeColor: "border-amber-500/30 text-amber-400 bg-amber-950/20",
+    iconType: "terminal"
+  },
+
+  // 3. Hackathons and Achievements
+  {
+    id: "thamizhan-skills-ideathon",
+    title: "Thamizhan Skills Ideathon",
+    organization: "Thamizhan Skills",
+    date: "Ideathon Participation",
+    category: "Ideathon",
+    categoryLabel: "Ideathon",
+    roleOrEdition: "Ideation Challenge",
+    skillsOrHighlights: ["Community Innovation", "Rapid Ideation", "Collaborative Problem Solving", "Tech Proposals"],
+    description: "Participated in the Thamizhan Skills Ideathon, formulating innovative technological interventions and collaborative software proposals to address community challenges.",
+    badgeColor: "border-pink-500/30 text-pink-400 bg-pink-950/20",
+    iconType: "lightbulb"
+  },
+  {
+    id: "swoc-season-7",
+    title: "Social Winter of Code – Season 7 Contributor Selection",
+    organization: "Social Winter of Code (SWOC)",
+    date: "Season 7 (2026)",
+    category: "Achievement",
+    categoryLabel: "Achievement",
+    roleOrEdition: "Open Source Contributor",
+    skillsOrHighlights: ["Open Source Contribution", "Git & GitHub", "Collaborative Development", "Community Codebases"],
+    description: "Selected as an official contributor for Social Winter of Code Season 7, contributing to community-driven open source repositories and software tooling.",
+    badgeColor: "border-emerald-500/30 text-emerald-300 bg-emerald-950/20",
+    iconType: "trophy"
+  },
+
+  // 4. Paper Presentation
+  {
+    id: "civicconnect-cit-paper-presentation",
+    title: "CivicConnect — Paper Presentation",
+    organization: "Coimbatore Institute of Technology (CIT)",
+    date: "31 January 2026",
+    category: "Paper Presentation",
+    categoryLabel: "Paper Presentation",
+    roleOrEdition: "Paper Presentation Symposium",
+    skillsOrHighlights: ["E-Governance Architecture", "Public Grievance Oversight", "AI Triage Routing", "Civic Tech"],
+    description: "Presented a technical paper on CivicConnect (an AI-powered e-governance platform for public grievance tracking) at CIT, demonstrating citizen reporting workflows, automated complaint categorization, and administrative resolution pipelines.",
+    badgeColor: "border-blue-500/30 text-blue-400 bg-blue-950/20",
+    iconType: "fileText"
   }
 ];
+
+// Compatibility exports to prevent breaking external references
+export const certificationsData: CertificationEntry[] = [];
+export const workshopsData: WorkshopEntry[] = [];
+export const hackathonsData: HackathonEntry[] = [];
 

@@ -52,8 +52,7 @@ export const Footer: React.FC = () => {
               <li><a href="#education" className="hover:text-cyanAccent transition-colors">Education</a></li>
               <li><a href="#skills" className="hover:text-cyanAccent transition-colors">Skills</a></li>
               <li><a href="#projects" className="hover:text-cyanAccent transition-colors">Projects</a></li>
-              <li><a href="#workshops" className="hover:text-cyanAccent transition-colors">Workshops</a></li>
-              <li><a href="#hackathons" className="hover:text-cyanAccent transition-colors">Hackathons</a></li>
+              <li><a href="#certifications" className="hover:text-cyanAccent transition-colors">Certifications & Achievements</a></li>
               <li><a href="#contact" className="hover:text-cyanAccent transition-colors">Contact</a></li>
             </ul>
           </div>
