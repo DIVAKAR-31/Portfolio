@@ -7,7 +7,6 @@ import {
   CheckCircle2,
   Calendar,
   X,
-  Sparkles,
   FileBadge,
   Code,
   Layout,
@@ -20,9 +19,7 @@ import {
   FileText,
   Building2,
   ZoomIn,
-  ZoomOut,
-  RotateCcw,
-  Maximize2
+  ZoomOut
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { SectionHeading } from '../common/SectionHeading';
@@ -44,14 +41,12 @@ const categoryIconMap: Record<string, React.ElementType> = {
 
 const filterTabs = [
   { label: 'All', key: 'All' },
-  { label: 'Certifications', key: 'Certification' },
   { label: 'Workshops & Events', key: 'Workshop' },
   { label: 'Hackathons & Ideathons', key: 'Ideathon' },
-  { label: 'Achievements', key: 'Achievement' },
   { label: 'Paper Presentations', key: 'Paper Presentation' },
 ];
 
-export const CertificationsAchievements: React.FC = () => {
+export const Certifications: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<AchievementCategory>('All');
   const [viewingCertificate, setViewingCertificate] = useState<AchievementItem | null>(null);
   const [zoomLevel, setZoomLevel] = useState<number>(1);
@@ -101,9 +96,9 @@ export const CertificationsAchievements: React.FC = () => {
     <section id="certifications" className="relative py-24 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeading
-          badge="Accreditations & Milestones"
-          title="Certifications & Achievements"
-          subtitle="Verified technical certifications, collegiate workshops, hackathon innovations, open-source contributions, and academic paper presentations."
+          badge="Verified Accomplishments"
+          title="Certifications"
+          subtitle="Verified accomplishments across collegiate workshops, hackathons, ideathons, and academic paper presentations."
         />
 
         {/* Filter Navigation Tabs */}
@@ -139,7 +134,7 @@ export const CertificationsAchievements: React.FC = () => {
           })}
         </div>
 
-        {/* Certifications & Achievements Cards Grid */}
+        {/* Certifications Cards Grid */}
         <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <AnimatePresence>
             {filteredItems.map((item, idx) => {

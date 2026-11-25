@@ -12,7 +12,7 @@ import { About } from './components/sections/About';
 import { Education } from './components/sections/Education';
 import { Skills } from './components/sections/Skills';
 import { Projects } from './components/sections/Projects';
-import { CertificationsAchievements } from './components/sections/CertificationsAchievements';
+import { Certifications } from './components/sections/Certifications';
 import { Contact } from './components/sections/Contact';
 
 const PortfolioContent: React.FC = () => {
@@ -47,7 +47,7 @@ const PortfolioContent: React.FC = () => {
         <Education />
         <Skills />
         <Projects />
-        <CertificationsAchievements />
+        <Certifications />
         <Contact />
       </main>
 

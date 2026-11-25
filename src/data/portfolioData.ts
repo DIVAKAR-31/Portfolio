@@ -256,59 +256,7 @@ export const projectsData: Project[] = [
 ];
 
 export const certificationsAchievementsData: AchievementItem[] = [
-  // 1. Existing Certifications
-  {
-    id: "hackerrank-csharp",
-    title: "C# (Basic) Certification",
-    organization: "HackerRank",
-    date: "Verified Credential",
-    category: "Certification",
-    categoryLabel: "Certification",
-    credentialId: "HACKERRANK-CSHARP-BASIC",
-    skillsOrHighlights: ["C#", "Object-Oriented Programming", "Control Structures"],
-    description: "Demonstrated proficiency in C# programming fundamentals, object-oriented concepts, and control logic on HackerRank.",
-    badgeColor: "border-emerald-500/30 text-emerald-400 bg-emerald-950/20",
-    iconType: "code"
-  },
-  {
-    id: "hackerrank-css",
-    title: "CSS (Basic) Certification",
-    organization: "HackerRank",
-    date: "Verified Credential",
-    category: "Certification",
-    categoryLabel: "Certification",
-    credentialId: "HACKERRANK-CSS-BASIC",
-    skillsOrHighlights: ["CSS3", "Responsive Layouts", "Flexbox", "Selectors"],
-    description: "Validated core understanding of modern cascading style sheets, layout structuring, flexbox, and responsive UI design.",
-    badgeColor: "border-sky-500/30 text-sky-400 bg-sky-950/20",
-    iconType: "layout"
-  },
-  {
-    id: "ui-ux-design",
-    title: "UI/UX Design Certification",
-    organization: "Design & UX Training Program",
-    date: "Completed",
-    category: "Certification",
-    categoryLabel: "Certification",
-    skillsOrHighlights: ["User Centered Design", "Wireframing", "Visual Hierarchy", "Prototyping"],
-    description: "Certified in user research, wireframing, heuristic evaluation, and visual hierarchy principles for digital product design.",
-    badgeColor: "border-purple-500/30 text-purple-400 bg-purple-950/20",
-    iconType: "figma"
-  },
-  {
-    id: "infosys-python-ds",
-    title: "Python for Data Science",
-    organization: "Infosys Springboard",
-    date: "Course Completion",
-    category: "Certification",
-    categoryLabel: "Certification",
-    skillsOrHighlights: ["Python", "Data Science", "NumPy", "Data Analysis"],
-    description: "Completed comprehensive coursework in Python programming for data science, covering NumPy arrays, data manipulation, and analytical workflows.",
-    badgeColor: "border-cyanAccent/30 text-cyanAccent bg-cyan-950/20",
-    iconType: "database"
-  },
-
-  // 2. Workshops and Technical Events
+  // 1. Workshops & Technical Events
   {
     id: "vibe-coding-2026",
     title: "Vibe Coding Workshop 2026",
@@ -338,12 +286,12 @@ export const certificationsAchievementsData: AchievementItem[] = [
     iconType: "terminal"
   },
 
-  // 3. Hackathons and Achievements
+  // 2. Hackathons & Ideathons
   {
     id: "thamizhan-skills-ideathon",
     title: "Thamizhan Skills Ideathon",
     organization: "Thamizhan Skills",
-    date: "Ideathon Participation",
+    date: "Ideation Challenge",
     category: "Ideathon",
     categoryLabel: "Ideathon",
     roleOrEdition: "Ideation Challenge",
@@ -353,20 +301,33 @@ export const certificationsAchievementsData: AchievementItem[] = [
     iconType: "lightbulb"
   },
   {
-    id: "swoc-season-7",
-    title: "Social Winter of Code – Season 7 Contributor Selection",
-    organization: "Social Winter of Code (SWOC)",
-    date: "Season 7 (2026)",
-    category: "Achievement",
-    categoryLabel: "Achievement",
-    roleOrEdition: "Open Source Contributor",
-    skillsOrHighlights: ["Open Source Contribution", "Git & GitHub", "Collaborative Development", "Community Codebases"],
-    description: "Selected as an official contributor for Social Winter of Code Season 7, contributing to community-driven open source repositories and software tooling.",
-    badgeColor: "border-emerald-500/30 text-emerald-300 bg-emerald-950/20",
+    id: "adobe-hackathon",
+    title: "Adobe University Hackathon",
+    organization: "Adobe",
+    date: "Online Assessment Round",
+    category: "Hackathon",
+    categoryLabel: "Hackathon",
+    roleOrEdition: "University Challenge — Online Assessment",
+    skillsOrHighlights: ["Competitive Programming", "Algorithmic Efficiency", "Data Structures", "Logical Reasoning"],
+    description: "Successfully completed the rigorous Online Assessment round of the Adobe University Hackathon, solving complex algorithmic challenges and coding problems under strict time constraints.",
+    badgeColor: "border-rose-500/30 text-rose-400 bg-rose-950/20",
+    iconType: "code"
+  },
+  {
+    id: "smart-india-hackathon",
+    title: "Smart India Hackathon (SIH)",
+    organization: "Ministry of Education / AICTE",
+    date: "Internal / Ideation Phase",
+    category: "Hackathon",
+    categoryLabel: "National Hackathon",
+    roleOrEdition: "National Initiative",
+    skillsOrHighlights: ["Public Service Innovation", "Citizen-Centric Systems", "National Governance", "Team Collaboration"],
+    description: "Engaged in the nationwide Smart India Hackathon initiative, brainstorming national-scale technological interventions to solve governance and societal challenges through open innovation.",
+    badgeColor: "border-emerald-500/30 text-emerald-400 bg-emerald-950/20",
     iconType: "trophy"
   },
 
-  // 4. Paper Presentation
+  // 3. Paper Presentation
   {
     id: "civicconnect-cit-paper-presentation",
     title: "CivicConnect — Paper Presentation",
@@ -374,7 +335,7 @@ export const certificationsAchievementsData: AchievementItem[] = [
     date: "31 January 2026",
     category: "Paper Presentation",
     categoryLabel: "Paper Presentation",
-    roleOrEdition: "Paper Presentation Symposium",
+    roleOrEdition: "Technical Paper Presentation Symposium",
     skillsOrHighlights: ["E-Governance Architecture", "Public Grievance Oversight", "AI Triage Routing", "Civic Tech"],
     description: "Presented a technical paper on CivicConnect (an AI-powered e-governance platform for public grievance tracking) at CIT, demonstrating citizen reporting workflows, automated complaint categorization, and administrative resolution pipelines.",
     badgeColor: "border-blue-500/30 text-blue-400 bg-blue-950/20",

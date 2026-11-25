@@ -1,192 +1,173 @@
 # 🌌 Divakar S. — Premium Futuristic Personal Portfolio
 
-[![React](https://img.shields.io/badge/React-18.3-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![React](https://img.shields.io/badge/React-19.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38BDF8?style=for-the-badge&logo=tailwind-css&logoColor=black)](https://tailwindcss.com/)
 [![Framer Motion](https://img.shields.io/badge/Framer_Motion-12.4-FF0055?style=for-the-badge&logo=framer&logoColor=white)](https://motion.dev/)
 [![Vite](https://img.shields.io/badge/Vite-6.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Deployment](https://img.shields.io/badge/Deployed_on-Vercel-black?style=for-the-badge&logo=vercel&logoColor=white)](https://portfolio-xi-sandy-66.vercel.app/)
 
-An award-winning, premium futuristic personal portfolio designed and engineered for **Divakar S.** (B.Tech Information Technology student at Sri Krishna College of Engineering and Technology, SKCET, Coimbatore).
-
----
-
-## 🚀 Key Highlights & Architectural Features
-
-### 🌠 1. Signature Cinematic Shooting Star & Comet Intro
-- **Visual Sequence**: Starts on a pitch-dark navy space canvas (`#050816`). A tiny white-blue central star sparks to life, pulses and intensifies in brightness, then swoops gracefully across the screen as a blazing **shooting star**. Its tail expands into a brilliant **electric-blue and cyan glowing comet**, showering trailing stardust particles across the viewport before illuminating the screen in a cosmic wipe that smoothly reveals the homepage.
-- **Performance & Accessibility**: Built on HTML5 Canvas and mathematical Bézier kinematics (60fps) without heavy video backgrounds. Respects `prefers-reduced-motion`, includes an instant `Skip Intro` control, and uses `sessionStorage` to run once per browsing session (with a dedicated **"Replay Intro"** button in the navigation bar to experience it again anytime).
-
-### 🎨 2. Dark Futuristic Design System
-- **Theme**: Dark Futuristic / High-Technology Glassmorphism.
-- **Palette**:
-  - Background: `#050816`
-  - Secondary Background: `#0B1224`
-  - Card Background: `#101A30`
-  - Electric Blue: `#38BDF8`
-  - Primary Blue: `#2563EB`
-  - Cyan Accent: `#22D3EE`
-  - High-Contrast White: `#F8FAFC`
-  - Muted Slate: `#94A3B8`
-- **Atmospheric Layering**: Cosmic starfield with periodic micro-comets, electric-blue glowing custom cursor with dynamic particle trail (auto-disabled on touch devices), subtle cyber grids, and magnetic button physics.
-
-### 🧭 3. Comprehensive Sections
-1. **Homepage / Hero**:
-   - Holographic logo `DIVAKAR S.` with status telemetry pill.
-   - Headline: *"Building Ideas Into Digital Experiences."*
-   - Typewriter animated rotating focus text: *Information Technology Student*, *Software Development Enthusiast*, *AI Explorer*, *Technology Enthusiast*.
-   - Direct CTA buttons (`Explore My Projects`, `Contact Me`) and working GitHub & LinkedIn badges.
-   - Holographic geometric profile avatar placeholder with one-click custom photo uploader.
-   - **Strictly excludes any resume download button**, as requested.
-2. **About Me**:
-   - Split-layout narrative covering Divakar's SKCET academic journey, engineering philosophy, and interest in AI-integrated apps.
-   - 4 foundational pillars: *Programming & Development*, *AI-Integrated Solutions*, *Problem-Solving Mindset*, and *Adaptability & Teamwork*.
-   - Verified stat cards (9.2 CGPA up to 2nd semester, 3 key projects, 3+ hackathons).
-3. **Education Timeline**:
-   - Vertical glowing timeline with milestone nodes.
-   - **SKCET** — B.Tech Information Technology (Coimbatore, Tamil Nadu, 2025 – Present, CGPA: 9.2/10, DBMS coursework).
-   - **SBK Boys Higher Secondary School** — HSE (Aruppukottai, Tamil Nadu, 91.83%, Maths, Physics, Chemistry).
-   - **SBKKSS Thiyagarajan Memorial Matriculation School** — SSLC (Aruppukottai, Tamil Nadu, 93.4%).
-4. **Technical Skills**:
-   - Categorized cards with live filter pills:
-     - **Programming**: Java, C++, C
-     - **Web Development**: HTML, CSS
-     - **Database**: MySQL, Database Management Systems
-     - **AI & Technology**: Google Gemini API
-     - **Tools**: Visual Studio Code, GitHub
-     - **Academic Coursework**: Data Structures and Algorithms, Database Management Systems
-     - **Soft Skills**: Adaptability, Teamwork and Collaboration, Time Management, Critical Thinking
-   - Accurate and unexaggerated.
-5. **Projects (Curated & Detailed)**:
-   - **01 — CivicConnect**: AI-Powered E-Governance Platform for Public Grievance Tracking (React, Google Gemini API, Custom Analytics). Frontend UI prototype with simulated grievance filing wizard and AI categorization; linked to [GitHub repository](https://github.com/DIVAKAR-31/Civic-Connect).
-   - **02 — UniServe**: AI-Powered Labour Cooperative Services Platform (React Native, Expo, Node.js, Express, PostgreSQL, Redis, Google Maps API). Architectural case study detailing 8 cooperative platform features, rate-card locking, and role-based portals.
-   - **03 — Employee Attrition Prediction**: Data analytics & predictive modeling lifecycle tracking 8 sequential stages, with completed stages (Problem Understanding, Dataset Exploration, Preprocessing, EDA) distinguished from in-progress/planned stages.
-   - **Deep-Dive Modal**: Each card opens a multi-tab case study window with *Overview*, *Capabilities/Stages*, *Architecture Topology*, and *Interactive Showcase*.
-6. **Workshops & Technical Experiences**:
-   - *Microsoft Fabric in Action: Building End-to-End Data Analytics Solutions* (Fabric ecosystem, OneLake, Lakehouse, Real-time analytics, Power BI).
-   - *Vibe Coding Workshop* (AI-assisted rapid prototyping, LLM prompt engineering).
-   - *AWS Event Participation* (Cloud primitives, EC2/S3/VPC, serverless architectures).
-7. **Hackathons & Innovation**:
-   - *Samsung Hackathon / Innovation Participation*
-   - *Adobe University Hackathon — Online Assessment*
-   - *Smart India Hackathon (SIH)*
-   - Verifiable participation details with editable placeholders for dates and teams.
-8. **Certifications**:
-   - HackerRank C# Basic Certification
-   - HackerRank CSS Basic Certification
-   - UI/UX Design Certification
-   - Microsoft Fabric Workshop Certificate
-   - Interactive modal with verified digital credentials and celebratory confetti triggers.
-9. **Contact & Communication**:
-   - Contact form with client-side validation (Name, Email, Subject, Message).
-   - Loading, success, and error state handling.
-   - Copy-to-clipboard email trigger for `sdivakar052@gmail.com`.
-   - Direct `mailto:` transmission link for native email clients.
-   - Verified GitHub and LinkedIn links.
+> **Live Portfolio:** [https://portfolio-xi-sandy-66.vercel.app/](https://portfolio-xi-sandy-66.vercel.app/)  
+> **GitHub Repository:** [https://github.com/DIVAKAR-31/Portfolio](https://github.com/DIVAKAR-31/Portfolio)
 
 ---
 
-## 🛠️ Project Structure
+## 👨‍💻 About Me
+
+I am **Divakar S.**, a B.Tech Information Technology student at **Sri Krishna College of Engineering and Technology (SKCET)**, Coimbatore, Tamil Nadu.
+
+- **Focus Areas**: Software Development, AI-Integrated Applications, UI/UX Engineering, Database Systems.
+- **Academic Standing**: 9.2 / 10 CGPA (up to 2nd semester) at SKCET.
+- **Philosophy**: Crafting intelligent software, responsive user interfaces, and verifiable data-driven systems with clean engineering standards.
+- **Contact Email**: [sdivakar052@gmail.com](mailto:sdivakar052@gmail.com)
+- **LinkedIn**: [linkedin.com/in/divakar-s-123134375](https://linkedin.com/in/divakar-s-123134375)
+- **GitHub**: [github.com/DIVAKAR-31](https://github.com/DIVAKAR-31)
+
+---
+
+## 🛠️ Technologies Used
+
+### Frontend & UI Architecture
+- **React 19** — Next-generation React library utilizing concurrent rendering and optimized component lifecycle.
+- **TypeScript 5.6** — Strict static typing across all interfaces, data schemas, and interactive state models.
+- **Tailwind CSS 3.4** — Utility-first styling framework with custom futuristic color tokens, cyan/electric-blue glow palettes, and glassmorphism styling.
+- **Framer Motion 12.4** — Production-grade animations, smooth layout transitions, spring physics, and scroll telemetry.
+- **Lucide React** — Modern, lightweight iconography suite.
+- **Canvas Confetti** — Interactive celebratory visual triggers on credential actions.
+
+### Build Tooling & Infrastructure
+- **Vite 6** — Lightning-fast development server and optimized rollup production bundler.
+- **PostCSS & Autoprefixer** — Automated CSS prefixing and standard compliance.
+- **Vercel** — Automated continuous deployment from GitHub `main` branch.
+
+---
+
+## ✨ Key Portfolio Features
+
+1. **Signature Cinematic Star-to-Comet Intro**:
+   - A custom HTML5 Canvas animation featuring a nascent white-blue star that gathers momentum, swoops across the viewport as a blazing shooting star, and transitions into a glowing cyan comet with trailing stardust.
+   - Smooth cosmic wipe transition into the homepage.
+   - Fully accessible, respects `prefers-reduced-motion`, and runs automatically.
+
+2. **Custom Glowing Cursor**:
+   - An elegant glowing cursor tracking user movement with subtle soft shine.
+   - Automatically disabled on touch devices to prioritize native ergonomics.
+
+3. **3D Tilt Kinematics**:
+   - Subtle, responsive 3D perspective tilting on cards and glass panels based on real-time pointer coordinates.
+
+4. **Dynamic Theme Switcher**:
+   - Seamless toggling between Futuristic Space Dark Mode (`#050816`) and Clean Light Mode, persisting across sessions.
+
+5. **Integrated Contact System**:
+   - Functional contact form backed by FormSubmit integration delivering messages directly to `sdivakar052@gmail.com`.
+   - Real-time client-side validation, status feedback, and one-click clipboard copying.
+
+---
+
+## 🚀 Featured Projects
+
+### 01. [CivicConnect](https://github.com/DIVAKAR-31/Civic-Connect)
+*AI-Driven Public Grievance Management & Municipal Oversight Platform*
+- **Live Demo**: [https://civic-connect-six-tau.vercel.app/](https://civic-connect-six-tau.vercel.app/)
+- **GitHub**: [https://github.com/DIVAKAR-31/Civic-Connect](https://github.com/DIVAKAR-31/Civic-Connect)
+- **Tech Stack**: React 19, TypeScript, Node.js, Express 5, SQLite, Google Gemini API, Tailwind CSS, Leaflet Maps
+- **Core Capabilities**:
+  - Citizen complaint reporting with geotagged Leaflet mapping, photo attachments, and real-time grievance tracking.
+  - Comprehensive administrative dashboard with department assignment and resolution pipelines.
+  - Hierarchical 3-tier government authority escalation workflow (Village President → Taluk Officer → District Collector).
+  - Google Gemini AI integration for automated grievance classification, priority scoring, and duplicate detection.
+
+### 02. [UniServe](https://github.com/DIVAKAR-31/Uni-Serve)
+*AI-Powered Labour Cooperative Services Platform*
+- **Live Demo**: [https://uni-serv.vercel.app/](https://uni-serv.vercel.app/)
+- **GitHub**: [https://github.com/DIVAKAR-31/Uni-Serve](https://github.com/DIVAKAR-31/Uni-Serve)
+- **Tech Stack**: React Native, Expo SDK, Node.js, Express.js, PostgreSQL, Redis, Google Maps API
+- **Core Capabilities**:
+  - Multi-tenant role-based ecosystem for Households, Certified Tradespersons, and Cooperative Society Admins.
+  - Direct verified cooperative member dispatch eliminating extractive broker fees.
+  - Standardized district rate-card locking, OTP-based job verification, and milestone-based escrow payouts.
+
+### 03. [Order-to-Audit System for a Small Food Manufacturer](https://github.com/DIVAKAR-31/order-to-audit-system)
+*Integrated Business Management, Inventory & 5% GST Tax Invoicing Platform*
+- **YouTube Demo**: [https://youtu.be/6hrgj-NFUSY](https://youtu.be/6hrgj-NFUSY)
+- **GitHub**: [https://github.com/DIVAKAR-31/order-to-audit-system](https://github.com/DIVAKAR-31/order-to-audit-system)
+- **Tech Stack**: FastAPI, React 19, TypeScript, Tailwind CSS, SQLAlchemy, SQLite / PostgreSQL, ReportLab, OpenPyXL
+- **Core Capabilities**:
+  - Unifies sales order bookings, raw material BOM inventory tracking, and batch production auditing.
+  - Automatically audits production yields, detecting scrap loss and recipe variances.
+  - Automated 5% GST billing with intra-state (CGST/SGST) vs interstate (IGST) tax logic, PDF invoice generation, and one-click multi-tab Excel (.xlsx) audit exports.
+
+---
+
+## 🏆 Certifications & Achievements
+
+The portfolio features a unified **Certifications** section with dynamic category filtering and an interactive preview viewer:
+
+### Included Achievements
+- **Vibe Coding Workshop 2026** — *StartupTN in collaboration with Google for Developers* (30 October 2026)
+  - Explored AI-powered development paradigms, next-generation software workflows, and LLM application engineering.
+- **OPERATION CODE HEIST** — *SKCET Technical Club, Department of Information Technology* (8 August 2026)
+  - Competitive programming contest engaging with algorithmic challenges and time-boxed problem-solving.
+- **Thamizhan Skills Ideathon** — *Thamizhan Skills*
+  - Formulated technological interventions and collaborative software proposals addressing civic and community challenges.
+- **Adobe University Hackathon** — *Adobe*
+  - Successfully completed the competitive Online Assessment round solving complex algorithmic and data structure problems.
+- **Smart India Hackathon (SIH)** — *Ministry of Education / AICTE*
+  - Participated in the nationwide hackathon initiative focusing on citizen-centric digital public infrastructure.
+- **CivicConnect — Paper Presentation** — *Coimbatore Institute of Technology (CIT)* (31 January 2026)
+  - Presented a technical research paper on CivicConnect demonstrating AI-assisted municipal grievance triage and hierarchical escalation workflows.
+
+### Certificate Viewer Features
+- **Modal Preview Window**: High-resolution viewer modal with dark backdrop blur.
+- **Zoom Controls**: Interactive Zoom In (`+`), Zoom Out (`-`), and Reset (`100%`) magnification.
+- **External View**: One-click button to open certificates in a dedicated new browser tab.
+- **Keyboard Navigation**: Instant dismissal via `ESC` key or backdrop click.
+- **Authenticity Integrity**: Displays "View Certificate" strictly when verified certificate files exist; otherwise presents authentic verified milestone status without placeholder images.
+
+---
+
+## 📦 Installation & Local Setup
+
+Clone the repository and install dependencies:
 
 ```bash
-Portfolio/
-├── index.html                    # SEO-optimized HTML5 entry with Space Grotesk & JetBrains Mono
-├── package.json                  # Dependencies & build scripts
-├── postcss.config.js             # PostCSS configuration
-├── tailwind.config.js            # Futuristic color tokens, fonts & animations
-├── tsconfig.json                 # TypeScript compiler configuration
-├── vite.config.ts                # Vite bundler configuration
-├── scripts/
-│   └── setup-wasm.cjs            # Rollup WASM compatibility hook for restricted environments
-└── src/
-    ├── App.tsx                   # Main application layout & session intro logic
-    ├── main.tsx                  # React DOM bootstrap
-    ├── data/
-    │   └── portfolioData.ts      # ⭐ Centralized data source for personal info, projects & education
-    ├── types/
-    │   └── portfolio.ts          # Strongly-typed TypeScript interfaces
-    ├── styles/
-    │   └── index.css             # Glassmorphism, cyber neon glows & custom scrollbar
-    └── components/
-        ├── common/
-        │   ├── BackToTop.tsx     # Floating return-to-top button
-        │   ├── MagneticButton.tsx# Interactive magnetic spring button with light gleam
-        │   └── SectionHeading.tsx# Futuristic glowing section title & tag badge
-        ├── intro/
-        │   └── CinematicIntro.tsx# 🌠 Signature shooting star to glowing comet intro animation
-        ├── layout/
-        │   ├── BackgroundStarfield.tsx # Subtle drifting stars & atmospheric nebula glows
-        │   ├── CustomCursor.tsx  # Glowing electric-blue cursor with bubble trail
-        │   ├── Footer.tsx        # Responsive futuristic footer with system status pill
-        │   └── Navbar.tsx        # Glassmorphism navbar with active scroll spy & replay intro
-        └── sections/
-            ├── About.tsx         # Split-layout narrative & verified academic stats
-            ├── Certifications.tsx# Credential gallery with full-screen verification modal
-            ├── Contact.tsx       # Contact form with validation & copy email
-            ├── Education.tsx     # Vertical glowing milestone timeline
-            ├── Hackathons.tsx    # Innovation and hackathon showcase cards
-            ├── Hero.tsx          # Dynamic hero section with rotating text & holographic avatar
-            ├── ProjectModal.tsx  # Deep-dive multi-tab case study modal & interactive simulation
-            ├── Projects.tsx      # Curated 3-project showcase cards
-            ├── Skills.tsx        # Categorized interactive technical competencies
-            └── Workshops.tsx     # Hands-on technical workshops & applied learnings
-```
+# 1. Clone the repository
+git clone https://github.com/DIVAKAR-31/Portfolio.git
 
----
+# 2. Navigate to the project root
+cd Portfolio
 
-## 💻 Local Development & Build
-
-### Prerequisites
-- Node.js (v18+ or v20+)
-- npm (v9+ or v11+)
-
-### 1. Install Dependencies
-```bash
+# 3. Install dependencies
 npm install
-```
 
-### 2. Start Development Server
-```bash
+# 4. Start the local development server
 npm run dev
 ```
-Open `http://localhost:3000` or `http://localhost:5173` in your browser.
 
-### 3. Production Build
-```bash
-npm run build
-```
-Generates an optimized production bundle in `/dist` with zero TypeScript or bundling errors.
+Visit `http://localhost:5173/` in your browser to view the portfolio.
 
-### 4. Preview Production Build
-```bash
-npm run preview
-```
+### Available Scripts
 
----
-
-## ⚙️ Customization Guide
-
-### Editing Your Personal Information
-All content is centralized in a single, well-documented file:
-`src/data/portfolioData.ts`
-
-To update your CGPA, coursework, project descriptions, or add new certifications, simply edit the values in that file.
-
-### Adding Your Profile Photograph
-In `src/components/sections/Hero.tsx`, an interactive uploader is provided on the holographic avatar card. Alternatively, to permanently set your photo:
-1. Place your image file (e.g. `divakar.jpg`) in the `public/` directory.
-2. In `src/components/sections/Hero.tsx`, set the default state:
-   ```typescript
-   const [profileImage, setProfileImage] = useState<string | null>('/divakar.jpg');
-   ```
-
-### Connecting Live Form Submissions (Formspree / EmailJS)
-In `src/components/sections/Contact.tsx`, the form is pre-configured with client-side validation and immediate `mailto:` fallback. To connect a service like [Formspree](https://formspree.io/):
-1. Create a free Formspree form endpoint (`https://formspree.io/f/your_form_id`).
-2. Update the `fetch()` call inside `handleSubmit()` in `Contact.tsx`.
+| Command | Description |
+|---|---|
+| `npm run dev` | Runs the Vite development server with Hot Module Replacement (HMR). |
+| `npm run build` | Compiles TypeScript and creates an optimized production bundle in `dist/`. |
+| `npm run preview` | Locally serves the production build to verify bundle performance. |
+| `npm run lint` | Runs ESLint to check code standards and formatting. |
 
 ---
 
-## 📜 License
-Personal Portfolio developed for **Divakar S.**
-Built with precision, futuristic motion, and modern software engineering practices.
+## 🌐 Deployment
 
+The portfolio is deployed to **Vercel** with automatic continuous deployment enabled:
+
+- Every push to the `main` branch automatically triggers a production build and deploy.
+- Live URL: **[https://portfolio-xi-sandy-66.vercel.app/](https://portfolio-xi-sandy-66.vercel.app/)**
+
+---
+
+## 📄 License
+
+Designed and developed by **Divakar S.**  
+Source code released under the [MIT License](LICENSE).
