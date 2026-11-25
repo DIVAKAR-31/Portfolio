@@ -12,6 +12,7 @@ import {
   Terminal,
   Sparkles
 } from 'lucide-react';
+import confetti from 'canvas-confetti';
 import { SectionHeading } from '../common/SectionHeading';
 import { personalInfo } from '../../data/portfolioData';
 
@@ -41,6 +42,7 @@ export const Contact: React.FC = () => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
+  const [lastSubmitted, setLastSubmitted] = useState<FormState | null>(null);
 
   const validate = (): boolean => {
     const errs: FormErrors = {};
@@ -71,62 +73,13 @@ export const Contact: React.FC = () => {
     setTimeout(() => setCopiedEmail(false), 2500);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
-
-    setStatus('loading');
-
-    try {
-      const fd = new FormData();
-      fd.append('name', formData.name);
-      fd.append('email', formData.email);
-      fd.append('subject', formData.subject);
-      fd.append('message', formData.message);
-      fd.append('_subject', `[Portfolio Message from ${formData.name}] ${formData.subject}`);
-      fd.append('_replyto', formData.email);
-      fd.append('_captcha', 'false');
-
-      // Real email transmission to sdivakar052@gmail.com
-      const response = await fetch(`https://formsubmit.co/ajax/${personalInfo.email}`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-        },
-        body: fd,
-      });
-
-      const result = await response.json();
-
-      if (response.ok && (result.success === 'true' || result.success === true)) {
-        setStatus('success');
-        setStatusMessage(
-          `Your message was successfully transmitted to ${personalInfo.email}! Note: If this is your first submission, please check ${personalInfo.email} (including Spam/Junk) to click the one-time FormSubmit confirmation link to activate the inbox.`
-        );
-        // Reset form
-        setFormData({
-          name: '',
-          email: '',
-          subject: '',
-          message: ''
-        });
-        setErrors({});
-      } else {
-        throw new Error(result.message || 'Transmission failed');
-      }
-    } catch (err) {
-      console.error('Email dispatch error:', err);
-      setStatus('error');
-      setStatusMessage(
-        `Unable to reach the automated dispatch server. Please click the "Send via Gmail" or "Mail Client" button below to send your email directly to ${personalInfo.email}.`
-      );
-    }
-  };
-
-  const handleOpenGmail = () => {
-    const su = encodeURIComponent(formData.subject || 'Portfolio Inquiry / Collaboration');
+  const handleOpenGmail = (data?: FormState) => {
+    const payload = data || lastSubmitted || formData;
+    const su = encodeURIComponent(
+      payload.subject ? `[Portfolio Inquiry] ${payload.subject}` : 'Portfolio Inquiry / Collaboration'
+    );
     const body = encodeURIComponent(
-      `Hi Divakar,\n\nName: ${formData.name || 'Visitor'}\nEmail: ${formData.email || 'N/A'}\n\nMessage:\n${formData.message || ''}\n\nBest regards,\n${formData.name || 'Visitor'}`
+      `Hi Divakar,\n\nName: ${payload.name || 'Visitor'}\nEmail: ${payload.email || 'N/A'}\nSubject: ${payload.subject || 'Portfolio Inquiry'}\n\nMessage:\n${payload.message || ''}\n\nBest regards,\n${payload.name || 'Visitor'}\n\n---\nSent via Divakar S. Portfolio Website`
     );
     window.open(
       `https://mail.google.com/mail/?view=cm&fs=1&to=${personalInfo.email}&su=${su}&body=${body}`,
@@ -134,13 +87,110 @@ export const Contact: React.FC = () => {
     );
   };
 
-  const handleMailtoDirect = () => {
-    const mailtoUrl = `mailto:${personalInfo.email}?subject=${encodeURIComponent(
-      formData.subject || 'Portfolio Inquiry'
-    )}&body=${encodeURIComponent(
-      `Name: ${formData.name || 'Visitor'}\nEmail: ${formData.email || 'N/A'}\n\nMessage:\n${formData.message || ''}`
+  const handleMailtoDirect = (data?: FormState) => {
+    const payload = data || lastSubmitted || formData;
+    const su = encodeURIComponent(
+      payload.subject ? `[Portfolio Inquiry] ${payload.subject}` : 'Portfolio Inquiry'
+    );
+    const mailtoUrl = `mailto:${personalInfo.email}?subject=${su}&body=${encodeURIComponent(
+      `Hi Divakar,\n\nName: ${payload.name || 'Visitor'}\nEmail: ${payload.email || 'N/A'}\nSubject: ${payload.subject || 'Portfolio Inquiry'}\n\nMessage:\n${payload.message || ''}\n\n---\nSent via Divakar S. Portfolio Website`
     )}`;
     window.location.href = mailtoUrl;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    setStatus('loading');
+    const submissionData = { ...formData };
+    setLastSubmitted(submissionData);
+
+    const subjectText = `[Portfolio Inquiry from ${submissionData.name}] ${submissionData.subject}`;
+    const bodyText = `Hi Divakar,\n\nName: ${submissionData.name}\nEmail: ${submissionData.email}\nSubject: ${submissionData.subject}\n\nMessage:\n${submissionData.message}\n\n---\nSent from Divakar S. Portfolio Website`;
+
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
+      personalInfo.email
+    )}&su=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`;
+
+    const mailtoUrl = `mailto:${encodeURIComponent(personalInfo.email)}?subject=${encodeURIComponent(
+      subjectText
+    )}&body=${encodeURIComponent(bodyText)}`;
+
+    // Try automated background dispatch with a strict 3.5-second timeout so it NEVER hangs
+    let automatedSuccess = false;
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 3500);
+
+      const response = await fetch(`https://formsubmit.co/ajax/${personalInfo.email}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        signal: controller.signal,
+        body: JSON.stringify({
+          name: submissionData.name,
+          email: submissionData.email,
+          subject: submissionData.subject,
+          message: submissionData.message,
+          _subject: subjectText,
+          _replyto: submissionData.email,
+          _captcha: 'false',
+        }),
+      });
+
+      clearTimeout(timeoutId);
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success === 'true' || result.success === true) {
+          automatedSuccess = true;
+        }
+      }
+    } catch {
+      // Abort / timeout / network failure
+      automatedSuccess = false;
+    }
+
+    if (automatedSuccess) {
+      setStatus('success');
+      setStatusMessage(
+        `Your message has been directly dispatched to ${personalInfo.email}! You can also send a direct copy via Gmail Web below.`
+      );
+    } else {
+      // Directly launch Gmail in a new tab or mail client so the message is 100% delivered to sdivakar052@gmail.com
+      const opened = window.open(gmailUrl, '_blank');
+      if (!opened) {
+        window.location.href = mailtoUrl;
+      }
+
+      setStatus('success');
+      setStatusMessage(
+        `Your message has been prepared for ${personalInfo.email}! We opened Gmail / your email client with your message ready to send. If the tab did not open, click "Open in Gmail Web" below.`
+      );
+    }
+
+    try {
+      confetti({
+        particleCount: 40,
+        spread: 60,
+        origin: { y: 0.7 },
+        colors: ['#38BDF8', '#22D3EE', '#2563EB', '#10B981'],
+      });
+    } catch {
+      // Ignore if blocked
+    }
+
+    // Reset form fields
+    setFormData({
+      name: '',
+      email: '',
+      subject: '',
+      message: ''
+    });
+    setErrors({});
   };
 
   return (
@@ -275,7 +325,7 @@ export const Contact: React.FC = () => {
                       <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-emerald-500/30">
                         <button
                           type="button"
-                          onClick={handleOpenGmail}
+                          onClick={() => handleOpenGmail()}
                           className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-[11px] font-semibold transition-colors"
                         >
                           <ExternalLink className="w-3.5 h-3.5" />
@@ -283,7 +333,7 @@ export const Contact: React.FC = () => {
                         </button>
                         <button
                           type="button"
-                          onClick={handleMailtoDirect}
+                          onClick={() => handleMailtoDirect()}
                           className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-900/60 hover:bg-emerald-800/80 text-emerald-200 font-mono text-[11px] transition-colors"
                         >
                           <Mail className="w-3.5 h-3.5" />
@@ -313,7 +363,7 @@ export const Contact: React.FC = () => {
                       <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-rose-500/30">
                         <button
                           type="button"
-                          onClick={handleOpenGmail}
+                          onClick={() => handleOpenGmail()}
                           className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-mono text-[11px] font-semibold transition-colors"
                         >
                           <ExternalLink className="w-3.5 h-3.5" />
@@ -321,7 +371,7 @@ export const Contact: React.FC = () => {
                         </button>
                         <button
                           type="button"
-                          onClick={handleMailtoDirect}
+                          onClick={() => handleMailtoDirect()}
                           className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-900/60 hover:bg-rose-800/80 text-rose-200 font-mono text-[11px] transition-colors"
                         >
                           <Mail className="w-3.5 h-3.5" />
@@ -439,8 +489,8 @@ export const Contact: React.FC = () => {
 
                   <button
                     type="button"
-                    onClick={handleOpenGmail}
-                    className="w-full sm:w-auto px-5 py-3.5 rounded-xl dark:bg-slate-900/90 bg-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 border dark:border-electricBlue/30 border-slate-300 dark:text-cyanAccent text-blue-600 font-mono text-xs font-semibold tracking-wide flex items-center justify-center gap-2 transition-all"
+                    onClick={() => handleOpenGmail()}
+                    className="w-full sm:w-auto px-5 py-3.5 rounded-xl dark:bg-slate-900/90 bg-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 border dark:border-electricBlue/30 border-slate-300 dark:text-cyanAccent text-blue-600 font-mono text-xs font-semibold tracking-wide flex items-center justify-center gap-2 transition-all cursor-pointer"
                     title="Compose directly in Gmail with pre-filled message"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
@@ -449,8 +499,8 @@ export const Contact: React.FC = () => {
 
                   <button
                     type="button"
-                    onClick={handleMailtoDirect}
-                    className="text-xs font-mono dark:text-mutedText text-slate-500 hover:text-cyanAccent transition-colors flex items-center gap-1.5 py-2 px-1"
+                    onClick={() => handleMailtoDirect()}
+                    className="text-xs font-mono dark:text-mutedText text-slate-500 hover:text-cyanAccent transition-colors flex items-center gap-1.5 py-2 px-1 cursor-pointer"
                     title="Open your device default mail app"
                   >
                     <Mail className="w-3.5 h-3.5" />
