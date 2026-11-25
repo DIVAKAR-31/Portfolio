@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Send,
@@ -42,6 +42,17 @@ export const Contact: React.FC = () => {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
 
+  const isSubmittingRef = useRef(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
   const validate = (): boolean => {
     const errs: FormErrors = {};
     if (!formData.name.trim()) {
@@ -71,119 +82,88 @@ export const Contact: React.FC = () => {
     setTimeout(() => setCopiedEmail(false), 2500);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    // Prevent duplicate submissions while in-flight
+    if (status === 'loading') {
+      e.preventDefault();
+      return;
+    }
 
-    // Prevent duplicate submissions while sending
-    if (status === 'loading') return;
+    if (!validate()) {
+      e.preventDefault();
+      return;
+    }
 
-    if (!validate()) return;
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
+      e.preventDefault();
+      setStatus('error');
+      setStatusMessage('You appear to be offline. Please check your internet connection and try again.');
+      return;
+    }
 
     setStatus('loading');
-    setStatusMessage('');
+    setStatusMessage('Transmitting message via FormSubmit secure gateway...');
+    isSubmittingRef.current = true;
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
+    // Safety timeout: 90 seconds (FormSubmit mail routing may take 30-60s during peak traffic)
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      if (isSubmittingRef.current) {
+        isSubmittingRef.current = false;
+        setStatus('error');
+        setStatusMessage(
+          'Transmission took longer than expected. Please check your internet connection or reach out directly at ' +
+            personalInfo.email
+        );
+      }
+    }, 90000);
 
+    // Form will naturally submit via POST to the hidden iframe target
+  };
+
+  const handleIframeLoad = () => {
+    // Only react if submission was actively in-flight
+    if (!isSubmittingRef.current) {
+      return;
+    }
+
+    isSubmittingRef.current = false;
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+
+    setStatus('success');
+    setStatusMessage('Your message has been sent successfully! Thank you for reaching out.');
+
+    // Clear form fields
+    setFormData({
+      name: '',
+      email: '',
+      subject: '',
+      message: ''
+    });
+    setErrors({});
+
+    // Celebratory confetti
     try {
-      // FormSubmit official AJAX endpoint with application/json
-      const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(personalInfo.email)}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name.trim(),
-          email: formData.email.trim(),
-          subject: formData.subject.trim(),
-          message: formData.message.trim(),
-          _subject: `[Portfolio Contact] ${formData.subject.trim()} - from ${formData.name.trim()}`,
-          _replyto: formData.email.trim(),
-          _captcha: 'false',
-          _template: 'table',
-        }),
-        signal: controller.signal,
+      confetti({
+        particleCount: 50,
+        spread: 70,
+        origin: { y: 0.7 },
+        colors: ['#38BDF8', '#22D3EE', '#2563EB', '#10B981'],
       });
-
-      clearTimeout(timeoutId);
-
-      // Verify HTTP response status
-      if (!response.ok) {
-        let errDetail = `Server returned status ${response.status}.`;
-        try {
-          const errJson = await response.json();
-          if (errJson?.message) errDetail = errJson.message;
-        } catch {
-          // fallback to status code
-        }
-        throw new Error(errDetail);
-      }
-
-      // Parse JSON response
-      const result = await response.json();
-
-      // FormSubmit returns { success: "true", message: "..." }
-      const isSuccess =
-        result &&
-        (result.success === 'true' ||
-          result.success === true ||
-          (typeof result.message === 'string' &&
-            result.message.toLowerCase().includes('success')));
-
-      if (isSuccess) {
-        setStatus('success');
-        setStatusMessage(
-          typeof result.message === 'string' && result.message.trim().length > 0
-            ? result.message
-            : 'Your message has been sent successfully! Thank you for reaching out.'
-        );
-
-        // Reset form fields
-        setFormData({
-          name: '',
-          email: '',
-          subject: '',
-          message: '',
-        });
-        setErrors({});
-
-        // Celebratory confetti
-        try {
-          confetti({
-            particleCount: 50,
-            spread: 70,
-            origin: { y: 0.7 },
-            colors: ['#38BDF8', '#22D3EE', '#2563EB', '#10B981'],
-          });
-        } catch {
-          // Ignore if blocked
-        }
-      } else {
-        throw new Error(
-          (result && result.message) ||
-            'FormSubmit was unable to process your submission. Please try again.'
-        );
-      }
-    } catch (err: unknown) {
-      clearTimeout(timeoutId);
-      console.error('FormSubmit transmission error:', err);
-      setStatus('error');
-      if (err instanceof Error && err.name === 'AbortError') {
-        setStatusMessage(
-          'Request timed out. Please check your internet connection and try submitting again.'
-        );
-      } else if (err instanceof Error) {
-        setStatusMessage(err.message);
-      } else {
-        setStatusMessage(
-          'Unable to deliver message at this time. Please check your connection and retry.'
-        );
-      }
+    } catch {
+      // Ignore if confetti blocked
     }
   };
 
   const handleResetStatus = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    isSubmittingRef.current = false;
     setStatus('idle');
     setStatusMessage('');
   };
@@ -292,7 +272,34 @@ export const Contact: React.FC = () => {
             className="lg:col-span-7"
           >
             <div className="glass-panel p-8 sm:p-10 rounded-3xl border border-electricBlue/20 relative shadow-card-glow">
-              <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+              {/* Hidden iframe target for seamless in-page FormSubmit delivery */}
+              <iframe
+                name="formsubmit_iframe"
+                id="formsubmit_iframe"
+                title="FormSubmit Target Frame"
+                className="hidden"
+                style={{ display: 'none', width: 0, height: 0, border: 0 }}
+                onLoad={handleIframeLoad}
+              />
+
+              <form
+                action={`https://formsubmit.co/${personalInfo.email}`}
+                method="POST"
+                target="formsubmit_iframe"
+                onSubmit={handleSubmit}
+                className="space-y-5"
+                noValidate
+              >
+                {/* FormSubmit Directives */}
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_template" value="table" />
+                <input
+                  type="hidden"
+                  name="_subject"
+                  value={`[Portfolio Contact] ${formData.subject.trim() || 'New Message'} - from ${formData.name.trim() || 'Visitor'}`}
+                />
+                <input type="hidden" name="_replyto" value={formData.email.trim()} />
+
                 {/* Form Status Banner */}
                 <AnimatePresence>
                   {status === 'success' && (
@@ -366,11 +373,14 @@ export const Contact: React.FC = () => {
                     </label>
                     <input
                       type="text"
-                      disabled={status === 'loading'}
+                      name="name"
+                      readOnly={status === 'loading'}
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="e.g. Alex Johnson"
-                      className={`w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border text-sm dark:text-lightWhite text-slate-900 dark:placeholder:text-slate-600 placeholder:text-slate-400 focus:outline-none transition-colors shadow-sm disabled:opacity-60 ${
+                      className={`w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border text-sm dark:text-lightWhite text-slate-900 dark:placeholder:text-slate-600 placeholder:text-slate-400 focus:outline-none transition-colors shadow-sm ${
+                        status === 'loading' ? 'opacity-60 cursor-not-allowed' : ''
+                      } ${
                         errors.name
                           ? 'border-red-500 focus:border-red-400'
                           : 'dark:border-slate-800 border-slate-300 focus:border-cyanAccent'
@@ -387,11 +397,14 @@ export const Contact: React.FC = () => {
                     </label>
                     <input
                       type="email"
-                      disabled={status === 'loading'}
+                      name="email"
+                      readOnly={status === 'loading'}
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="alex@example.com"
-                      className={`w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border text-sm dark:text-lightWhite text-slate-900 dark:placeholder:text-slate-600 placeholder:text-slate-400 focus:outline-none transition-colors shadow-sm disabled:opacity-60 ${
+                      className={`w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border text-sm dark:text-lightWhite text-slate-900 dark:placeholder:text-slate-600 placeholder:text-slate-400 focus:outline-none transition-colors shadow-sm ${
+                        status === 'loading' ? 'opacity-60 cursor-not-allowed' : ''
+                      } ${
                         errors.email
                           ? 'border-red-500 focus:border-red-400'
                           : 'dark:border-slate-800 border-slate-300 focus:border-cyanAccent'
@@ -410,11 +423,14 @@ export const Contact: React.FC = () => {
                   </label>
                   <input
                     type="text"
-                    disabled={status === 'loading'}
+                    name="subject"
+                    readOnly={status === 'loading'}
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                     placeholder="Project Inquiry / Technical Collaboration"
-                    className={`w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border text-sm dark:text-lightWhite text-slate-900 dark:placeholder:text-slate-600 placeholder:text-slate-400 focus:outline-none transition-colors shadow-sm disabled:opacity-60 ${
+                    className={`w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border text-sm dark:text-lightWhite text-slate-900 dark:placeholder:text-slate-600 placeholder:text-slate-400 focus:outline-none transition-colors shadow-sm ${
+                      status === 'loading' ? 'opacity-60 cursor-not-allowed' : ''
+                    } ${
                       errors.subject
                         ? 'border-red-500 focus:border-red-400'
                         : 'dark:border-slate-800 border-slate-300 focus:border-cyanAccent'
@@ -431,12 +447,15 @@ export const Contact: React.FC = () => {
                     Message <span className="text-cyanAccent">*</span>
                   </label>
                   <textarea
+                    name="message"
                     rows={5}
-                    disabled={status === 'loading'}
+                    readOnly={status === 'loading'}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Write your message here..."
-                    className={`w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border text-sm dark:text-lightWhite text-slate-900 dark:placeholder:text-slate-600 placeholder:text-slate-400 focus:outline-none transition-colors shadow-sm disabled:opacity-60 ${
+                    className={`w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border text-sm dark:text-lightWhite text-slate-900 dark:placeholder:text-slate-600 placeholder:text-slate-400 focus:outline-none transition-colors shadow-sm ${
+                      status === 'loading' ? 'opacity-60 cursor-not-allowed' : ''
+                    } ${
                       errors.message
                         ? 'border-red-500 focus:border-red-400'
                         : 'dark:border-slate-800 border-slate-300 focus:border-cyanAccent'
@@ -466,6 +485,12 @@ export const Contact: React.FC = () => {
                       </>
                     )}
                   </button>
+
+                  {status === 'loading' && (
+                    <span className="text-[11px] font-mono dark:text-cyanAccent/90 text-blue-600 flex items-center gap-1.5 animate-pulse">
+                      <span>Delivering directly via FormSubmit gateway...</span>
+                    </span>
+                  )}
                 </div>
               </form>
             </div>
