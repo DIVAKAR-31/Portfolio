@@ -218,42 +218,8 @@ export const projectsData: Project[] = [
     thumbnailGradient: "from-blue-950 via-indigo-950 to-slate-900"
   },
   {
-    id: "attrition-prediction",
-    number: "03",
-    title: "Employee Attrition Prediction",
-    subtitle: "Data Analytics & Predictive Machine Learning Workflow",
-    shortDescription: "An end-to-end data science initiative focused on analyzing workforce retention drivers, examining demographic and satisfaction indicators, and formulating predictive modeling strategies.",
-    problem: "Voluntary employee turnover imposes substantial institutional costs and organizational disruption. Organizations need proactive data-driven insights into key attrition predictors rather than reactive exit interviews.",
-    solution: "A structured data analysis pipeline exploring employee attributes (compensation, work-life balance, years at company, promotion velocity) to uncover correlation patterns and prepare predictive machine learning models.",
-    technologies: ["Python (Planned)", "Data Analytics", "EDA", "Statistical Analysis"],
-    githubUrl: "https://github.com/DIVAKAR-31/Employee-attrition-prediction",
-    type: "ml_pipeline",
-    implementationNote: "This project follows a rigorous 8-stage data science lifecycle. Foundational stages (problem understanding, exploration, preprocessing, and exploratory data analysis) are completed, while model training and tuning are actively being developed. Numerical accuracy metrics are intentionally kept editable pending final model validation.",
-    stages: [
-      { name: "Problem Understanding", status: "Completed", note: "Defined turnover drivers and evaluation metrics" },
-      { name: "Dataset Exploration", status: "Completed", note: "Inspected data schema, missing values, and distribution" },
-      { name: "Data Preprocessing", status: "Completed", note: "Handled categorical encoding and data cleaning" },
-      { name: "Exploratory Data Analysis (EDA)", status: "Completed", note: "Visualized correlation between job satisfaction and tenure" },
-      { name: "Feature Analysis & Selection", status: "In Progress", note: "Evaluating feature importance and collinearity" },
-      { name: "Predictive Modelling", status: "Planned", note: "Evaluating logistic regression, random forests, and gradient boosting" },
-      { name: "Model Evaluation", status: "Planned", note: "Pending ROC-AUC, precision, and recall benchmarking" },
-      { name: "Results Visualization & Reporting", status: "Planned", note: "Interactive dashboard for organizational decision-makers" }
-    ],
-    features: [
-      "Rigorous exploratory analysis identifying critical retention stress points",
-      "Correlation matrix mapping tenure, overtime hours, and promotion delays",
-      "Modular data preprocessing pipeline ready for scikit-learn model fitting",
-      "Transparent project lifecycle clearly tracking completed vs. future stages",
-      "Designed with an ethical framework prioritizing fair workforce analytics"
-    ],
-    architectureOverview: "Data preprocessing and exploratory analysis pipeline with documented Jupyter notebooks, progressing into scikit-learn classification models and reporting dashboards.",
-    accentColor: "#38BDF8",
-    tag: "Data Science / In Progress",
-    thumbnailGradient: "from-slate-950 via-cyan-950 to-blue-950"
-  },
-  {
     id: "order-to-audit",
-    number: "04",
+    number: "03",
     title: "Order-to-Audit System for a Small Food Manufacturer",
     subtitle: "Integrated Business Management, Inventory & 5% GST Tax Invoicing Platform",
     shortDescription: "An integrated business management system engineered for a South Indian snacks manufacturer (Murukku, Mixture, Chips, Sweets) to seamlessly unify sales orders, inventory tracking, production batch auditing, 5% GST tax invoicing, payment tracking, and statutory audit reports.",

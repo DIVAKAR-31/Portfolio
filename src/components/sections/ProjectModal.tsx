@@ -13,7 +13,6 @@ import {
   ArrowRight,
   ShieldCheck,
   Cpu,
-  BarChart3,
   Server,
   Workflow,
   Users2,
@@ -367,27 +366,6 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                     </div>
                   )}
 
-                  {project.id === 'attrition-prediction' && (
-                    <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-center text-xs font-mono">
-                      <div className="p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/30">
-                        <div className="text-emerald-400 font-bold">01. Ingestion</div>
-                        <div className="text-[10px] text-slate-300">Cleaned Workforce Dataset</div>
-                      </div>
-                      <div className="p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/30">
-                        <div className="text-emerald-400 font-bold">02. EDA & Prep</div>
-                        <div className="text-[10px] text-slate-300">Correlation & Encodings</div>
-                      </div>
-                      <div className="p-3 rounded-xl bg-sky-950/30 border border-cyanAccent/40">
-                        <div className="text-cyanAccent font-bold">03. Modeling</div>
-                        <div className="text-[10px] text-slate-300">Classification Pipeline</div>
-                      </div>
-                      <div className="p-3 rounded-xl bg-slate-900 border border-slate-700">
-                        <div className="text-slate-400 font-bold">04. Evaluation</div>
-                        <div className="text-[10px] text-slate-500">Benchmark Metrics</div>
-                      </div>
-                    </div>
-                  )}
-
                   {project.id === 'order-to-audit' && (
                     <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-center text-xs font-mono">
                       <div className="p-3 rounded-xl bg-slate-900 border border-blue-500/30">
@@ -549,44 +527,6 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                           <p className="text-slate-300 mt-1">Aggregate cooperative metrics, dispute mediation, trade certification ledger verification, and district welfare tracking.</p>
                         </div>
                       )}
-                    </div>
-                  </div>
-                )}
-
-                {project.id === 'attrition-prediction' && (
-                  <div className="p-6 rounded-2xl glass-panel border border-electricBlue/30 bg-slate-900/60 space-y-4">
-                    <h5 className="text-sm font-bold text-white flex items-center gap-2">
-                      <BarChart3 className="w-4 h-4 text-cyanAccent" />
-                      Attrition Factor Weighting Explorer
-                    </h5>
-                    <p className="text-xs text-mutedText">
-                      Exploratory correlations derived from workforce retention datasets:
-                    </p>
-
-                    <div className="space-y-2 text-xs font-mono">
-                      <div className="flex justify-between text-slate-300">
-                        <span>Overtime Frequency Impact</span>
-                        <span className="text-cyanAccent font-bold">High Correlation</span>
-                      </div>
-                      <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                        <div className="bg-gradient-to-r from-sky-400 to-rose-400 h-full w-[82%]" />
-                      </div>
-
-                      <div className="flex justify-between text-slate-300 pt-2">
-                        <span>Years Since Last Promotion</span>
-                        <span className="text-cyanAccent font-bold">Moderate-High</span>
-                      </div>
-                      <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                        <div className="bg-gradient-to-r from-sky-400 to-amber-400 h-full w-[67%]" />
-                      </div>
-
-                      <div className="flex justify-between text-slate-300 pt-2">
-                        <span>Work-Life Balance Score</span>
-                        <span className="text-cyanAccent font-bold">Inverse Correlation</span>
-                      </div>
-                      <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                        <div className="bg-gradient-to-r from-sky-400 to-emerald-400 h-full w-[74%]" />
-                      </div>
                     </div>
                   </div>
                 )}

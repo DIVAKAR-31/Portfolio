@@ -7,7 +7,6 @@ import {
   ArrowUpRight,
   Sparkles,
   Cpu,
-  BarChart2,
   Users2,
   Workflow,
   CheckCircle2,
@@ -29,15 +28,14 @@ export const Projects: React.FC = () => {
         <SectionHeading
           badge="Featured Engineering Initiatives"
           title="Curated Projects & Case Studies"
-          subtitle="Real-world civic applications, cooperative labor platforms, predictive analytics pipelines, and enterprise manufacturing audit systems."
+          subtitle="Real-world civic applications, cooperative labor platforms, and enterprise manufacturing audit systems."
         />
 
-        {/* 4 Distinct Project Showcase Cards with Staggered Scroll Entrance and 3D Tilt */}
+        {/* Distinct Project Showcase Cards with Staggered Scroll Entrance and 3D Tilt */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projectsData.map((project, idx) => {
             const isCivic = project.id === 'civicconnect';
             const isUniServe = project.id === 'uniserve';
-            const isAttrition = project.id === 'attrition-prediction';
             const isOrderToAudit = project.id === 'order-to-audit';
 
             return (
@@ -93,18 +91,6 @@ export const Projects: React.FC = () => {
                               <div className="text-left">
                                 <div className="text-xs font-mono font-bold text-white">Cooperative Hub</div>
                                 <div className="text-[10px] font-mono text-sky-300">Verified Labor Dispatch</div>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-
-                        {isAttrition && (
-                          <div className="relative p-4 rounded-2xl bg-cyan-950/40 border border-sky-400/30 backdrop-blur-md group-hover:scale-110 transition-transform duration-500">
-                            <div className="flex items-center gap-3">
-                              <BarChart2 className="w-8 h-8 text-emerald-400" />
-                              <div className="text-left">
-                                <div className="text-xs font-mono font-bold text-white">Attrition Model</div>
-                                <div className="text-[10px] font-mono text-emerald-300">8-Stage ML Workflow</div>
                               </div>
                             </div>
                           </div>
