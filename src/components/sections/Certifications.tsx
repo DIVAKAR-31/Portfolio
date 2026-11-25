@@ -93,11 +93,13 @@ export const Certifications: React.FC = () => {
   });
 
   return (
-    <section id="certifications" className="relative py-24 overflow-hidden">
+    <section id="achievements" className="relative py-24 overflow-hidden scroll-mt-12">
+      {/* Anchor alias to support legacy #certifications links */}
+      <span id="certifications" className="absolute -top-24 pointer-events-none" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeading
           badge="Verified Accomplishments"
-          title="Certifications"
+          title="Certifications & Achievements"
           subtitle="Verified accomplishments across collegiate workshops, hackathons, ideathons, and academic paper presentations."
         />
 

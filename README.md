@@ -102,7 +102,7 @@ I am **Divakar S.**, a B.Tech Information Technology student at **Sri Krishna Co
 
 ## 🏆 Certifications & Achievements
 
-The portfolio features a unified **Certifications** section with dynamic category filtering and an interactive preview viewer:
+The portfolio features a unified **Certifications & Achievements** section (accessible via **Achievements** in the top navigation bar) with dynamic category filtering and an interactive preview viewer:
 
 ### Included Achievements & Official Certificates
 - **Vibe Coding Workshop 2026** — *StartupTN in collaboration with Google for Developers* (30 October 2026)
