@@ -82,31 +82,61 @@ export const Contact: React.FC = () => {
     setStatus('loading');
     setStatusMessage('');
 
-    try {
-      const fd = new FormData();
-      fd.append('name', formData.name.trim());
-      fd.append('email', formData.email.trim());
-      fd.append('subject', formData.subject.trim());
-      fd.append('message', formData.message.trim());
-      fd.append('_subject', `[Portfolio Message from ${formData.name.trim()}] ${formData.subject.trim()}`);
-      fd.append('_replyto', formData.email.trim());
-      fd.append('_captcha', 'false');
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-      // Submit directly using verified FormSubmit integration for personalInfo.email (sdivakar052@gmail.com)
-      const response = await fetch(`https://formsubmit.co/ajax/${personalInfo.email}`, {
+    try {
+      // FormSubmit official AJAX endpoint with application/json
+      const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(personalInfo.email)}`, {
         method: 'POST',
         headers: {
-          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
-        body: fd,
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          subject: formData.subject.trim(),
+          message: formData.message.trim(),
+          _subject: `[Portfolio Contact] ${formData.subject.trim()} - from ${formData.name.trim()}`,
+          _replyto: formData.email.trim(),
+          _captcha: 'false',
+          _template: 'table',
+        }),
+        signal: controller.signal,
       });
 
+      clearTimeout(timeoutId);
+
+      // Verify HTTP response status
+      if (!response.ok) {
+        let errDetail = `Server returned status ${response.status}.`;
+        try {
+          const errJson = await response.json();
+          if (errJson?.message) errDetail = errJson.message;
+        } catch {
+          // fallback to status code
+        }
+        throw new Error(errDetail);
+      }
+
+      // Parse JSON response
       const result = await response.json();
 
-      if (response.ok && (result.success === 'true' || result.success === true)) {
+      // FormSubmit returns { success: "true", message: "..." }
+      const isSuccess =
+        result &&
+        (result.success === 'true' ||
+          result.success === true ||
+          (typeof result.message === 'string' &&
+            result.message.toLowerCase().includes('success')));
+
+      if (isSuccess) {
         setStatus('success');
         setStatusMessage(
-          `Your message was successfully transmitted! Thank you for reaching out.`
+          typeof result.message === 'string' && result.message.trim().length > 0
+            ? result.message
+            : 'Your message has been sent successfully! Thank you for reaching out.'
         );
 
         // Reset form fields
@@ -114,14 +144,14 @@ export const Contact: React.FC = () => {
           name: '',
           email: '',
           subject: '',
-          message: ''
+          message: '',
         });
         setErrors({});
 
         // Celebratory confetti
         try {
           confetti({
-            particleCount: 45,
+            particleCount: 50,
             spread: 70,
             origin: { y: 0.7 },
             colors: ['#38BDF8', '#22D3EE', '#2563EB', '#10B981'],
@@ -130,16 +160,26 @@ export const Contact: React.FC = () => {
           // Ignore if blocked
         }
       } else {
-        throw new Error(result.message || 'Transmission failed. Please check your network and try again.');
+        throw new Error(
+          (result && result.message) ||
+            'FormSubmit was unable to process your submission. Please try again.'
+        );
       }
     } catch (err: unknown) {
+      clearTimeout(timeoutId);
       console.error('FormSubmit transmission error:', err);
       setStatus('error');
-      const errorMessage =
-        err instanceof Error
-          ? err.message
-          : 'Unable to deliver message at this time. Please check your connection and retry.';
-      setStatusMessage(errorMessage);
+      if (err instanceof Error && err.name === 'AbortError') {
+        setStatusMessage(
+          'Request timed out. Please check your internet connection and try submitting again.'
+        );
+      } else if (err instanceof Error) {
+        setStatusMessage(err.message);
+      } else {
+        setStatusMessage(
+          'Unable to deliver message at this time. Please check your connection and retry.'
+        );
+      }
     }
   };
 
