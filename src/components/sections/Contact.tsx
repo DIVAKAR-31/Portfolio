@@ -41,17 +41,29 @@ export const Contact: React.FC = () => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
 
   const isSubmittingRef = useRef(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    let interval: ReturnType<typeof setInterval> | null = null;
+    if (status === 'loading') {
+      setElapsedSeconds(0);
+      interval = setInterval(() => {
+        setElapsedSeconds((prev) => prev + 1);
+      }, 1000);
+    } else {
+      setElapsedSeconds(0);
+    }
+
     return () => {
+      if (interval) clearInterval(interval);
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, []);
+  }, [status]);
 
   const validate = (): boolean => {
     const errs: FormErrors = {};
@@ -487,9 +499,24 @@ export const Contact: React.FC = () => {
                   </button>
 
                   {status === 'loading' && (
-                    <span className="text-[11px] font-mono dark:text-cyanAccent/90 text-blue-600 flex items-center gap-1.5 animate-pulse">
-                      <span>Delivering directly via FormSubmit gateway...</span>
-                    </span>
+                    <div className="flex flex-col gap-1 text-left">
+                      <div className="text-[12px] font-mono dark:text-cyanAccent text-blue-600 flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+                        <span>
+                          {elapsedSeconds < 8
+                            ? 'Connecting to FormSubmit gateway...'
+                            : elapsedSeconds < 35
+                            ? 'FormSubmit is routing email to inbox...'
+                            : 'Awaiting mail server delivery confirmation...'}
+                        </span>
+                        <span className="dark:text-slate-400 text-slate-500 text-[11px] font-bold">
+                          ({elapsedSeconds}s)
+                        </span>
+                      </div>
+                      <p className="text-[10px] dark:text-slate-400 text-slate-500 font-mono">
+                        FormSubmit verifies outbound delivery through spam filters before returning confirmation. Please do not close this tab.
+                      </p>
+                    </div>
                   )}
                 </div>
               </form>
