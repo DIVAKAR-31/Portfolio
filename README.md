@@ -60,7 +60,7 @@ I am **Divakar S.**, a B.Tech Information Technology student at **Sri Krishna Co
    - Seamless toggling between Futuristic Space Dark Mode (`#050816`) and Clean Light Mode, persisting across sessions.
 
 5. **Integrated Contact System**:
-   - Direct in-page contact form powered by EmailJS delivering messages straight to `sdivakar052@gmail.com`.
+   - In-page contact form powered by verified FormSubmit integration delivering messages directly to `sdivakar052@gmail.com`.
    - Sends directly from the website without opening external email clients or redirecting away from the portfolio.
    - Real-time client-side validation, duplicate submission protection, and interactive status feedback.
 
@@ -152,21 +152,6 @@ npm run dev
 ```
 
 Visit `http://localhost:5173/` in your browser to view the portfolio.
-
-### Environment Variables (EmailJS Contact Form)
-
-To configure the in-page contact form for direct email delivery:
-1. Create a free account at [EmailJS](https://www.emailjs.com/).
-2. Add an Email Service (e.g. Gmail connected to `sdivakar052@gmail.com`) to get your **Service ID**.
-3. Create an Email Template with variables `{{name}}`, `{{email}}`, `{{subject}}`, and `{{message}}` to get your **Template ID**.
-4. Retrieve your **Public Key** from Account > Security & Keys.
-5. Create a `.env` file locally (see `.env.example`) and configure the variables in your Vercel Project Settings:
-
-```bash
-VITE_EMAILJS_SERVICE_ID=your_emailjs_service_id
-VITE_EMAILJS_TEMPLATE_ID=your_emailjs_template_id
-VITE_EMAILJS_PUBLIC_KEY=your_emailjs_public_key
-```
 
 ### Available Scripts
 

@@ -12,7 +12,6 @@ import {
   Sparkles
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import emailjs from '@emailjs/browser';
 import { SectionHeading } from '../common/SectionHeading';
 import { personalInfo } from '../../data/portfolioData';
 
@@ -42,11 +41,6 @@ export const Contact: React.FC = () => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
-
-  // Environment variables for EmailJS (configured securely via .env / Vercel environment variables)
-  const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || '';
-  const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '';
-  const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '';
 
   const validate = (): boolean => {
     const errs: FormErrors = {};
@@ -88,40 +82,34 @@ export const Contact: React.FC = () => {
     setStatus('loading');
     setStatusMessage('');
 
-    // Ensure EmailJS configuration is present
-    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
-      setStatus('error');
-      setStatusMessage(
-        'Email service configuration is pending. Please set VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, and VITE_EMAILJS_PUBLIC_KEY in your environment.'
-      );
-      return;
-    }
-
     try {
-      // Prepare template parameters matching standard EmailJS template formats
-      const templateParams = {
-        name: formData.name.trim(),
-        from_name: formData.name.trim(),
-        email: formData.email.trim(),
-        from_email: formData.email.trim(),
-        reply_to: formData.email.trim(),
-        subject: formData.subject.trim(),
-        message: formData.message.trim(),
-        to_email: personalInfo.email,
-      };
+      const fd = new FormData();
+      fd.append('name', formData.name.trim());
+      fd.append('email', formData.email.trim());
+      fd.append('subject', formData.subject.trim());
+      fd.append('message', formData.message.trim());
+      fd.append('_subject', `[Portfolio Message from ${formData.name.trim()}] ${formData.subject.trim()}`);
+      fd.append('_replyto', formData.email.trim());
+      fd.append('_captcha', 'false');
 
-      const response = await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        templateParams,
-        EMAILJS_PUBLIC_KEY
-      );
+      // Submit directly using verified FormSubmit integration for personalInfo.email (sdivakar052@gmail.com)
+      const response = await fetch(`https://formsubmit.co/ajax/${personalInfo.email}`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+        },
+        body: fd,
+      });
 
-      if (response.status === 200 || response.text === 'OK') {
+      const result = await response.json();
+
+      if (response.ok && (result.success === 'true' || result.success === true)) {
         setStatus('success');
-        setStatusMessage('Your message has been sent successfully!');
+        setStatusMessage(
+          `Your message was successfully transmitted! Thank you for reaching out.`
+        );
 
-        // Reset form fields on successful delivery
+        // Reset form fields
         setFormData({
           name: '',
           email: '',
@@ -142,17 +130,15 @@ export const Contact: React.FC = () => {
           // Ignore if blocked
         }
       } else {
-        throw new Error(response.text || 'Failed to send message.');
+        throw new Error(result.message || 'Transmission failed. Please check your network and try again.');
       }
     } catch (err: unknown) {
-      console.error('EmailJS direct send error:', err);
+      console.error('FormSubmit transmission error:', err);
       setStatus('error');
       const errorMessage =
-        err && typeof err === 'object' && 'text' in err
-          ? String((err as { text: unknown }).text)
-          : err instanceof Error
+        err instanceof Error
           ? err.message
-          : 'Failed to send your message. Please verify your connection and try again.';
+          : 'Unable to deliver message at this time. Please check your connection and retry.';
       setStatusMessage(errorMessage);
     }
   };
@@ -257,7 +243,7 @@ export const Contact: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Right Column: Direct In-Page Contact Form */}
+          {/* Right Column: Direct In-Page FormSubmit Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -280,10 +266,10 @@ export const Contact: React.FC = () => {
                         <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
                         <div>
                           <div className="font-bold text-sm text-emerald-300">
-                            {statusMessage || 'Your message has been sent successfully!'}
+                            Message Transmitted Successfully!
                           </div>
                           <p className="mt-1 leading-relaxed text-emerald-200/90">
-                            Thank you for reaching out. I have received your message and will get back to you shortly.
+                            {statusMessage}
                           </p>
                         </div>
                       </div>
@@ -292,7 +278,7 @@ export const Contact: React.FC = () => {
                         <button
                           type="button"
                           onClick={handleResetStatus}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-[11px] font-semibold transition-colors cursor-pointer"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-[11px] font-semibold transition-colors cursor-pointer"
                         >
                           <Sparkles className="w-3.5 h-3.5" />
                           <span>Send Another Message</span>
@@ -431,7 +417,7 @@ export const Contact: React.FC = () => {
                     {status === 'loading' ? (
                       <>
                         <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                        <span>Sending Message...</span>
+                        <span>Transmitting Message...</span>
                       </>
                     ) : (
                       <>
