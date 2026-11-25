@@ -201,9 +201,32 @@ export const Certifications: React.FC = () => {
                         </div>
 
                         {/* Description */}
-                        <p className="text-xs text-slate-300 leading-relaxed font-sans mb-4">
+                        <p className="text-xs text-slate-300 leading-relaxed font-sans mb-3">
                           {item.description}
                         </p>
+
+                        {/* Interactive Certificate Photo Preview Card */}
+                        {hasCertificateFile && (
+                          <div
+                            onClick={() => handleOpenCertificate(item)}
+                            className="relative my-3 rounded-2xl overflow-hidden border border-electricBlue/25 bg-slate-950/80 group/thumb cursor-pointer shadow-md hover:border-cyanAccent transition-all duration-300"
+                            title="Click to view full certificate photo"
+                          >
+                            <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-900">
+                              <img
+                                src={item.certificateImage || item.certificateUrl}
+                                alt={`${item.title} Certificate`}
+                                className="w-full h-full object-cover object-top filter brightness-[0.98] group-hover/thumb:scale-105 group-hover/thumb:brightness-105 transition-all duration-500"
+                                loading="lazy"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-darkBgSecondary/90 via-transparent to-transparent opacity-60 group-hover/thumb:opacity-30 transition-opacity" />
+                              <div className="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded-lg bg-darkBg/90 backdrop-blur-md border border-cyanAccent/40 text-[10px] font-mono text-cyanAccent flex items-center gap-1.5 shadow-lg group-hover/thumb:scale-105 transition-transform">
+                                <ZoomIn className="w-3 h-3 text-cyanAccent" />
+                                <span>Click to Zoom</span>
+                              </div>
+                            </div>
+                          </div>
+                        )}
 
                         {/* Skills / Highlight Tags */}
                         {item.skillsOrHighlights && item.skillsOrHighlights.length > 0 && (
@@ -238,21 +261,11 @@ export const Certifications: React.FC = () => {
                         {hasCertificateFile ? (
                           <button
                             onClick={() => handleOpenCertificate(item)}
-                            className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-primaryBlue/80 to-sky-500/80 hover:from-primaryBlue hover:to-sky-400 text-white text-xs font-mono font-semibold flex items-center gap-1.5 transition-all shadow-neon-blue group-hover:scale-105"
+                            className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-primaryBlue/80 to-sky-500/80 hover:from-primaryBlue hover:to-sky-400 text-white text-xs font-mono font-semibold flex items-center gap-1.5 transition-all shadow-neon-blue group-hover:scale-105 cursor-pointer"
                           >
                             <FileBadge className="w-3.5 h-3.5" />
                             <span>View Certificate</span>
                           </button>
-                        ) : item.verificationUrl ? (
-                          <a
-                            href={item.verificationUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-xs font-mono text-cyanAccent hover:text-white flex items-center gap-1 font-semibold group-hover:underline"
-                          >
-                            <span>Event Link</span>
-                            <ExternalLink className="w-3.5 h-3.5" />
-                          </a>
                         ) : (
                           <span className="text-[10px] font-mono text-emerald-400 flex items-center gap-1">
                             <CheckCircle2 className="w-3.5 h-3.5" />

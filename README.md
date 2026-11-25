@@ -104,26 +104,31 @@ I am **Divakar S.**, a B.Tech Information Technology student at **Sri Krishna Co
 
 The portfolio features a unified **Certifications** section with dynamic category filtering and an interactive preview viewer:
 
-### Included Achievements
+### Included Achievements & Official Certificates
 - **Vibe Coding Workshop 2026** — *StartupTN in collaboration with Google for Developers* (30 October 2026)
-  - Explored AI-powered development paradigms, next-generation software workflows, and LLM application engineering.
+  - Certificate ID: `VCW26-TTBB9`, signed by M Senthil Kumar (Google Developer Expert).
+  - Official certificate photo embedded (`/certificates/vibe-coding-2026.jpg`).
 - **OPERATION CODE HEIST** — *SKCET Technical Club, Department of Information Technology* (8 August 2026)
-  - Competitive programming contest engaging with algorithmic challenges and time-boxed problem-solving.
-- **Thamizhan Skills Ideathon** — *Thamizhan Skills*
-  - Formulated technological interventions and collaborative software proposals addressing civic and community challenges.
-- **Adobe University Hackathon** — *Adobe*
-  - Successfully completed the competitive Online Assessment round solving complex algorithmic and data structure problems.
+  - Coding contest certificate signed by event coordinators and Head of Department.
+  - Official certificate photo embedded (`/certificates/operation-code-heist.jpg`).
+- **Thamizhan Skills Ideathon 2026** — *Tamizhan Skills* (24 January 2026)
+  - Ideathon certificate awarded for Social Impact (Open Category) innovation, signed by Raghul Prakash (CEO, Tamizhan Skills).
+  - Official certificate photo embedded (`/certificates/tamizhan-skills-ideathon.jpg`).
+- **Adobe University Hackathon** — *Adobe & Unstop* (9 August 2026)
+  - Certificate of Participation in the nationwide challenge.
+  - Official certificate photo embedded (`/certificates/adobe-hackathon.jpg`).
+- **CivicConnect — Paper Presentation (CRYPTERA 2026)** — *Coimbatore Institute of Technology (CIT)* (30–31 January 2026)
+  - National level Technical Symposium paper presentation certificate signed by Dr. A. Kunthavai (HOD, CSE).
+  - Official certificate photo embedded (`/certificates/cit-paper-presentation.jpg`).
 - **Smart India Hackathon (SIH)** — *Ministry of Education / AICTE*
   - Participated in the nationwide hackathon initiative focusing on citizen-centric digital public infrastructure.
-- **CivicConnect — Paper Presentation** — *Coimbatore Institute of Technology (CIT)* (31 January 2026)
-  - Presented a technical research paper on CivicConnect demonstrating AI-assisted municipal grievance triage and hierarchical escalation workflows.
 
 ### Certificate Viewer Features
-- **Modal Preview Window**: High-resolution viewer modal with dark backdrop blur.
-- **Zoom Controls**: Interactive Zoom In (`+`), Zoom Out (`-`), and Reset (`100%`) magnification.
-- **External View**: One-click button to open certificates in a dedicated new browser tab.
+- **In-Card Photo Previews**: Each credential card displays an interactive thumbnail preview of the actual certificate photo.
+- **High-Resolution Modal**: Clicking the certificate preview or "View Certificate" button opens the full-resolution certificate image with dark glassmorphism backdrop blur.
+- **Interactive Zoom Controls**: Smooth Zoom In (`+`), Zoom Out (`-`), and Reset (`100%`) controls.
+- **Open in New Tab**: Direct external viewing via one-click link.
 - **Keyboard Navigation**: Instant dismissal via `ESC` key or backdrop click.
-- **Authenticity Integrity**: Displays "View Certificate" strictly when verified certificate files exist; otherwise presents authentic verified milestone status without placeholder images.
 
 ---
 
